@@ -67,3 +67,43 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+
+# Visual Studio 관련
+.vs/
+*.vcxproj.user
+*.vcxproj.filters
+*.sln.docstates
+*.suo
+*.user
+*.userosscache
+*.sln.iml
+
+# Visual Studio Intelligence / Browsing DB
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.VC.opendb
+ipch/
+*.aps
+
+# Visual Studio 기본 빌드 출력 폴더 (CMake 안 쓰고 VS 자체 빌드 시)
+Debug/
+Release/
+x64/
+x86/
+Win32/
+ARM/
+ARM64/
+
+# NuGet (혹시 패키지 매니저 쓸 경우)
+packages/
+*.nupkg
+
+# ReSharper / 기타 확장 프로그램 캐시
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# 기타 IDE/OS
+*.DS_Store
+Thumbs.db
