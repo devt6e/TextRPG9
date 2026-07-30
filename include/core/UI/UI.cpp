@@ -8,5 +8,6 @@ int main()
 	ui.Intro();
 	ui.MiniTitle();
 	ui.PlayerMenu();
+	ui.Maps1();
 
 }

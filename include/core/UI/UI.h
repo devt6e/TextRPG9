@@ -12,7 +12,7 @@ private:
     int RoomChoice;
     int MenuChoice;
     int PlayerLocation = 0;
-    int CurrentFloor = 1;
+    bool IsClear1 = false;
     std::vector<std::string> menu = { "던전","인벤토리" };
 
 public:
@@ -39,6 +39,7 @@ public:
         system("pause");
         system("cls");
     }
+
     void MiniTitle()
     {
         system("cls");
@@ -46,6 +47,7 @@ public:
         std::cout << "                        Lost ZEP                        " << std::endl;
         std::cout << "========================================================" << std::endl;
     }
+
     void ZepBuilding()
     {
         std::cout << "======================================================== \n";
@@ -103,191 +105,7 @@ public:
         system("pause");
 
     }
-    void Dungeon()
-    {
-        if (CurrentFloor == 1)
-        {
-            Maps1();
-            while (PlayerLocation != 6)
-            {
-                std::cout << "목적지를 선택하세요. : ";
-                std::cin >> RoomChoice;
-                switch (RoomChoice)
-                {
-                case 1:
-                    if (PlayerLocation == 2)
-                    {
-                        PlayerLocation = 1;
-                        Maps1_1();
-                        break;
-                    }
-                    else
-                    {
-                        std::cout << "잘못된 입력입니다.";
-                        system("pause");
-                        break;
-                    }
-                case 2:
-                    if (PlayerLocation == 1 || PlayerLocation == 3 || PlayerLocation == 4 || PlayerLocation == 0)
-                    {
-                        PlayerLocation = 2;
-                        Maps1_2();
-                        break;
-                    }
-                    else
-                    {
-                        std::cout << "잘못된 입력입니다.";
-                        system("pause");
-                        break;
-                    }
-                case 3:
-                    if (PlayerLocation == 2 || PlayerLocation == 5)
-                    {
-                        PlayerLocation = 3;
-                        Maps1_3();
-                        break;
-                    }
-                    else
-                    {
-                        std::cout << "잘못된 입력입니다.";
-                        system("pause");
-                        break;
-                    }
-                case 4:
-                    if (PlayerLocation == 2 || PlayerLocation == 5)
-                    {
-                        PlayerLocation = 4;
-                        Maps1_4();
-                        break;
-                    }
-                    else
-                    {
-                        std::cout << "잘못된 입력입니다.";
-                        system("pause");
-                        break;
-                    }
-                case 5:
-                    if (PlayerLocation == 3 || PlayerLocation == 4)
-                    {
-                        PlayerLocation = 5;
-                        Maps1_5();
-                        break;
-                    }
-                    else
-                    {
-                        std::cout << "잘못된 입력입니다.";
-                        system("pause");
-                        break;
-                    }
-                case 6:
-                    if (PlayerLocation == 5)
-                    {
-                        PlayerLocation = 6;
-                        break;
-                    }
-                default:
-                    std::cout << "잘못된 입력입니다.";
-                    system("pause");
-                    break;
-
-                }
-
-
-
-            }
-        }
-        else if (CurrentFloor == 2)
-        {
-            PlayerLocation = 0;
-            Maps2();
-            while (PlayerLocation != 6)
-            {
-                std::cout << "목적지를 선택하세요. : ";
-                std::cin >> RoomChoice;
-                switch (RoomChoice)
-                {
-                case 1:
-                    if (PlayerLocation == 4)
-                    {
-                        PlayerLocation = 1;
-                        Maps2_1();
-                        break;
-                    }
-                    else
-                    {
-                        std::cout << "잘못된 입력입니다.";
-                        system("pause");
-                        break;
-                    }
-                case 2:
-                    if (PlayerLocation == 0 || PlayerLocation == 3)
-                    {
-                        PlayerLocation = 2;
-                        Maps2_2();
-                        break;
-                    }
-                    else
-                    {
-                        std::cout << "잘못된 입력입니다.";
-                        system("pause");
-                        break;
-                    }
-                case 3:
-                    if (PlayerLocation == 2 || PlayerLocation == 4 || PlayerLocation == 5)
-                    {
-                        PlayerLocation = 3;
-                        Maps2_3();
-                        break;
-                    }
-                    else
-                    {
-                        std::cout << "잘못된 입력입니다.";
-                        system("pause");
-                        break;
-                    }
-                case 4:
-                    if (PlayerLocation == 1 || PlayerLocation == 3)
-                    {
-                        PlayerLocation = 4;
-                        Maps2_4();
-                        break;
-                    }
-                    else
-                    {
-                        std::cout << "잘못된 입력입니다.";
-                        system("pause");
-                        break;
-                    }
-                case 5:
-                    if (PlayerLocation == 3)
-                    {
-                        PlayerLocation = 5;
-                        Maps2_5();
-                        break;
-                    }
-                    else
-                    {
-                        std::cout << "잘못된 입력입니다.";
-                        system("pause");
-                        break;
-                    }
-                case 6:
-                    if (PlayerLocation == 5)
-                    {
-                        PlayerLocation = 6;
-                        break;
-                    }
-                    else
-                    {
-                        std::cout << "잘못된 입력입니다.";
-                        system("pause");
-                        break;
-                    }
-                }
-            }
-        }
-
-    }
+    //void Dungeon();
     //void Inventory();
     void PlayerMenu()
     {
@@ -299,7 +117,7 @@ public:
         switch (MenuChoice)
         {
         case 1:
-            Dungeon();
+            //Dungeon();
             break;
         case 2:
             //Inventory();
@@ -311,22 +129,6 @@ public:
 
         }
 
-    }
-    void Maps1()
-    {
-        std::cout << std::endl;
-        std::cout << "========================================================  \n";
-        std::cout << "                   [ Zep Tower 1F ]                       \n";
-        std::cout << "========================================================  \n";
-        std::cout << "                    [ 1 ]                                 \n";
-        std::cout << "                     │                                    \n";
-        std::cout << "        [@ ] ─────  [ 2 ] ──── [ 4 ]                      \n";
-        std::cout << "                     │          │                         \n";
-        std::cout << "                    [ 3 ] ──── [ 5 ] ───── [B6]           \n";
-        std::cout << "                                                          \n";
-        std::cout << "========================================================  \n";
-        std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
-        std::cout << "========================================================  \n";
     }
     void Maps1_1()
     {
@@ -396,6 +198,7 @@ public:
         std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
         std::cout << "========================================================  \n";
     }
+
     void Maps1_5()
     {
         MiniTitle();
@@ -413,117 +216,10 @@ public:
         std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
         std::cout << "========================================================  \n";
     }
-    void Maps2()
-    {
-        MiniTitle();
-        std::cout << std::endl;
-        std::cout << "========================================================  \n";
-        std::cout << "                   [ Zep Tower 1F ]                       \n";
-        std::cout << "========================================================  \n";
-        std::cout << "                                                          \n";
-        std::cout << "                                         [ 1 ]            \n";
-        std::cout << "                                           │              \n";
-        std::cout << "        [ @] ─────  [ 2 ] ──── [ 3 ]──── [ 4 ]            \n";
-        std::cout << "                                │                         \n";
-        std::cout << "                               [ 5 ] ───── [B6]           \n";
-        std::cout << "                                                          \n";
-        std::cout << "========================================================  \n";
-        std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
-        std::cout << "========================================================  \n";
-    }
-    void Maps2_1()
-    {
-        MiniTitle();
-        std::cout << std::endl;
-        std::cout << "========================================================  \n";
-        std::cout << "                   [ Zep Tower 1F ]                       \n";
-        std::cout << "========================================================  \n";
-        std::cout << "                                                          \n";
-        std::cout << "                                         [ @ ]            \n";
-        std::cout << "                                           │              \n";
-        std::cout << "        [  ] ─────  [ 2 ] ──── [ 3 ]──── [ 4 ]            \n";
-        std::cout << "                                │                         \n";
-        std::cout << "                               [ 5 ] ───── [B6]           \n";
-        std::cout << "                                                          \n";
-        std::cout << "========================================================  \n";
-        std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
-        std::cout << "========================================================  \n";
-    }
-    void Maps2_2()
-    {
-        MiniTitle();
-        std::cout << std::endl;
-        std::cout << "========================================================  \n";
-        std::cout << "                   [ Zep Tower 1F ]                       \n";
-        std::cout << "========================================================  \n";
-        std::cout << "                                                          \n";
-        std::cout << "                                         [ 1 ]            \n";
-        std::cout << "                                           │              \n";
-        std::cout << "        [  ] ─────  [ @ ] ──── [ 3 ]──── [ 4 ]            \n";
-        std::cout << "                                │                         \n";
-        std::cout << "                               [ 5 ] ───── [B6]           \n";
-        std::cout << "                                                          \n";
-        std::cout << "========================================================  \n";
-        std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
-        std::cout << "========================================================  \n";
-    }
-    void Maps2_3()
-    {
-        MiniTitle();
-        std::cout << std::endl;
-        std::cout << "========================================================  \n";
-        std::cout << "                   [ Zep Tower 1F ]                       \n";
-        std::cout << "========================================================  \n";
-        std::cout << "                                                          \n";
-        std::cout << "                                         [ 1 ]            \n";
-        std::cout << "                                           │              \n";
-        std::cout << "        [  ] ─────  [ 2 ] ──── [ @ ]──── [ 4 ]            \n";
-        std::cout << "                                │                         \n";
-        std::cout << "                               [ 5 ] ───── [B6]           \n";
-        std::cout << "                                                          \n";
-        std::cout << "========================================================  \n";
-        std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
-        std::cout << "========================================================  \n";
-    }
-    void Maps2_4()
-    {
-        MiniTitle();
-        std::cout << std::endl;
-        std::cout << "========================================================  \n";
-        std::cout << "                   [ Zep Tower 1F ]                       \n";
-        std::cout << "========================================================  \n";
-        std::cout << "                                                          \n";
-        std::cout << "                                         [ 1 ]            \n";
-        std::cout << "                                           │              \n";
-        std::cout << "        [  ] ─────  [ 2 ] ──── [ 3 ]──── [ @ ]            \n";
-        std::cout << "                                │                         \n";
-        std::cout << "                               [ 5 ] ───── [B6]           \n";
-        std::cout << "                                                          \n";
-        std::cout << "========================================================  \n";
-        std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
-        std::cout << "========================================================  \n";
-    }
-    void Maps2_5()
-    {
-        MiniTitle();
-        std::cout << std::endl;
-        std::cout << "========================================================  \n";
-        std::cout << "                   [ Zep Tower 1F ]                       \n";
-        std::cout << "========================================================  \n";
-        std::cout << "                                                          \n";
-        std::cout << "                                         [ 1 ]            \n";
-        std::cout << "                                           │              \n";
-        std::cout << "        [  ] ─────  [ 2 ] ──── [ 3 ]──── [ 4 ]            \n";
-        std::cout << "                                │                         \n";
-        std::cout << "                               [ @ ] ───── [B6]           \n";
-        std::cout << "                                                          \n";
-        std::cout << "========================================================  \n";
-        std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
-        std::cout << "========================================================  \n";
-    }
+
     void NPC_M()
     {
-        MiniTitle();
+        system("cls");
         std::cout << "                  ---          " << std::endl;
         std::cout << "                /     \\        " << std::endl;
         std::cout << "                ((o_o))        " << std::endl;
@@ -536,14 +232,116 @@ public:
         std::cout << "  /\\ =^._.^=    | | | |        " << std::endl;
         std::cout << "    \\ |   |     | | | |        " << std::endl;
         std::cout << "     \\|___|    (__| |__)       " << std::endl;
+        
+                      
 
+
+
+       
     }
-
-    void NPC_K()
+    void Maps1()
     {
+        std::cout << std::endl;
+        std::cout << "========================================================  \n";
+        std::cout << "                   [ Zep Tower 1F ]                       \n";
+        std::cout << "========================================================  \n";
+        std::cout << "                    [ 1 ]                                 \n";
+        std::cout << "                     │                                    \n";
+        std::cout << "        [@ ] ─────  [ 2 ] ──── [ 4 ]                      \n";
+        std::cout << "                     │          │                         \n";
+        std::cout << "                    [ 3 ] ──── [ 5 ] ───── [B6]           \n";
+        std::cout << "                                                          \n";
+        std::cout << "========================================================  \n";
+        std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
+        std::cout << "========================================================  \n";
 
+        while (PlayerLocation != 6)
+        {
+            std::cout << "목적지를 선택하세요. : ";
+            std::cin >> RoomChoice;
+            switch (RoomChoice)
+            {
+            case 1:
+                if (PlayerLocation == 2)
+                {
+                    PlayerLocation = 1;
+                    Maps1_1();
+                    break;
+                }
+                else
+                {
+                    std::cout << "잘못된 입력입니다.";
+                    system("pause");
+                    break;
+                }
+            case 2:
+                if (PlayerLocation == 1 || PlayerLocation == 3 || PlayerLocation == 4 || PlayerLocation == 0)
+                {
+                    PlayerLocation = 2;
+                    Maps1_2();
+                    break;
+                }
+                else
+                {
+                    std::cout << "잘못된 입력입니다.";
+                    system("pause");
+                    break;
+                }
+            case 3:
+                if (PlayerLocation == 2 || PlayerLocation == 5)
+                {
+                    PlayerLocation = 3;
+                    Maps1_3();
+                    break;
+                }
+                else
+                {
+                    std::cout << "잘못된 입력입니다.";
+                    system("pause");
+                    break;
+                }
+            case 4:
+                if (PlayerLocation == 2 || PlayerLocation == 5)
+                {
+                    PlayerLocation = 4;
+                    Maps1_4();
+                    break;
+                }
+                else
+                {
+                    std::cout << "잘못된 입력입니다.";
+                    system("pause");
+                    break;
+                }
+            case 5:
+                if (PlayerLocation == 3 || PlayerLocation == 4)
+                {
+                    PlayerLocation = 5;
+                    Maps1_5();
+                    break;
+                }
+                else
+                {
+                    std::cout << "잘못된 입력입니다.";
+                    system("pause");
+                    break;
+                }
+            case 6:
+                if (PlayerLocation == 5)
+                {
+                    PlayerLocation = 6;
+                    break;
+                }
+            default:
+                std::cout << "잘못된 입력입니다.";
+                system("pause");
+                break;
+
+            }
+
+
+
+        }
     }
-
-
 
 };
