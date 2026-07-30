@@ -4,9 +4,9 @@
 int main()
 {
 	UI ui;
+	ui.MainTitle();
 	ui.Intro();
-	ui.
-	ui.Title();
-	ui.Maps1();
+	ui.MiniTitle();
+	ui.PlayerMenu();
 
 }
