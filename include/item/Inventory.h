@@ -9,10 +9,10 @@ using namespace std;
 struct Item {
     string name;
     int price;
-    int count;              // í˜„ì¬ ì¤‘ì²© ê°¯ìˆ˜
-    int maxStack;           // ìµœëŒ€ ì¤‘ì²© ê°€ëŠ¥ ê°¯ìˆ˜
-    string description;     // ìƒì„¸ ì„¤ëª…
-    string dropLocation;    // ë“œë ìœ„ì¹˜
+    int count;              // ÇöÀç ÁßÃ¸ °¹¼ö
+    int maxStack;           // ÃÖ´ë ÁßÃ¸ °¡´É °¹¼ö
+    string description;     // »ó¼¼ ¼³¸í
+    string dropLocation;    // µå¶ø À§Ä¡
 };
 
 template <typename T>
@@ -29,26 +29,26 @@ template <typename T>
 class Inventory {
 private:
     vector<T> items_;
-    int capacity_;    // í˜„ì¬ ì¸ë²¤í† ë¦¬ ìµœëŒ€ ì¹¸ ìˆ˜
+    int capacity_;    // ÇöÀç ÀÎº¥Åä¸® ÃÖ´ë Ä­ ¼ö
 
 public:
     Inventory(int startCapacity = 10) {
         capacity_ = startCapacity;
     }
 
-    // ì¸ë²¤í† ë¦¬ ìë™ í™•ì¥ ê¸°ëŠ¥
+    // ÀÎº¥Åä¸® ÀÚµ¿ È®Àå ±â´É
     void ExpandCapacity() {
-        capacity_ += 5; // í•œ ë²ˆì— 5ì¹¸ì”© ì¦ê°€
-        cout << "[System] ì¸ë²¤í† ë¦¬ ê°€ë°©ì´ í™•ì¥ë˜ì—ˆìŠµë‹ˆë‹¤! (í˜„ì¬ ìµœëŒ€ " << capacity_ << "ì¹¸)\n";
+        capacity_ += 5; // ÇÑ ¹ø¿¡ 5Ä­¾¿ Áõ°¡
+        cout << "[System] ÀÎº¥Åä¸® °¡¹æÀÌ È®ÀåµÇ¾ú½À´Ï´Ù! (ÇöÀç ÃÖ´ë " << capacity_ << "Ä­)\n";
     }
 
     void SortByName() {
         sort(items_.begin(), items_.end(), CompareByName<T>);
-        cout << "[System] ì•„ì´í…œì„ ì´ë¦„ìˆœìœ¼ë¡œ ì •ë ¬í–ˆìŠµë‹ˆë‹¤.\n";
+        cout << "[System] ¾ÆÀÌÅÛÀ» ÀÌ¸§¼øÀ¸·Î Á¤·ÄÇß½À´Ï´Ù.\n";
     }
 
     void SortByPrice() {
         sort(items_.begin(), items_.end(), CompareByPrice<T>);
-        cout << "[System] ì•„ì´í…œì„ ê¸ˆì•¡ìˆœìœ¼ë¡œ ì •ë ¬í–ˆìŠµë‹ˆë‹¤.\n";
+        cout << "[System] ¾ÆÀÌÅÛÀ» ±İ¾×¼øÀ¸·Î Á¤·ÄÇß½À´Ï´Ù.\n";
     }
 };
