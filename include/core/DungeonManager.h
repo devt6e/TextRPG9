@@ -25,8 +25,8 @@ private:
     int currentRoom;
     static const int MapSize = 5;
     int dungeonMap[MapSize][MapSize];
-    int playerLoc[0][0];
-    int bossLoc[0][0];
+    int playerLoc[1];
+    int bossLoc[1];
 
 
 

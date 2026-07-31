@@ -22,8 +22,8 @@ DungeonManager::DungeonManager()
     : currentFloor(1),
     currentRoom(0),
     dungeonMap{},
-    playerLoc(0),
-    bossLoc(0)
+    playerLoc{},
+    bossLoc{}
 {
 }
 
