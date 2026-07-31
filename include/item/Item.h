@@ -30,11 +30,9 @@ struct Player {
 
 class Item {
 
-protected:
+public:
 	string Name, ItemDescription, ItemDropLocation;
 	int Price, ItemCount, ItemMaxStack;
-
-public:
 
 	Item(string Name, int Price, int ItemCount);
 
