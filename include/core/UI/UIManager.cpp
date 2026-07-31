@@ -28,7 +28,6 @@ void MainTitle()
     system("pause");
     system("cls");
 }
-
 void MiniTitle()
 {
     system("cls");
@@ -36,7 +35,6 @@ void MiniTitle()
     std::cout << "                        Lost ZEP                        " << std::endl;
     std::cout << "========================================================" << std::endl;
 }
-
 void NBCTown()
 {
     std::cout << "================================================================= \n";
@@ -56,13 +54,14 @@ void NBCTown()
     std::cout << "           o                      o                        o      \n";
     std::cout << "                                                                  \n";
     std::cout << "================================================================= \n";
-
-    <<<<<< < Updated upstream
-        ====== =
+    std::cout << "평화로운 내일배움캠프 마을... " << std::endl << std::endl;
+    std::cout << "어느 날 ZEP 회사에서 포인트 제도를 폐지하게 되고..." << std::endl << std::endl;
+    std::cout << "그에 반발하던 매니저님들, 튜터님들을 납치해 갔다!!" << std::endl << std::endl;
+    system("pause");       
 }
-
 void ZepBuilding()
 {
+    system("cls");
     std::cout << "======================================================== \n";
     std::cout << "                        +---------------+                \n";
     std::cout << "                        | [Z E P TOWER] |                \n";
@@ -81,23 +80,9 @@ void ZepBuilding()
     std::cout << "              /|\\       |  | | |  | | | |               \n";
     std::cout << "              / \\       |==|_|=|==|_|=|=|               \n";
     std::cout << "======================================================== \n";
-}
-
-void Intro()
-{
-    NBCTown();
-    std::cout << "평화로운 내일배움캠프 마을... " << std::endl << std::endl;
-    std::cout << "어느 날 ZEP 회사에서 포인트 제도를 폐지하게 되고..." << std::endl << std::endl;
-    std::cout << "그에 반발하던 매니저님들, 튜터님들을 납치해 갔다!!" << std::endl << std::endl;
+    std::cout << "당신은 납치된 사람들과 포인트를 되찾기 위해 ZEP 빌딩을 오르기로 한다" << std::endl;
     system("pause");
-    system("cls");
-    ZepBuilding();
-    std::cout << "당신은 납치된 사람들과 포인트를 되찾기 위해 ZEP 빌딩을 오르기로 한다" << std::endl << std::endl;
-    std::cout << "빌딩 앞에 선 훈련생의 이름 : ";
-    system("pause");
-
 }
-
 void Dungeon()
 {
     if (CurrentFloor == 1)
@@ -283,39 +268,66 @@ void Dungeon()
     }
 
 }
-
-void PlayerMenu()
+void PrintMenu(std::vector<std::string> Pvector)
 {
     MiniTitle();
-    std::cout << std::endl;
-    std::cout << "====================" << std::endl;
-    for (int i = 0; i < 4; ++i)
+    std::cout << std::endl << "====================";
+    for (int i = 0; i < Pvector.size(); ++i)
     {
-        std::cout << MainMenu[i] << std::endl;
+        std::cout<<i+1<<")." << Pvector[i] << std::endl;
     }
-    std::cin >> MenuChoice;
-    switch (MenuChoice)
-    {
-    case 1:
-        Dungeon();
-        break;
-    case 2:
-        //Inventory();
-        break;
-    case 3:
-        //Craft();
-        break;
-    case 4:
-        //GameOver();
-        break;
-    default:
-        std::cout << "잘못된 입력입니다.";
-        system("pause");
-        break;
-
-    }
+}
+std::string InputSelection(string text)
+{
+    std::string s;
+    MiniTitle();
+    std::cout << text;
+    std::cin >> s;
+    return s;
 
 }
+void NPC_M()
+{
+    MiniTitle();
+    std::cout << "                  ---          " << std::endl;
+    std::cout << "                /     \\        " << std::endl;
+    std::cout << "                ((o_o))        " << std::endl;
+    std::cout << "                \\     /         " << std::endl;
+    std::cout << "              -(|    |)-       " << std::endl;
+    std::cout << "             ( |      | )      " << std::endl;
+    std::cout << "             | |      | |      " << std::endl;
+    std::cout << "             (_|______|_)      " << std::endl;
+    std::cout << "                | ___ |        " << std::endl;
+    std::cout << "  /\\ =^._.^=    | | | |        " << std::endl;
+    std::cout << "    \\ |   |     | | | |        " << std::endl;
+    std::cout << "     \\|___|    (__| |__)       " << std::endl;
+
+}
+void NPC_K()
+{
+    MiniTitle();
+    std::cout << R"(
+                    /\
+                   /  \          
+                  /    \        
+                 /      \      
+         ____   /________\    ____
+        (    \   (  o.o  )   /    )
+         \    \   \  =  /   /    /
+          \    \  /`---'\  /    /
+           \    \/   |   \/    /
+            /   /|   |   |\   \
+           (   ( |   |   | )   )
+           /    \|   |   |/    \
+          /     /|___|___|\     \
+         (____ /  /     \  \_____)
+                 /       \
+                |    |    |
+                |    |    |
+               (_____|_____)
+)" << std::endl;
+}
+
 
 void Maps1()
 {
@@ -538,45 +550,3 @@ void Maps2_5()
     std::cout << "========================================================  \n";
 }
 
-void NPC_M()
-{
-    MiniTitle();
-    std::cout << "                  ---          " << std::endl;
-    std::cout << "                /     \\        " << std::endl;
-    std::cout << "                ((o_o))        " << std::endl;
-    std::cout << "                \\     /         " << std::endl;
-    std::cout << "              -(|    |)-       " << std::endl;
-    std::cout << "             ( |      | )      " << std::endl;
-    std::cout << "             | |      | |      " << std::endl;
-    std::cout << "             (_|______|_)      " << std::endl;
-    std::cout << "                | ___ |        " << std::endl;
-    std::cout << "  /\\ =^._.^=    | | | |        " << std::endl;
-    std::cout << "    \\ |   |     | | | |        " << std::endl;
-    std::cout << "     \\|___|    (__| |__)       " << std::endl;
-
-}
-
-void NPC_K()
-{
-    MiniTitle();
-    std::cout << R"(
-                    /\
-                   /  \          
-                  /    \        
-                 /      \      
-         ____   /________\    ____
-        (    \   (  o.o  )   /    )
-         \    \   \  =  /   /    /
-          \    \  /`---'\  /    /
-           \    \/   |   \/    /
-            /   /|   |   |\   \
-           (   ( |   |   | )   )
-           /    \|   |   |/    \
-          /     /|___|___|\     \
-         (____ /  /     \  \_____)
-                 /       \
-                |    |    |
-                |    |    |
-               (_____|_____)
-)" << std::endl;
-}

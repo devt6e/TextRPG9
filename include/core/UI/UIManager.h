@@ -13,18 +13,22 @@ private:
     int MenuChoice;
     int PlayerLocation = 0;
     int CurrentFloor = 1;
-    std::vector<std::string> MainMenu = { "던전","인벤토리","제작소","게임종료"};
-    std::vector<std::string> CraftMenu = { "레시피 전체 조회","레시피 검색","제작" };
 
 public:
-    void MainTitle();
-    void MiniTitle();
-    void ZepBuilding();
-    void NBCTown();
-    void Intro();
+    void MainTitle();//LOSTZEP 타이틀
+    void MiniTitle();//미니 타이틀
+    void ZepBuilding(); //초반 스토리 
+    void NBCTown(); //초반 스토리 
     void Status();
-    void Dungeon();
-    void PlayerMenu();
+    void Dungeon();//예비
+    void PrintMenu(std::vector<std::string> Pvector);//메뉴 출력
+    std::string InputSelection(string text);//입력
+
+    //NPC 아스키아트
+    void NPC_M();
+    void NPC_K();
+
+    //예비
     void Maps1();
     void Maps1_1();
     void Maps1_2();
@@ -37,8 +41,7 @@ public:
     void Maps2_3();
     void Maps2_4();
     void Maps2_5();
-    void NPC_M();
-    void NPC_K();
+  
     
     
 
