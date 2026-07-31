@@ -6,7 +6,7 @@
 
 using namespace std;
 
-//�ӽ� �÷��̾� 
+//ÀÓ½Ã ÇÃ·¹ÀÌ¾î 
 struct Player {
 	int Hp{ 50 };
 	int MaxHp{ 200 };
