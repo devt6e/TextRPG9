@@ -1,0 +1,552 @@
+#include <iostream>
+#include <string>
+#include <cstdlib>
+#include <windows.h>
+#include <vector>
+#include "UI.h"
+
+void MainTitle()
+{
+    system("cls");
+    std::cout << "   ::                                                                                                                                         " << std::endl;
+    std::cout << "    -.                                                                                                                                        " << std::endl;
+    std::cout << "    -.                                         .-       ..                      ..                                      .     .               " << std::endl;
+    std::cout << "    -.                  :.=:.  ..+..        .:-::.:-     ...=---=:     ..==:--=..-    ---.:....:--..-         :..::::::.+.      .. -.. ...    " << std::endl;
+    std::cout << "    +.                 ..:        -..      .:             -.      :.  ::       :-     =         ..:           ....              .. .     .:.. " << std::endl;
+    std::cout << "    #=-              -..:          +. .   -..              :      ..  ..       :              .. =             . .              .: :      ...." << std::endl;
+    std::cout << "    #*=              +**.          +=-.    +=                     ..  ::                    ...:*              -:.     .        ....     .=+. " << std::endl;
+    std::cout << "    #+-.             #++.          =**=      ` =-:::.             -   :.                   =***               .**: ... -=       .*+:.*+**.    " << std::endl;
+    std::cout << "    %+-              -++:          ===:          :-==:            :-. =-                 :+=+:                .++-              :+=:          " << std::endl;
+    std::cout << "    %=:               +=.          ::-             ---            :=. +=               :-==-           .      .--:              :=-:          " << std::endl;
+    std::cout << "   .*:..              .#:..       ::*             .-:-            :-. =              .:===.         ..=       .:::       .-     .::-          " << std::endl;
+    std::cout << "  ::::............      .=*..  ..*-        .-*:...#::              :  =             ...:::::::::......:       ::-::----:::     :.:::.         " << std::endl;
+    std::cout << "                                                                   +  -                                                                       " << std::endl;
+    std::cout << "                                                                  =  =.                                                                       " << std::endl;
+    std::cout << "                                                                   =  :                                                                       " << std::endl;
+    std::cout << "                                                                   .  ;                                                                       " << std::endl;
+    std::cout << "                                                                      .                                                                       " << std::endl;
+    system("pause");
+    system("cls");
+}
+void MiniTitle()
+{
+    system("cls");
+    std::cout << "========================================================" << std::endl;
+    std::cout << "                        Lost ZEP                        " << std::endl;
+    std::cout << "========================================================" << std::endl;
+}
+void NBCTown()
+{
+    std::cout << "================================================================= \n";
+    std::cout << "                                                                  \n";
+    std::cout << "           o                       o                       o      \n";
+    std::cout << "          /|\\                     /|\\                     /|\\  \n";
+    std::cout << "          / \\                     / \\                     / \\  \n";
+    std::cout << "     +--------------------------------------------------------+   \n";
+    std::cout << "     |  [====]                  [====]                  [====]|   \n";
+    std::cout << "     |   |__|                    |__|                    |__| |   \n";
+    std::cout << "     |--------------------------------------------------------|   \n";
+    std::cout << "     |   |__|                    |__|                    |__| |   \n";
+    std::cout << "     |  [====]                  [====]                  [====]|   \n";
+    std::cout << "     +--------------------------------------------------------+   \n";
+    std::cout << "          \\ /                    \\ /                      \\ /  \n";
+    std::cout << "          \\|/                    \\|/                      \\|/  \n";
+    std::cout << "           o                      o                        o      \n";
+    std::cout << "                                                                  \n";
+    std::cout << "================================================================= \n";
+    std::cout << "평화로운 내일배움캠프 마을... " << std::endl << std::endl;
+    std::cout << "어느 날 ZEP 회사에서 포인트 제도를 폐지하게 되고..." << std::endl << std::endl;
+    std::cout << "그에 반발하던 매니저님들, 튜터님들을 납치해 갔다!!" << std::endl << std::endl;
+    system("pause");       
+}
+void ZepBuilding()
+{
+    system("cls");
+    std::cout << "======================================================== \n";
+    std::cout << "                        +---------------+                \n";
+    std::cout << "                        | [Z E P TOWER] |                \n";
+    std::cout << "                        |===============|                \n";
+    std::cout << "                        | [#]  [#]  [#] |                \n";
+    std::cout << "                        |---------------|                \n";
+    std::cout << "                        | [#]  [#]  [#] |                \n";
+    std::cout << "                        |---------------|                \n";
+    std::cout << "                        | [#]  [#]  [#] |                \n";
+    std::cout << "                        |---------------|                \n";
+    std::cout << "                        | [#]  [#]  [#] |                \n";
+    std::cout << "                        |---------------|                \n";
+    std::cout << "                        | [#]  [#]  [#] |                \n";
+    std::cout << "                        |---------------|                \n";
+    std::cout << "               o        |   _  ____  _  |                \n";
+    std::cout << "              /|\\       |  | | |  | | | |               \n";
+    std::cout << "              / \\       |==|_|=|==|_|=|=|               \n";
+    std::cout << "======================================================== \n";
+    std::cout << "당신은 납치된 사람들과 포인트를 되찾기 위해 ZEP 빌딩을 오르기로 한다" << std::endl;
+    system("pause");
+}
+void Dungeon()
+{
+    if (CurrentFloor == 1)
+    {
+        Maps1();
+        while (PlayerLocation != 6)
+        {
+            std::cout << "목적지를 선택하세요. : ";
+            std::cin >> RoomChoice;
+            switch (RoomChoice)
+            {
+            case 1:
+                if (PlayerLocation == 2)
+                {
+                    PlayerLocation = 1;
+                    Maps1_1();
+                    break;
+                }
+                else
+                {
+                    std::cout << "잘못된 입력입니다.";
+                    system("pause");
+                    break;
+                }
+            case 2:
+                if (PlayerLocation == 1 || PlayerLocation == 3 || PlayerLocation == 4 || PlayerLocation == 0)
+                {
+                    PlayerLocation = 2;
+                    Maps1_2();
+                    break;
+                }
+                else
+                {
+                    std::cout << "잘못된 입력입니다.";
+                    system("pause");
+                    break;
+                }
+            case 3:
+                if (PlayerLocation == 2 || PlayerLocation == 5)
+                {
+                    PlayerLocation = 3;
+                    Maps1_3();
+                    break;
+                }
+                else
+                {
+                    std::cout << "잘못된 입력입니다.";
+                    system("pause");
+                    break;
+                }
+            case 4:
+                if (PlayerLocation == 2 || PlayerLocation == 5)
+                {
+                    PlayerLocation = 4;
+                    Maps1_4();
+                    break;
+                }
+                else
+                {
+                    std::cout << "잘못된 입력입니다.";
+                    system("pause");
+                    break;
+                }
+            case 5:
+                if (PlayerLocation == 3 || PlayerLocation == 4)
+                {
+                    PlayerLocation = 5;
+                    Maps1_5();
+                    break;
+                }
+                else
+                {
+                    std::cout << "잘못된 입력입니다.";
+                    system("pause");
+                    break;
+                }
+            case 6:
+                if (PlayerLocation == 5)
+                {
+                    PlayerLocation = 6;
+                    break;
+                }
+            default:
+                std::cout << "잘못된 입력입니다.";
+                system("pause");
+                break;
+
+            }
+
+
+
+        }
+    }
+    else if (CurrentFloor == 2)
+    {
+        PlayerLocation = 0;
+        Maps2();
+        while (PlayerLocation != 6)
+        {
+            std::cout << "목적지를 선택하세요. : ";
+            std::cin >> RoomChoice;
+            switch (RoomChoice)
+            {
+            case 1:
+                if (PlayerLocation == 4)
+                {
+                    PlayerLocation = 1;
+                    Maps2_1();
+                    break;
+                }
+                else
+                {
+                    std::cout << "잘못된 입력입니다.";
+                    system("pause");
+                    break;
+                }
+            case 2:
+                if (PlayerLocation == 0 || PlayerLocation == 3)
+                {
+                    PlayerLocation = 2;
+                    Maps2_2();
+                    break;
+                }
+                else
+                {
+                    std::cout << "잘못된 입력입니다.";
+                    system("pause");
+                    break;
+                }
+            case 3:
+                if (PlayerLocation == 2 || PlayerLocation == 4 || PlayerLocation == 5)
+                {
+                    PlayerLocation = 3;
+                    Maps2_3();
+                    break;
+                }
+                else
+                {
+                    std::cout << "잘못된 입력입니다.";
+                    system("pause");
+                    break;
+                }
+            case 4:
+                if (PlayerLocation == 1 || PlayerLocation == 3)
+                {
+                    PlayerLocation = 4;
+                    Maps2_4();
+                    break;
+                }
+                else
+                {
+                    std::cout << "잘못된 입력입니다.";
+                    system("pause");
+                    break;
+                }
+            case 5:
+                if (PlayerLocation == 3)
+                {
+                    PlayerLocation = 5;
+                    Maps2_5();
+                    break;
+                }
+                else
+                {
+                    std::cout << "잘못된 입력입니다.";
+                    system("pause");
+                    break;
+                }
+            case 6:
+                if (PlayerLocation == 5)
+                {
+                    PlayerLocation = 6;
+                    break;
+                }
+                else
+                {
+                    std::cout << "잘못된 입력입니다.";
+                    system("pause");
+                    break;
+                }
+            }
+        }
+    }
+
+}
+void PrintMenu(std::vector<std::string> Pvector)
+{
+    MiniTitle();
+    std::cout << std::endl << "====================";
+    for (int i = 0; i < Pvector.size(); ++i)
+    {
+        std::cout<<i+1<<")." << Pvector[i] << std::endl;
+    }
+}
+std::string InputSelection(string text)
+{
+    std::string s;
+    MiniTitle();
+    std::cout << text;
+    std::cin >> s;
+    return s;
+
+}
+void NPC_M()
+{
+    MiniTitle();
+    std::cout << "                  ---          " << std::endl;
+    std::cout << "                /     \\        " << std::endl;
+    std::cout << "                ((o_o))        " << std::endl;
+    std::cout << "                \\     /         " << std::endl;
+    std::cout << "              -(|    |)-       " << std::endl;
+    std::cout << "             ( |      | )      " << std::endl;
+    std::cout << "             | |      | |      " << std::endl;
+    std::cout << "             (_|______|_)      " << std::endl;
+    std::cout << "                | ___ |        " << std::endl;
+    std::cout << "  /\\ =^._.^=    | | | |        " << std::endl;
+    std::cout << "    \\ |   |     | | | |        " << std::endl;
+    std::cout << "     \\|___|    (__| |__)       " << std::endl;
+
+}
+void NPC_K()
+{
+    MiniTitle();
+    std::cout << R"(
+                    /\
+                   /  \          
+                  /    \        
+                 /      \      
+         ____   /________\    ____
+        (    \   (  o.o  )   /    )
+         \    \   \  =  /   /    /
+          \    \  /`---'\  /    /
+           \    \/   |   \/    /
+            /   /|   |   |\   \
+           (   ( |   |   | )   )
+           /    \|   |   |/    \
+          /     /|___|___|\     \
+         (____ /  /     \  \_____)
+                 /       \
+                |    |    |
+                |    |    |
+               (_____|_____)
+)" << std::endl;
+}
+
+
+void Maps1()
+{
+    std::cout << std::endl;
+    std::cout << "========================================================  \n";
+    std::cout << "                   [ Zep Tower 1F ]                       \n";
+    std::cout << "========================================================  \n";
+    std::cout << "                    [ 1 ]                                 \n";
+    std::cout << "                     │                                    \n";
+    std::cout << "        [@ ] ─────  [ 2 ] ──── [ 4 ]                      \n";
+    std::cout << "                     │          │                         \n";
+    std::cout << "                    [ 3 ] ──── [ 5 ] ───── [B6]           \n";
+    std::cout << "                                                          \n";
+    std::cout << "========================================================  \n";
+    std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
+    std::cout << "========================================================  \n";
+}
+
+void Maps1_1()
+{
+    MiniTitle();
+    std::cout << std::endl;
+    std::cout << "========================================================  \n";
+    std::cout << "                   [ Zep Tower 1F ]                       \n";
+    std::cout << "========================================================  \n";
+    std::cout << "                    [ @ ]                                 \n";
+    std::cout << "                     │                                    \n";
+    std::cout << "        [  ] ─────  [ 2 ] ──── [ 4 ]                      \n";
+    std::cout << "                     │          │                         \n";
+    std::cout << "                    [ 3 ] ──── [ 5 ] ───── [B6]           \n";
+    std::cout << "                                                          \n";
+    std::cout << "========================================================  \n";
+    std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
+    std::cout << "========================================================  \n";
+}
+
+void Maps1_2()
+{
+    MiniTitle();
+    std::cout << std::endl;
+    std::cout << "========================================================  \n";
+    std::cout << "                   [ Zep Tower 1F ]                       \n";
+    std::cout << "========================================================  \n";
+    std::cout << "                    [ 1 ]                                 \n";
+    std::cout << "                     │                                    \n";
+    std::cout << "        [  ] ─────  [ @ ] ──── [ 4 ]                      \n";
+    std::cout << "                     │          │                         \n";
+    std::cout << "                    [ 3 ] ──── [ 5 ] ───── [B6]           \n";
+    std::cout << "                                                          \n";
+    std::cout << "========================================================  \n";
+    std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
+    std::cout << "========================================================  \n";
+}
+
+void Maps1_3()
+{
+    MiniTitle();
+    std::cout << std::endl;
+    std::cout << "========================================================  \n";
+    std::cout << "                   [ Zep Tower 1F ]                       \n";
+    std::cout << "========================================================  \n";
+    std::cout << "                    [ 1 ]                                 \n";
+    std::cout << "                     │                                    \n";
+    std::cout << "        [  ] ─────  [ 2 ] ──── [ 4 ]                      \n";
+    std::cout << "                     │          │                         \n";
+    std::cout << "                    [ @ ] ──── [ 5 ] ───── [B6]           \n";
+    std::cout << "                                                          \n";
+    std::cout << "========================================================  \n";
+    std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
+    std::cout << "========================================================  \n";
+}
+
+void Maps1_4()
+{
+    MiniTitle();
+    std::cout << std::endl;
+    std::cout << "========================================================  \n";
+    std::cout << "                   [ Zep Tower 1F ]                       \n";
+    std::cout << "========================================================  \n";
+    std::cout << "                    [ 1 ]                                 \n";
+    std::cout << "                     │                                    \n";
+    std::cout << "        [  ] ─────  [ 2 ] ──── [ @ ]                      \n";
+    std::cout << "                     │          │                         \n";
+    std::cout << "                    [ 3 ] ──── [ 5 ] ───── [B6]           \n";
+    std::cout << "                                                          \n";
+    std::cout << "========================================================  \n";
+    std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
+    std::cout << "========================================================  \n";
+}
+
+void Maps1_5()
+{
+    MiniTitle();
+    std::cout << std::endl;
+    std::cout << "========================================================  \n";
+    std::cout << "                   [ Zep Tower 1F ]                       \n";
+    std::cout << "========================================================  \n";
+    std::cout << "                    [ 1 ]                                 \n";
+    std::cout << "                     │                                    \n";
+    std::cout << "        [  ] ─────  [ 2 ] ──── [ 4 ]                      \n";
+    std::cout << "                     │          │                         \n";
+    std::cout << "                    [ 3 ] ──── [ @ ] ───── [B6]           \n";
+    std::cout << "                                                          \n";
+    std::cout << "========================================================  \n";
+    std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
+    std::cout << "========================================================  \n";
+}
+
+void Maps2()
+{
+    MiniTitle();
+    std::cout << std::endl;
+    std::cout << "========================================================  \n";
+    std::cout << "                   [ Zep Tower 1F ]                       \n";
+    std::cout << "========================================================  \n";
+    std::cout << "                                                          \n";
+    std::cout << "                                         [ 1 ]            \n";
+    std::cout << "                                           │              \n";
+    std::cout << "        [ @] ─────  [ 2 ] ──── [ 3 ]──── [ 4 ]            \n";
+    std::cout << "                                │                         \n";
+    std::cout << "                               [ 5 ] ───── [B6]           \n";
+    std::cout << "                                                          \n";
+    std::cout << "========================================================  \n";
+    std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
+    std::cout << "========================================================  \n";
+}
+
+void Maps2_1()
+{
+    MiniTitle();
+    std::cout << std::endl;
+    std::cout << "========================================================  \n";
+    std::cout << "                   [ Zep Tower 1F ]                       \n";
+    std::cout << "========================================================  \n";
+    std::cout << "                                                          \n";
+    std::cout << "                                         [ @ ]            \n";
+    std::cout << "                                           │              \n";
+    std::cout << "        [  ] ─────  [ 2 ] ──── [ 3 ]──── [ 4 ]            \n";
+    std::cout << "                                │                         \n";
+    std::cout << "                               [ 5 ] ───── [B6]           \n";
+    std::cout << "                                                          \n";
+    std::cout << "========================================================  \n";
+    std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
+    std::cout << "========================================================  \n";
+}
+
+void Maps2_2()
+{
+    MiniTitle();
+    std::cout << std::endl;
+    std::cout << "========================================================  \n";
+    std::cout << "                   [ Zep Tower 1F ]                       \n";
+    std::cout << "========================================================  \n";
+    std::cout << "                                                          \n";
+    std::cout << "                                         [ 1 ]            \n";
+    std::cout << "                                           │              \n";
+    std::cout << "        [  ] ─────  [ @ ] ──── [ 3 ]──── [ 4 ]            \n";
+    std::cout << "                                │                         \n";
+    std::cout << "                               [ 5 ] ───── [B6]           \n";
+    std::cout << "                                                          \n";
+    std::cout << "========================================================  \n";
+    std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
+    std::cout << "========================================================  \n";
+}
+
+void Maps2_3()
+{
+    MiniTitle();
+    std::cout << std::endl;
+    std::cout << "========================================================  \n";
+    std::cout << "                   [ Zep Tower 1F ]                       \n";
+    std::cout << "========================================================  \n";
+    std::cout << "                                                          \n";
+    std::cout << "                                         [ 1 ]            \n";
+    std::cout << "                                           │              \n";
+    std::cout << "        [  ] ─────  [ 2 ] ──── [ @ ]──── [ 4 ]            \n";
+    std::cout << "                                │                         \n";
+    std::cout << "                               [ 5 ] ───── [B6]           \n";
+    std::cout << "                                                          \n";
+    std::cout << "========================================================  \n";
+    std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
+    std::cout << "========================================================  \n";
+}
+
+void Maps2_4()
+{
+    MiniTitle();
+    std::cout << std::endl;
+    std::cout << "========================================================  \n";
+    std::cout << "                   [ Zep Tower 1F ]                       \n";
+    std::cout << "========================================================  \n";
+    std::cout << "                                                          \n";
+    std::cout << "                                         [ 1 ]            \n";
+    std::cout << "                                           │              \n";
+    std::cout << "        [  ] ─────  [ 2 ] ──── [ 3 ]──── [ @ ]            \n";
+    std::cout << "                                │                         \n";
+    std::cout << "                               [ 5 ] ───── [B6]           \n";
+    std::cout << "                                                          \n";
+    std::cout << "========================================================  \n";
+    std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
+    std::cout << "========================================================  \n";
+}
+
+void Maps2_5()
+{
+    MiniTitle();
+    std::cout << std::endl;
+    std::cout << "========================================================  \n";
+    std::cout << "                   [ Zep Tower 1F ]                       \n";
+    std::cout << "========================================================  \n";
+    std::cout << "                                                          \n";
+    std::cout << "                                         [ 1 ]            \n";
+    std::cout << "                                           │              \n";
+    std::cout << "        [  ] ─────  [ 2 ] ──── [ 3 ]──── [ 4 ]            \n";
+    std::cout << "                                │                         \n";
+    std::cout << "                               [ @ ] ───── [B6]           \n";
+    std::cout << "                                                          \n";
+    std::cout << "========================================================  \n";
+    std::cout << "  [@ ] 플레이어         [B ] 보스         [  ] 일반 방      \n";
+    std::cout << "========================================================  \n";
+}
+
