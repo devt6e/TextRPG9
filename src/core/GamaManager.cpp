@@ -22,6 +22,7 @@ void GameManager::HandleStatus()
 
 void GameManager::Run()
 {
+	//um.MainTitle();
 	um.MainTitle();
 
 	//while (1)

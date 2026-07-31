@@ -1,6 +1,6 @@
 #pragma once
 #include "DungeonManager.h"
-#include "UI/UIManager.h"
+#include "UIManager.h"
 #include "../item/Inventory.h"
 #include "../item/Item.h"
 

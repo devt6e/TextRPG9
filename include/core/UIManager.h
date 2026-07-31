@@ -22,7 +22,7 @@ public:
     void Status();
     void Dungeon();//예비
     void PrintMenu(std::vector<std::string> Pvector);//메뉴 출력
-    std::string InputSelection(string text);//입력
+    std::string InputSelection(std::string text);//입력
 
     //NPC 아스키아트
     void NPC_M();

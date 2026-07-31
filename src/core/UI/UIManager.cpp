@@ -3,9 +3,9 @@
 #include <cstdlib>
 #include <windows.h>
 #include <vector>
-#include "UI.h"
+#include "../../../include/core/UI/UIManager.h"
 
-void MainTitle()
+void UI::MainTitle()
 {
     system("cls");
     std::cout << "   ::                                                                                                                                         " << std::endl;
@@ -28,14 +28,14 @@ void MainTitle()
     system("pause");
     system("cls");
 }
-void MiniTitle()
+void UI::MiniTitle()
 {
     system("cls");
     std::cout << "========================================================" << std::endl;
     std::cout << "                        Lost ZEP                        " << std::endl;
     std::cout << "========================================================" << std::endl;
 }
-void NBCTown()
+void UI::NBCTown()
 {
     std::cout << "================================================================= \n";
     std::cout << "                                                                  \n";
@@ -59,7 +59,7 @@ void NBCTown()
     std::cout << "그에 반발하던 매니저님들, 튜터님들을 납치해 갔다!!" << std::endl << std::endl;
     system("pause");       
 }
-void ZepBuilding()
+void UI::ZepBuilding()
 {
     system("cls");
     std::cout << "======================================================== \n";
@@ -83,7 +83,7 @@ void ZepBuilding()
     std::cout << "당신은 납치된 사람들과 포인트를 되찾기 위해 ZEP 빌딩을 오르기로 한다" << std::endl;
     system("pause");
 }
-void Dungeon()
+void UI::Dungeon()
 {
     if (CurrentFloor == 1)
     {
@@ -268,7 +268,7 @@ void Dungeon()
     }
 
 }
-void PrintMenu(std::vector<std::string> Pvector)
+void UI::PrintMenu(std::vector<std::string> Pvector)
 {
     MiniTitle();
     std::cout << std::endl << "====================";
@@ -277,7 +277,7 @@ void PrintMenu(std::vector<std::string> Pvector)
         std::cout<<i+1<<")." << Pvector[i] << std::endl;
     }
 }
-std::string InputSelection(string text)
+std::string UI::InputSelection(std::string text)
 {
     std::string s;
     MiniTitle();
@@ -286,7 +286,7 @@ std::string InputSelection(string text)
     return s;
 
 }
-void NPC_M()
+void UI::NPC_M()
 {
     MiniTitle();
     std::cout << "                  ---          " << std::endl;
@@ -303,7 +303,7 @@ void NPC_M()
     std::cout << "     \\|___|    (__| |__)       " << std::endl;
 
 }
-void NPC_K()
+void UI::NPC_K()
 {
     MiniTitle();
     std::cout << R"(
@@ -329,7 +329,7 @@ void NPC_K()
 }
 
 
-void Maps1()
+void UI::Maps1()
 {
     std::cout << std::endl;
     std::cout << "========================================================  \n";
@@ -346,7 +346,7 @@ void Maps1()
     std::cout << "========================================================  \n";
 }
 
-void Maps1_1()
+void UI::Maps1_1()
 {
     MiniTitle();
     std::cout << std::endl;
@@ -364,7 +364,7 @@ void Maps1_1()
     std::cout << "========================================================  \n";
 }
 
-void Maps1_2()
+void UI::Maps1_2()
 {
     MiniTitle();
     std::cout << std::endl;
@@ -382,7 +382,7 @@ void Maps1_2()
     std::cout << "========================================================  \n";
 }
 
-void Maps1_3()
+void UI::Maps1_3()
 {
     MiniTitle();
     std::cout << std::endl;
@@ -400,7 +400,7 @@ void Maps1_3()
     std::cout << "========================================================  \n";
 }
 
-void Maps1_4()
+void UI::Maps1_4()
 {
     MiniTitle();
     std::cout << std::endl;
@@ -418,7 +418,7 @@ void Maps1_4()
     std::cout << "========================================================  \n";
 }
 
-void Maps1_5()
+void UI::Maps1_5()
 {
     MiniTitle();
     std::cout << std::endl;
@@ -436,7 +436,7 @@ void Maps1_5()
     std::cout << "========================================================  \n";
 }
 
-void Maps2()
+void UI::Maps2()
 {
     MiniTitle();
     std::cout << std::endl;
@@ -455,7 +455,7 @@ void Maps2()
     std::cout << "========================================================  \n";
 }
 
-void Maps2_1()
+void UI::Maps2_1()
 {
     MiniTitle();
     std::cout << std::endl;
@@ -474,7 +474,7 @@ void Maps2_1()
     std::cout << "========================================================  \n";
 }
 
-void Maps2_2()
+void UI::Maps2_2()
 {
     MiniTitle();
     std::cout << std::endl;
@@ -493,7 +493,7 @@ void Maps2_2()
     std::cout << "========================================================  \n";
 }
 
-void Maps2_3()
+void UI::Maps2_3()
 {
     MiniTitle();
     std::cout << std::endl;
@@ -512,7 +512,7 @@ void Maps2_3()
     std::cout << "========================================================  \n";
 }
 
-void Maps2_4()
+void UI::Maps2_4()
 {
     MiniTitle();
     std::cout << std::endl;
@@ -531,7 +531,7 @@ void Maps2_4()
     std::cout << "========================================================  \n";
 }
 
-void Maps2_5()
+void UI::Maps2_5()
 {
     MiniTitle();
     std::cout << std::endl;
