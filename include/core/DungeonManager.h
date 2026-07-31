@@ -10,7 +10,7 @@ class Player;
 class Monster;
 
 enum class RoomType
-{   
+{   //
     Monster,
     NPC,
     Boss
