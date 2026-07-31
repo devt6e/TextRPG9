@@ -3,7 +3,7 @@
 #include <string>
 
 #include "BattleManager.h"
-#include "../../include/core/UI/UI2.h"
+//#include "../../include/core/UI/UI2.h"
 
 //юс╫ц
 class Player;
@@ -34,7 +34,7 @@ private:
 public:
     DungeonManager();
 
-    void StartDungeon(Player& player, UI& ui);
+    void StartDungeon(Player& player);
 
     
 

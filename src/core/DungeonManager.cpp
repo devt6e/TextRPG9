@@ -1,5 +1,5 @@
 #include "../../include/core/DungeonManager.h"
-#include "../../include/core/UI/UI2.h"
+//#include "../../include/core/UI/UI2.h"
 
 #include <iostream>
 #include <string>
@@ -290,7 +290,7 @@ void DungeonManager::GenerateDungeonMap()
 
 }
 
-void DungeonManager::StartDungeon(Player& player, UI& ui)
+void DungeonManager::StartDungeon(Player& player)
 {
 	// 체크포인트가 있으면 저장된 위치에서 다시 시작
 	if (hasCheckpoint)
