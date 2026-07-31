@@ -18,7 +18,8 @@ public:
     void MainTitle();//LOSTZEP 타이틀
     void MiniTitle();//미니 타이틀
     void ZepBuilding(); //초반 스토리 
-    void NBCTown(); //초반 스토리  
+    void NBCTown(); //초반 스토리 
+    void Status();
     void Dungeon();//예비
     void PrintMenu(std::vector<std::string> Pvector);//메뉴 출력
     std::string InputSelection(std::string text);//입력
