@@ -3,7 +3,8 @@
 #include <cstdlib>
 #include <windows.h>
 #include <vector>
-#include "../../../include/core/UI/UIManager.h"
+#include "../include/core/UIManager.h"
+
 
 void UI::MainTitle()
 {
@@ -280,7 +281,7 @@ void UI::PrintMenu(std::vector<std::string> Pvector)
 std::string UI::InputSelection(std::string text)
 {
     std::string s;
-    MiniTitle();
+    //MiniTitle();
     std::cout << text;
     std::cin >> s;
     return s;

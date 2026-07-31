@@ -1,10 +1,12 @@
 #pragma once
+#include <iostream>
+#include <windows.h>
+
 #include "DungeonManager.h"
 #include "UIManager.h"
 #include "../item/Inventory.h"
 #include "../item/Item.h"
 
-#include <iostream>
 
 class GameManager
 {
