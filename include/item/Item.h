@@ -39,7 +39,7 @@ public:
 	Item(string Name, int Price, int ItemCount);
 
 	virtual ~Item() {}
-	virtual bool UseItem(Player* player) = 0;
+	virtual bool UseItem(Player* player) { return false; }
 	virtual void ResetBuff(Player* player) {}
 
 	void PrintInfo() const;
