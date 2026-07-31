@@ -10,7 +10,7 @@ class Player;
 class Monster;
 
 enum class RoomType
-{
+{   
     Monster,
     NPC,
     Boss
@@ -23,12 +23,13 @@ private:
 
     int currentFloor;
     int currentRoom;
-    static const int MapSize = 5;
+    static const int MapSize = 10; //방 사이즈 5*5 6이면 6*6임
     int dungeonMap[MapSize][MapSize];
     int playerLoc[2];
     int bossLoc[2];
-
-
+    bool hasCheckpoint;
+    int checkpointLoc[2];
+    bool visitedMap[MapSize][MapSize];
 
 public:
     DungeonManager();
@@ -38,6 +39,7 @@ public:
     
 
 private:
+    //던전 생성기
     void GenerateDungeonMap();
     // 목적지로 이동 가능?
     bool CanMoveTo(int destination) const;
@@ -49,6 +51,9 @@ private:
     void HandleRoom(Player& player, RoomType roomType);
     // 전투 결과
     void HandleBattleResult(BattleResult result);
+    
+    void DisplayDungeonMap() const;
+
 };
 
 
