@@ -3,52 +3,144 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include "../../include/item/Item.h"
+
+//string Name;				// ì•„ì´í…œ ì´ë¦„
+//string ItemDescription;		// ì•„ì´í…œ ì„¤ëª…
+//string ItemDropLocation;	// ì•„ì´í…œ ë“œë¡­ ì¥ì†Œ
+//int Price;					// ì•„ì´í…œ ê°€ê²©
+//int ItemCount;				// ì•„ì´í…œ ê°¯ìˆ˜
+//int ItemMaxStack;			// ì•„ì´í…œ ìµœëŒ€ ê°¯ìˆ˜
 
 using namespace std;
 
-struct Item {
-    string name;
-    int price;
-    int count;              // ÇöÀç ÁßÃ¸ °¹¼ö
-    int maxStack;           // ÃÖ´ë ÁßÃ¸ °¡´É °¹¼ö
-    string description;     // »ó¼¼ ¼³¸í
-    string dropLocation;    // µå¶ø À§Ä¡
-};
-
 template <typename T>
 bool CompareByName(const T& a, const T& b) {
-    return a.name < b.name;
+    return a.Name < b.Name;
 }
 
 template <typename T>
 bool CompareByPrice(const T& a, const T& b) {
-    return a.price > b.price;
+    return a.Price > b.Price;
 }
 
 template <typename T>
 class Inventory {
 private:
     vector<T> items_;
-    int capacity_;    // ÇöÀç ÀÎº¥Åä¸® ÃÖ´ë Ä­ ¼ö
+    int capacity_;    // ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸® ï¿½Ö´ï¿½ Ä­ ï¿½ï¿½
 
 public:
-    Inventory(int startCapacity = 10) {
-        capacity_ = startCapacity;
+    vector<T>& GetAllItems() {
+        return items_;
     }
 
-    // ÀÎº¥Åä¸® ÀÚµ¿ È®Àå ±â´É
+    Inventory(int StartCapacity = 10) {
+        capacity_ = StartCapacity;
+    }
+
     void ExpandCapacity() {
-        capacity_ += 5; // ÇÑ ¹ø¿¡ 5Ä­¾¿ Áõ°¡
-        cout << "[System] ÀÎº¥Åä¸® °¡¹æÀÌ È®ÀåµÇ¾ú½À´Ï´Ù! (ÇöÀç ÃÖ´ë " << capacity_ << "Ä­)\n";
+        capacity_ += 5; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 5Ä­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        cout << "[System] ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½! (ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ " << capacity_ << "Ä­)\n";
+    }
+
+    void AddItem(T newItem) {
+        for (int i = 0; i < items_.size(); i++) {
+            if (items_[i].Name == newItem.Name) {
+                int SpaceLeft = items_[i].ItemMaxStack - items_[i].ItemCount;
+
+                if (SpaceLeft > 0) {
+                    if (SpaceLeft >= newItem.ItemCount) {
+                        items_[i].ItemCount += newItem.ItemCount;
+                        cout << "-> " << newItem.Name << " " << newItem.ItemCount << "ê°œë¥¼ ê¸°ì¡´ ìŠ¬ë¡¯ì— í•©ì³¤ìŠµë‹ˆë‹¤.\n";
+                        return;
+                    }
+                    else {
+                        items_[i].ItemCount += SpaceLeft;
+                        newItem.ItemCount -= SpaceLeft;
+                        cout << "-> " << newItem.Name << " " << SpaceLeft << "ê°œë¥¼ í•©ì¹˜ê³  ë‚˜ë¨¸ì§€ëŠ” ìƒˆ ìŠ¬ë¡¯ì— ë„£ìŠµë‹ˆë‹¤.\n";
+                    }
+                }
+            }
+        }
+
+        if (items_.size() >= capacity_) {
+            ExpandCapacity();
+        }
+
+        items_.push_back(newItem);
+        cout << "-> " << newItem.Name << " " << newItem.ItemCount << "ê°œë¥¼ ìƒˆ ìŠ¬ë¡¯ì— íšë“í–ˆìŠµë‹ˆë‹¤!\n";
     }
 
     void SortByName() {
         sort(items_.begin(), items_.end(), CompareByName<T>);
-        cout << "[System] ¾ÆÀÌÅÛÀ» ÀÌ¸§¼øÀ¸·Î Á¤·ÄÇß½À´Ï´Ù.\n";
+        cout << "[System] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.\n";
     }
 
     void SortByPrice() {
         sort(items_.begin(), items_.end(), CompareByPrice<T>);
-        cout << "[System] ¾ÆÀÌÅÛÀ» ±İ¾×¼øÀ¸·Î Á¤·ÄÇß½À´Ï´Ù.\n";
+        cout << "[System] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½İ¾×¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.\n";
+    }
+
+    void PrintSummary() {
+        cout << "\n========== [ ì¸ë²¤í† ë¦¬ (" << items_.size() << "/" << capacity_ << ") ] ==========\n";
+        if (items_.empty()) {
+            cout << "ê°€ë°©ì´ í…… ë¹„ì–´ìˆìŠµë‹ˆë‹¤.\n";
+        }
+        else {
+            for (int i = 0; i < items_.size(); i++) {
+                cout << i + 1 << ". " << items_[i].Name
+                    << " (x" << items_[i].ItemCount << ") - "
+                    << items_[i].Price << "G\n";
+            }
+        }
+        cout << "==============================================\n";
+    }
+
+    T* GetItem(int index) {
+        int RealIndex = index - 1;
+        if (RealIndex < 0 || RealIndex >= items_.size()) {
+            return nullptr;
+        }
+        return &items_[RealIndex];
+    }
+
+    bool RemoveItem(int index, int amount) {
+        int RealIndex = index - 1;
+
+        if (RealIndex < 0 || RealIndex >= items_.size()) {
+            cout << "[ì˜¤ë¥˜] ì˜ëª»ëœ ìŠ¬ë¡¯ì…ë‹ˆë‹¤.\n";
+            return false;
+        }
+
+        if (items_[RealIndex].ItemCount < amount) { 
+            cout << "[ì˜¤ë¥˜] ê°€ì§„ ê°¯ìˆ˜ë³´ë‹¤ ë§ì´ íŒ” ìˆ˜ ì—†ìŠµë‹ˆë‹¤!\n";
+            return false;
+        }
+
+        items_[RealIndex].ItemCount -= amount;
+
+        if (items_[RealIndex].ItemCount <= 0) {
+            items_.erase(items_.begin() + RealIndex);
+        }
+
+        return true;
+    }
+};
+
+class InventoryManager {
+private:
+    Inventory<Item> consumableBag_;
+    Inventory<Item> materialBag_;
+
+public:
+    void AddConsumable(Item item) {
+        cout << "[ì†Œë¹„ ê°€ë°©] ";
+        consumableBag_.AddItem(item);
+    }
+
+    void AddMaterial(Item item) {
+        cout << "[ì¬ë£Œ ê°€ë°©] ";
+        materialBag_.AddItem(item);
     }
 };

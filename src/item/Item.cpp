@@ -7,8 +7,8 @@
 
 using namespace std;
 
-Item::Item(string Name, int Price, int Count)
-	: Name(Name), Price(Price), Count(Count) {}
+Item::Item(string Name, int Price, int ItemCount)
+	: Name(Name), Price(Price), ItemCount(ItemCount) {}
 
 void Item::PrintInfo() const {
 	cout << Name << "(" << Price << "G)" << endl;
@@ -16,17 +16,41 @@ void Item::PrintInfo() const {
 
 bool HpPotion::UseItem(Player* player) {
 
-	if (Count <= 0) {
-		cout << Name << "ÀÇ ¼ö·®ÀÌ ºÎÁ·ÇÔ" << endl;
+	if (ItemCount <= 0) {
+		cout << Name << "ì˜ ìˆ˜ëŸ‰ì´ ë¶€ì¡±í•¨" << endl;
 		return false;
 	}
 
-	Count--;
+	ItemCount--;
 
 	player->setHp(min(player->getHp() + PotionHeal, player->getMaxHp()));
 
-	cout << "* " << Name << " »ç¿ë! HP È¸º¹: " << player->getHp()
-		<< " (³²Àº ¼ö·®: " << Count << "°³)" << endl;
+	cout << "* " << Name << " ì‚¬ìš©! HP íšŒë³µ: " << player->getHp()
+		<< " (ë‚¨ì€ ìˆ˜ëŸ‰: " << ItemCount << "ê°œ)" << endl;
 
 	return true;
+}
+
+bool TempABPotion::UseItem(Player* player) {
+
+	if (ItemCount <= 0) {
+		cout << Name << "ì˜ ìˆ˜ëŸ‰ì´ ë¶€ì¡±í•¨" << endl;
+		return false;
+	}
+
+	ItemCount--;
+
+	player->TempAttackBuff += T_AttackBuff;
+
+	cout << "* " << Name << " ì‚¬ìš©! ê³µê²©ë ¥ + " << T_AttackBuff << endl << "í˜„ìž¬ ê³µê²©ë ¥: " << player->getTotalPower() << " (ë‚¨ì€ ìˆ˜ëŸ‰: " << ItemCount << "ê°œ)" << endl;
+
+	return true;
+}
+
+void TempABPotion::ResetBuff(Player* player) {
+	if (player->getTempAttackBuff() > 0) {
+		player->TempAttackBuff = 0;
+
+		cout << "ë²„í”„ í•´ì œ" << endl;
+	}
 }
