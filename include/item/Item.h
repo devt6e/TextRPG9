@@ -7,21 +7,41 @@
 using namespace std;
 
 //임시 플레이어 
-class Player;
+struct Player {
+	int Hp{ 50 };
+	int MaxHp{ 200 };
+	int Power{ 50 };
+	int TempAttackBuff{ 0 };
+
+	void setHp(int newHp) { Hp = newHp; }
+	void setMaxHp(int MH) { MaxHp = MH; }
+	void setPower(int p) { Power = Power; }
+
+	int getHp() const { return Hp; }
+	int getMaxHp() const { return MaxHp; }
+
+	int getTempAttackBuff() const { return TempAttackBuff; }
+	int getPower() const { return Power; }
+	int getTotalPower() const { return Power + TempAttackBuff; }
+
+	void ResetBuff() { TempAttackBuff = 0; }
+};
 
 
 class Item {
 
 protected:
-	string Name;
-	int Price, Count;
+	string Name, ItemDescription, ItemDropLocation;
+	int Price, ItemCount, ItemMaxStack;
 
 public:
 
-	Item(string Name, int Price, int Count);
+	Item(string Name, int Price, int ItemCount);
 
 	virtual ~Item() {}
 	virtual bool UseItem(Player* player) = 0;
+	virtual void ResetBuff(Player* player) {}
+
 	void PrintInfo() const;
 };
 
@@ -31,7 +51,17 @@ protected:
 
 public:
 
-	HpPotion() : Item("HP 포션", 50, 1) {}
+	HpPotion() : Item("HP Potion", 50, 1) {}
 
 	bool UseItem(Player* player) override;
+};
+
+class  TempABPotion : public Item {
+protected:
+	int T_AttackBuff = 10;
+
+public:
+	TempABPotion() : Item("TempAttackBuff Potion", 100, 1) {}
+	bool UseItem(Player* player) override;
+	void ResetBuff(Player* player) override;
 };
