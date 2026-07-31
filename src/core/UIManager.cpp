@@ -276,7 +276,7 @@ void UI::PrintMenu(std::vector<std::string> Pvector)
     {
         if (i == Pvector.size()-1)
         {
-            std::cout << "0)." << Pvector[i];
+            std::cout << "0)." << Pvector[i] << std::endl;
             break;
         }
         std::cout<<i+1<<")." << Pvector[i] << std::endl;
