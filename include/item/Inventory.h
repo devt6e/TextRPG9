@@ -14,18 +14,6 @@
 
 using namespace std;
 
-<<<<<<< Updated upstream
-struct Item {
-    string name;            // 아이템 이름
-    int price;              // 아이템 가격
-    int count;              // 현재 중첩 갯수
-    int maxStack;           // 최대 중첩 가능 갯수
-    string description;     // 상세 설명
-    string dropLocation;    // 드랍 위치
-};
-
-=======
->>>>>>> Stashed changes
 template <typename T>
 bool CompareByName(const T& a, const T& b) {
     return a.Name < b.Name;
