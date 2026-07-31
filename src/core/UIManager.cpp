@@ -271,16 +271,20 @@ void UI::Dungeon()
 void UI::PrintMenu(std::vector<std::string> Pvector)
 {
     MiniTitle();
-    std::cout << std::endl << "====================";
+    std::cout << std::endl << "====================" << std::endl;
     for (int i = 0; i < Pvector.size(); ++i)
     {
+        if (i == Pvector.size()-1)
+        {
+            std::cout << "0)." << < Pvector[i];
+            break;
+        }
         std::cout<<i+1<<")." << Pvector[i] << std::endl;
     }
 }
 std::string UI::InputSelection(std::string text)
 {
     std::string s;
-    MiniTitle();
     std::cout << text;
     std::cin >> s;
     return s;
