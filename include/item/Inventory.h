@@ -96,6 +96,36 @@ public:
         }
         cout << "==============================================\n";
     }
+
+    T* GetItem(int index) {
+        int RealIndex = index - 1;
+        if (RealIndex < 0 || RealIndex >= items_.size()) {
+            return nullptr;
+        }
+        return &items_[RealIndex];
+    }
+
+    bool RemoveItem(int index, int amount) {
+        int RealIndex = index - 1;
+
+        if (RealIndex < 0 || RealIndex >= items_.size()) {
+            cout << "[오류] 잘못된 슬롯입니다.\n";
+            return false;
+        }
+
+        if (items_[RealIndex].ItemCount < amount) { 
+            cout << "[오류] 가진 갯수보다 많이 팔 수 없습니다!\n";
+            return false;
+        }
+
+        items_[RealIndex].ItemCount -= amount;
+
+        if (items_[RealIndex].ItemCount <= 0) {
+            items_.erase(items_.begin() + RealIndex);
+        }
+
+        return true;
+    }
 };
 
 class InventoryManager {
