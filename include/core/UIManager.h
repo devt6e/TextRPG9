@@ -18,11 +18,10 @@ public:
     void MainTitle();//LOSTZEP 타이틀
     void MiniTitle();//미니 타이틀
     void ZepBuilding(); //초반 스토리 
-    void NBCTown(); //초반 스토리 
-    void Status();
+    void NBCTown(); //초반 스토리  
     void Dungeon();//예비
     void PrintMenu(std::vector<std::string> Pvector);//메뉴 출력
-    std::string InputSelection(string text);//입력
+    std::string InputSelection(std::string text);//입력
 
     //NPC 아스키아트
     void NPC_M();
