@@ -1,11 +1,11 @@
-ï»¿#pragma once
+#pragma once
 #include <iostream>
 #include <string>
 
 #include "BattleManager.h"
 #include "core/UIManager.h"
 
-//ì„ì‹œ
+//ÀÓ½Ã
 class Player;
 class Monster;
 class UI;
@@ -24,14 +24,15 @@ private:
 
     int currentFloor;
     int currentRoom;
-    static const int MapSize = 5; //ë°© ì‚¬ì´ì¦ˆ 5*5 6ì´ë©´ 6*6ì„
+    static const int MapSize = 5; //¹æ »çÀÌÁî 5*5 6ÀÌ¸é 6*6ÀÓ
     int dungeonMap[MapSize][MapSize];
     int playerLoc[2];
     int bossLoc[2];
     bool hasCheckpoint;
     int checkpointLoc[2];
     bool visitedMap[MapSize][MapSize];
-    bool hasNpcAppeared;//NPC ë˜ì „ì— ë‚˜ì˜´?
+    bool hasNpcAppeared;//NPC ´øÀü¿¡ ³ª¿È?
+    bool clearedMap[MapSize][MapSize];//¸ÊÅ¬¸®¾îÇÔ?
 
 public:
     DungeonManager();
@@ -44,20 +45,20 @@ public:
     bool IsBossAt(int x, int y) const;
     bool IsRoomVisible(int x, int y) const;
 
-private:
-    //ë˜ì „ ìƒì„±ê¸°
-    void GenerateDungeonMap();
-    // ëª©ì ì§€ë¡œ ì´ë™ ê°€ëŠ¥?
-    bool CanMoveTo(int destination) const;
-    // í˜„ì¬ ìœ„ì¹˜ ë³€ê²½
-    void MoveRoom(int destination);
-    // ë°©ì˜ ì¢…ë¥˜
-    RoomType DecideRoomType();
-    // ë°©ì— ë“¤ì–´ê°”ì„ ë•Œ
-    void HandleRoom(Player& player, RoomType roomType);
-    // ì „íˆ¬ ê²°ê³¼
-    void HandleBattleResult(BattleResult result);
 
+private:
+    //´øÀü »ı¼º±â
+    void GenerateDungeonMap();
+    // ¸ñÀûÁö·Î ÀÌµ¿ °¡´É?
+    bool CanMoveTo(int destination) const;
+    // ÇöÀç À§Ä¡ º¯°æ
+    void MoveRoom(int destination);
+    // ¹æÀÇ Á¾·ù
+    RoomType DecideRoomType();
+    // ¹æ¿¡ µé¾î°¬À» ¶§
+    void HandleRoom(Player& player, RoomType roomType);
+    // ÀüÅõ °á°ú
+    void HandleBattleResult(Player& player, Monster& monster, BattleResult result);
     //void DisplayDungeonMap() const;
 
 
