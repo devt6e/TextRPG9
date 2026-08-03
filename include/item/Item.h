@@ -6,36 +6,15 @@
 
 using namespace std;
 
-/// 임시 플레이어
-/*
-struct Player {
-	int Hp{ 50 };
-	int MaxHp{ 200 };
-	int Power{ 50 };
-	int TempAttackBuff{ 0 };
+class Player;
 
-	void SetHp(int newHp) { Hp = newHp; }
-	void SetMaxHp(int MH) { MaxHp = MH; }
-	void SetPower(int p) { Power = p; }
-
-	int GetHp() const { return Hp; }
-	int GetMaxHp() const { return MaxHp; }
-
-	int GetTempAttackBuff() const { return TempAttackBuff; }
-	int GetPower() const { return Power; }
-	int GetTotalPower() const { return Power + TempAttackBuff; }
-
-	void ResetBuff() { TempAttackBuff = 0; }
-}; */
-
-
-
+// 아이템 부모 클래스
 class Item {
 public:
 	string Name, ItemDescription, ItemDropLocation;
-	int Price = 0, ItemCount = 1, ItemMaxStack = 99, HealAmount = 0, BuffAmount = 0;
+	int Price = 0, ItemCount = 1, ItemMaxStack = 99, HealAmount = 0, BuffAmount = 0, MpAmount = 0;
 
-	Item(string Name, int Price, int ItemCount, int HealAmount, int BuffAmount);
+	Item(string Name = "", int Price = 0, int ItemCount = 1, int HealAmount = 0, int BuffAmount = 0, int MpAmount = 0);
 
 	virtual ~Item() {}
 	virtual bool UseItem(Player* player);
@@ -48,14 +27,20 @@ class HpPotion : public Item {
 public:
 	HpPotion();
 	bool UseItem(Player* player) override;
-};
+}; // HP포션
+
+class MpPotion : public Item {
+public:
+	MpPotion();
+	bool UseItem(Player* player) override;
+}; // MP포션
 
 class TempABPotion : public Item {
 public:
 	TempABPotion();
 	bool UseItem(Player* player) override;
 	void ResetBuff(Player* player) override;
-};
+}; // 공격력 임시 버프
 
 class InventoryManager;
 

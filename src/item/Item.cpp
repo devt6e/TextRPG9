@@ -5,14 +5,12 @@
 
 #include "item/Item.h"
 #include "item/Inventory.h"
-
-// #include "Player.h"
+#include "character/Player.h"
 
 using namespace std;
 
-
-Item::Item(string Name, int Price, int ItemCount, int HealAmount, int BuffAmount)
-	: Name(Name), Price(Price), ItemCount(ItemCount), HealAmount(HealAmount), BuffAmount(BuffAmount) {}
+Item::Item(string Name, int Price, int ItemCount, int HealAmount, int BuffAmount, int MpAmount)
+	: Name(Name), Price(Price), ItemCount(ItemCount), HealAmount(HealAmount), BuffAmount(BuffAmount), MpAmount(MpAmount) {}
 
 void Item::PrintInfo() const {
 	cout << Name << "(" << Price << "G)" << endl;
@@ -26,14 +24,22 @@ bool Item::UseItem(Player* player) {
 
 	if (HealAmount > 0) { // HP포션의 로직
 		player->SetHp(min(player->GetHp() + HealAmount, player->GetMaxHp()));
-		cout << "* " << Name << " 사용! HP 회복: " << player->GetHp()
+		cout << endl << "* " << Name << " 사용! HP 회복: " << player->GetHp()
 			<< " (남은 수량: " << ItemCount - 1 << "개)" << endl;
 		return true;
 	}
 
+	else if (MpAmount > 0) { // MP포션의 로직
+		player->SetMp(min(player->GetMp() + HealAmount, player->GetMaxMp()));
+		cout << endl << "* " << Name << " 사용! HP 회복: " << player->GetMp()
+			<< " (남은 수량: " << ItemCount - 1 << "개)" << endl;
+		return true;
+	}
+
+
 	else if (BuffAmount > 0) { //공격력 임시버프
 		player->TempAttackBuff += BuffAmount;
-		cout << "* " << Name << " 사용! 공격력 + " << BuffAmount << endl
+		cout << endl << "* " << Name << " 사용! 공격력 + " << BuffAmount << endl
 			<< "현재 공격력: " << player->GetTotalPower()
 			<< " (남은 수량: " << ItemCount - 1 << "개)" << endl;
 		return true;
@@ -53,6 +59,13 @@ HpPotion::HpPotion()
 	: Item("HP 회복 포션", 50, 1, 50, 0) {}
 
 bool HpPotion::UseItem(Player* player) {
+	return Item::UseItem(player);
+}
+
+MpPotion::MpPotion()
+	: Item("MP 회복 포션", 50, 1, 50, 0) {}
+
+bool MpPotion::UseItem(Player* player) {
 	return Item::UseItem(player);
 }
 
