@@ -2,8 +2,8 @@
 #include <string>
 #include <random>
 
-#include "../../include/core/BattleManager.h"
-#include "../../include/core/UI/UI2.h"
+#include "core/BattleManager.h"
+//#include "../../include/core/UI/UI2.h"
 
 // юс╫ц
 // #include "Player.h"
