@@ -100,7 +100,7 @@ void UI::Gotoxy(int x, int y)
     COORD pos = { (SHORT)x, (SHORT)y };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
-void UI::PrintStatus(Player*& p)
+void UI::PrintStatus(Player* p)
 {
     Gotoxy(81, 22);
     std::cout << "이름: " << p->GetName() << "  직업: " << p->GetJob() << "  Lv: " << p->GetLevel();

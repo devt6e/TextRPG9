@@ -13,14 +13,16 @@
 #include <vector>
 #include "core/UIManager.h"
 #include"character/Player.h"
+#include"character/P_Warrior.h"
 
 int main()
 {
+	Player* p = new Warrior("test");
 	SetConsoleOutputCP(CP_UTF8);
 	system("mode con:cols=150 lines=40 | title LOSTZEP");
 	UI ui;
 	ui.PrintIntro();
-	ui.PrintStatus(Player * &p);
+	ui.PrintStatus(Player * p);
 	system("pause");
 	return 0;
 
