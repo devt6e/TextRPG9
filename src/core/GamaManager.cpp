@@ -1,4 +1,4 @@
-#include "../include/core/GamaManager.h"
+#include "core/GamaManager.h"
 
 //추후 필요 시 구현 예정
 //void GameManager::HandleMainMenu()
@@ -6,9 +6,9 @@
 //
 //}
 
-void GameManager::HandleBattle()
+void GameManager::HandleDungeon()
 {
-
+	dm.StartDungeon();
 }
 
 void GameManager::HandleCrafting()
@@ -35,6 +35,7 @@ void GameManager::Run()
 			std::cout << "던전 루틴 실행" << std::endl;
 			currentState = GameState::Dungeon;
 			//bm.StartBattle();
+			HandleDungeon();
 			system("pause");
 			break;
 		case 2:
