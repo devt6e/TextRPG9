@@ -4,28 +4,33 @@
 #include <string>
 #include <algorithm>
 #include "item/Item.h"
-//#include "character/Player.h"
+#include "item/Inventory.h"
+#include "character/Player.h"
 
 using namespace std;
+
+//int GetGold() const { return Gold; }            // 현재 골드 조회
+//void SetGold(int Value) { Gold = Value; }       // 골드량 수정
 
 class ShopManager {
 private:
 	vector<Item> shopItems_;
 
 public:
-
-    int tempTestGold = 10000; //임시 지갑
-
 	ShopManager() {
         shopItems_.push_back(HpPotion());
         shopItems_.push_back(TempABPotion());
 	}
 
-    void BuyItem(Player* player, InventoryManager& inventoryManager) {
+    void PrintShopItems() {
         cout << "\n[ 구매 목록 ]\n";
         for (int i = 0; i < shopItems_.size(); i++) {
             cout << i + 1 << ". " << shopItems_[i].Name << " - " << shopItems_[i].Price << "G\n";
         }
+    }
+
+    void BuyItem(Player* player, InventoryManager& inventoryManager) {
+        PrintShopItems();
 
         cout << "살 아이템 번호 (취소 0): ";
         int buyChoice;
@@ -33,16 +38,101 @@ public:
 
         if (buyChoice == 0) return;
 
+        if (buyChoice < 1 || buyChoice > shopItems_.size()) {
+            cout << "[오류] 잘못된 번호입니다.\n";
+            return;
+        }
+
         Item buyItem = shopItems_[buyChoice - 1];
-        //player->Gold ---> tempTestGold(임시지갑)
-        if (tempTestGold >= buyItem.Price) {
-            tempTestGold -= buyItem.Price;
+        if (player->GetGold() >= buyItem.Price) {
+            player->SetGold(player->GetGold() - buyItem.Price);
 
             inventoryManager.AddConsumable(buyItem);
             cout << "[System] " << buyItem.Name << "을(를) 구매했습니다!\n";
         }
         else {
             cout << "[System] 골드가 부족합니다!\n";
+        }
+    }
+
+    void SellItem(Player* player, InventoryManager& inventoryManager) {
+        cout << "\n어떤 가방의 아이템을 파시겠습니까?\n";
+        cout << "1. 소비 아이템 팔기\n2. 재료 아이템 팔기\n선택: ";
+        int bagChoice;
+        cin >> bagChoice;
+
+        Inventory<Item>* selectedBag = nullptr;
+        if (bagChoice == 1) {
+            selectedBag = &inventoryManager.GetConsumableBag();
+        }
+        else if (bagChoice == 2) {
+            selectedBag = &inventoryManager.GetMaterialBag();
+        }
+        else {
+            cout << "[오류] 잘못된 선택입니다.\n";
+            return;
+        }
+
+        selectedBag->PrintSummary();
+
+        cout << "팔 아이템 번호 (취소 0): ";
+        int sellChoice;
+        cin >> sellChoice;
+
+        if (sellChoice == 0) return;
+
+        Item* targetItem = selectedBag->GetItem(sellChoice);
+
+        if (targetItem != nullptr) {
+            cout << "몇 개를 파시겠습니까? (최대 " << targetItem->ItemCount << "개): ";
+            int amount;
+            cin >> amount;
+
+            if (amount <= 0) {
+                cout << "[오류] 1개 이상 판매해야 합니다.\n";
+                return;
+            }
+
+            if (amount > targetItem->ItemCount) {
+                cout << "[오류] 가진 갯수보다 많이 팔 수 없습니다!\n";
+                return;
+            }
+
+            int sellPrice = (targetItem->Price * amount * 60) / 100;
+
+            // 인벤토리의 RemoveItem 호출하여 갯수 차감 (0개 시 내부 erase 처리됨)
+            if (selectedBag->RemoveItem(sellChoice, amount)) {
+                // 플레이어 골드 증가
+                playerGold += sellPrice;
+                // 문구 출력
+                cout << "[System] " << sellPrice << "G를 획득했습니다!\n";
+            }
+        }
+    }
+
+    void EnterShop(Player* player, InventoryManager& inventoryManager) {
+        while (true) {
+            cout << "\n=== [ 마을 상점 ] (보유 골드: " << playerGold << "G) ===\n";
+            cout << "1. 아이템 구매\n";
+            cout << "2. 아이템 판매\n";
+            cout << "3. 상점 나가기\n";
+            cout << "선택: ";
+
+            int choice;
+            cin >> choice;
+
+            if (choice == 1) {
+                BuyItem(playerGold, inventoryManager);
+            }
+            else if (choice == 2) {
+                SellItem(playerGold, inventoryManager);
+            }
+            else if (choice == 3) {
+                break;
+            }
+            else {
+                cout << "[오류] 잘못된 입력입니다. 다시 선택해주세요.\n";
+            }
         }
     }
 };
