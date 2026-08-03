@@ -16,25 +16,24 @@
 #include "item/Item.h"
 #include "item/Inventory.h"
 #include "character/Player.h"
+#include "character/P_Warrior.h"
 
 using namespace std;
 
 
-//순수가상함수(Player 클래스) 객체 생성 불가하므로 임시 자식 클래스(Test Player) 생성
-class TestPlayer : public Player {
-public:
-	TestPlayer(const string& name = "테스터") : Player(name) {}
-	void Attack() override {}
-};
+
 
 void PrintStatus(const Player& player, InventoryManager& invManager) {
 	cout << "\n----------------------------------------" << endl;
 	cout << "[플레이어: " << player.GetName() << "]"
 		<< " | HP: " << player.GetHp() << " / " << player.GetMaxHp()
-		<< " | MP: " << player.GetMp() << " / " << player.GetMaxMp()
+		<< " | MP: " << player.GetMp() << " / " << player.GetMaxMp() << endl
 		<< " | 기본 공격력: " << player.GetPower()
 		<< " | 버프: +" << player.GetTempAttackBuff()
-		<< " | 최종 공격력: " << player.GetTotalPower() << endl;
+		<< " | 최종 공격력: " << player.GetTotalPower() << endl
+		<< " | 기본 방어력: " << player.GetDefence()
+		<< " | 버프: +" << player.GetTempDEFBuff()
+		<< " | 최종 방어력: " << player.GetTotalDEF() << endl;
 	cout << "----------------------------------------" << endl;
 
 	invManager.GetConsumableBag().PrintSummary();
@@ -42,9 +41,11 @@ void PrintStatus(const Player& player, InventoryManager& invManager) {
 }
 
 int main() {
-	TestPlayer player("테스트플레이어");
-
+	Player* player = new Warrior("전사");
+	player->SetHp(50);
+	player->SetMp(30);
 	InventoryManager invManager;
+
 
 	HpPotion hpPotion;
 	hpPotion.ItemCount = 2;
@@ -55,9 +56,14 @@ int main() {
 	TempABPotion buffPotion;
 	buffPotion.ItemCount = 2;
 
+	TempDEFPotion defBuffPotion;
+	defBuffPotion.ItemCount = 2;
+
+
 	invManager.AddConsumable(hpPotion);
 	invManager.AddConsumable(mpPotion);
 	invManager.AddConsumable(buffPotion);
+	invManager.AddConsumable(defBuffPotion);
 
 	cout << endl << "테스트 시작" << endl;
 
@@ -74,6 +80,7 @@ int main() {
 		cout << "0. 프로그램 종료" << endl;
 		cout << "==========================================" << endl;
 		cout << "메뉴 입력 >> ";
+		cout << endl << endl;
 
 		int menuChoice{ 0 };
 		if (!(cin >> menuChoice)) {
@@ -85,37 +92,32 @@ int main() {
 
 		switch (menuChoice) {
 		case 1:
-			cout << endl << endl;
+		
 			cout << "아이템 선택!" << endl;
-			SelectAndUseConsumableItem(&player, invManager);
+			SelectAndUseConsumableItem(player, invManager);
 			break;
 
 		case 2:
-			cout << endl << endl;
 			cout << "아이템 랜덤 선택!" << endl;
-			UseRandomConsumableItem(&player, invManager);
+			UseRandomConsumableItem(player, invManager);
 			break;
 
 		case 3:
-			cout << endl << endl;
 			cout << "현재 스탯" << endl;
-			PrintStatus(player, invManager);
+			PrintStatus(*player, invManager);
 			break;
 
 		case 4:
-			cout << endl << endl;
 			cout << "전투 종료" << endl;
-			player.ResetBuff();
+			player->ResetBuff();
 			break;
 
 		case 0:
-			cout << endl << endl;
 			cout << "게임종료" << endl;
 			running = false;
 			break;
 
 		default:
-			cout << endl << endl;
 			cout << "X" << endl;
 			break;
 		}
