@@ -84,12 +84,14 @@ void GameManager::HandleInventory()
 void GameManager::Run()
 {
 	system("mode con:cols=150 lines=40 | title LOSTZEP");
+
 	//um.MainTitle();	//todo: 새로운 출력 함수로 변경예정
 	um.PrintMain();
 	um.PrintTitle();
 
 	CreateCharacter(this, um, player);
 	//UI::PrintStory();
+
 
 	while (currentState != GameState::Exit)
 	{

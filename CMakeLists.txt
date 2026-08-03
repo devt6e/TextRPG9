@@ -11,9 +11,11 @@ file(GLOB_RECURSE HEADERS CONFIGURE_DEPENDS "include/*.h")
 
 add_executable(TextRPG9 ${SOURCES} ${HEADERS})
 
+
 # include 폴더를 헤더 검색 경로로 추가
 target_include_directories(TextRPG9 PRIVATE include)
 
 if(MSVC)
     target_compile_options(TextRPG9 PRIVATE /utf-8)
+
 endif()

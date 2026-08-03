@@ -13,15 +13,19 @@ class UI
 
 public:
 
-    void DisplayDungeonMap(const DungeonManager& dungeon);//던전
-    void Gotoxy(int x, int y);//출력 좌표
-    void PrintTitle(); //LOSTZEP 타이틀
-    void PrintMain(); //UI 틀
-    void PrintBuilding(); //초반 스토리 
-    void NBCTown(); //초반 스토리 
-    void PrintStatus(Player*& p);//스탯창
-    void PrintMenu(std::vector<std::string> menu);//메뉴 출력
-    std::string InputSelection(std::string text);//입력
+
+    void DisplayDungeonMap(const DungeonManager& dungeon);//����
+    void Gotoxy(int x, int y);//��� ��ǥ
+    void PrintTitle(); //LOSTZEP Ÿ��Ʋ
+    void PrintMain(); //UI Ʋ
+    void PrintBuilding(); //�ʹ� ���丮 
+    void PrintTown();//�ʹ� ���丮 
+    void PrintIntro();//�ʹ� ���丮
+    void PrintStatus(Player* p);//����â
+    void PrintMenu(std::vector<std::string> menu);//�޴� ���
+    std::string InputSelection(std::string text);//�Է�
+    void PrintMessage(const std::string&);
+
 
     //NPC 아스키아트
     void NPC_M();
