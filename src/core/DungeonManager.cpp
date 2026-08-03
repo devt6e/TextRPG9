@@ -1,5 +1,5 @@
-#include "../../include/core/DungeonManager.h"
-//#include "../../include/core/UI/UI2.h"
+#include "core/DungeonManager.h"
+#include "core/UIManager.h"
 
 #include <iostream>
 #include <string>
@@ -53,7 +53,69 @@ DungeonManager::DungeonManager()
 {
 	GenerateDungeonMap();
 }
+//ui매니저용
 
+
+int DungeonManager::GetMapSize() const
+{
+	return MapSize;
+}
+
+/*
+맵 밖 좌표 → 방 없음
+dungeonMap 값이 0 → 방 없음
+1 또는 2 → 방 있음
+*/
+
+bool DungeonManager::HasRoom(int x, int y) const
+{
+	if (x < 0 || x >= MapSize ||
+		y < 0 || y >= MapSize)
+	{
+		return false;
+	}
+
+	return dungeonMap[x][y] != 0;
+}
+bool DungeonManager::IsRoomVisited(int x, int y) const
+{
+	if (!HasRoom(x, y))
+	{
+		return false;
+	}
+
+	return visitedMap[x][y];
+}
+bool DungeonManager::IsPlayerAt(int x, int y) const
+{
+	return x == playerLoc[0] &&
+		y == playerLoc[1];
+}
+bool DungeonManager::IsBossAt(int x, int y) const
+{
+	return x == bossLoc[0] &&
+		y == bossLoc[1];
+}
+bool DungeonManager::IsRoomVisible(int x, int y) const
+{
+	if (!HasRoom(x, y))
+	{
+		return false;
+	}
+
+	if (IsPlayerAt(x, y) ||
+		IsBossAt(x, y) ||
+		IsRoomVisited(x, y))
+	{
+		return true;
+	}
+
+	int distance =
+		std::abs(x - playerLoc[0]) +
+		std::abs(y - playerLoc[1]);
+
+	return distance == 1;
+}
 void DungeonManager::GenerateDungeonMap()
 {
 	std::random_device rd;
@@ -286,11 +348,9 @@ void DungeonManager::GenerateDungeonMap()
 		<< branchStartY << '\n';
 		*/
 
-
-
 }
 
-void DungeonManager::StartDungeon(Player& player)
+void DungeonManager::StartDungeon(Player& player, UI& ui) 
 {
 	// 체크포인트가 있으면 저장된 위치에서 다시 시작
 	if (hasCheckpoint)
@@ -302,7 +362,7 @@ void DungeonManager::StartDungeon(Player& player)
 	// 현재 위치가 보스방이 아닐 동안 반복
 	while (dungeonMap[playerLoc[0]][playerLoc[1]] != 2)
 	{
-		DisplayDungeonMap();
+		ui.DisplayDungeonMap(*this);
 
 		std::cout << "\n이동 가능한 방향: ";
 
@@ -381,7 +441,7 @@ void DungeonManager::StartDungeon(Player& player)
 		}
 	}
 
-	DisplayDungeonMap();
+	ui.DisplayDungeonMap(*this);
 	std::cout << "보스방에 도착했습니다.\n";
 }
 
@@ -448,7 +508,7 @@ void DungeonManager::MoveRoom(int destination)    // 현재 위치 변경
 		<< playerLoc[0] << ", "
 		<< playerLoc[1] << '\n';
 }
-void DungeonManager::DisplayDungeonMap() const
+/*void DungeonManager::DisplayDungeonMap() const
 {
 	system("cls");
 	auto IsVisible = [&](int x, int y)
@@ -587,7 +647,7 @@ void DungeonManager::DisplayDungeonMap() const
 	std::cout << "| [P] 현재 위치   [B] 보스        |\n";
 	std::cout << "| [.] 탐색 완료   [?] 미확인 방   |\n";
 	std::cout << "+---------------------------------+\n";
-}
+}*/
 void DungeonManager::HandleRoom(Player& player, RoomType roomType)    // 방에 들어갔을 때
 {
 
