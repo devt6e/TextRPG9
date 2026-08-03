@@ -1,23 +1,35 @@
-#include "character/Monster.h"
+ï»¿#include "character/Monster.h"
 #include <random>
 
 Monster::Monster(std::string Name, int PlayerLevel) : Name(Name) {
     std::random_device rd;
     std::mt19937 gen(rd());
 
-    // Ã¼·Â: (·¹º§ * 20) ~ (·¹º§ * 30)
-    std::uniform_int_distribution<int> hpDist(PlayerLevel * 20, PlayerLevel * 30); // ¹üÀ§ - (PlayerLevel * 20, PlayerLevel * 30)
+    // ì²´ë ¥: (ë ˆë²¨ * 20) ~ (ë ˆë²¨ * 30)
+    std::uniform_int_distribution<int> hpDist(PlayerLevel * 20, PlayerLevel * 30); // ë²”ìœ„ - (PlayerLevel * 20, PlayerLevel * 30)
     Hp = hpDist(gen);
-    MaxHp = Hp; // ÃÖ´ë Ã¼·ÂÀ¸·Î ÇöÀç Ã¼·Â µ¿±âÈ­
+    MaxHp = Hp; // ìµœëŒ€ ì²´ë ¥ìœ¼ë¡œ í˜„ì¬ ì²´ë ¥ ë™ê¸°í™”
 
-    // °ø°İ·Â: (·¹º§ * 5) ~ (·¹º§ * 10)
+    // ê³µê²©ë ¥: (ë ˆë²¨ * 5) ~ (ë ˆë²¨ * 10)
     std::uniform_int_distribution<int> powerDist(PlayerLevel * 5, PlayerLevel * 10);
     Power = powerDist(gen);
 
-    // º¸»ó 
-    std::uniform_int_distribution<int> expDist(1, 10); // °æÇèÄ¡ È¹µæ·®À» 1~10À¸·Î ÁöÁ¤
+    // ë³´ìƒ 
+    std::uniform_int_distribution<int> expDist(1, 10); // ê²½í—˜ì¹˜ íšë“ëŸ‰ì„ 1~10ìœ¼ë¡œ ì§€ì •
     DropExp = expDist(gen);
 
-    std::uniform_int_distribution<int> goldDist(5, 10); // ÅÛ ±¸ÇöÀº ¾ÆÁ÷, 5~10ÀÇ ÀçÈ­ µå¶ø
+    std::uniform_int_distribution<int> goldDist(5, 10); // í…œ êµ¬í˜„ì€ ì•„ì§, 5~10ì˜ ì¬í™” ë“œë
     DropGold = goldDist(gen);
+}
+
+void Monster::SetHp(int Value) {
+    Hp = Value;
+
+    if (Hp > MaxHp) {
+        Hp = MaxHp;
+    }
+
+    if (Hp < 0) {
+        Hp = 0;
+    }
 }
