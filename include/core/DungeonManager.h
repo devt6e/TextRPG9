@@ -3,11 +3,12 @@
 #include <string>
 
 #include "BattleManager.h"
-//#include "../../include/core/UI/UI2.h"
+#include "core/UIManager.h"
 
 //임시
 class Player;
 class Monster;
+class UI;
 
 enum class RoomType
 {   //
@@ -23,20 +24,25 @@ private:
 
     int currentFloor;
     int currentRoom;
-    static const int MapSize = 10; //방 사이즈 5*5 6이면 6*6임
+    static const int MapSize = 5; //방 사이즈 5*5 6이면 6*6임
     int dungeonMap[MapSize][MapSize];
     int playerLoc[2];
     int bossLoc[2];
     bool hasCheckpoint;
     int checkpointLoc[2];
     bool visitedMap[MapSize][MapSize];
+    bool hasNpcAppeared;//NPC 던전에 나옴?
 
 public:
     DungeonManager();
 
-    void StartDungeon(Player& player);
-
-    
+    void StartDungeon(Player& player, UI& ui);
+    int GetMapSize() const;
+    bool HasRoom(int x, int y) const;
+    bool IsRoomVisited(int x, int y) const;
+    bool IsPlayerAt(int x, int y) const;
+    bool IsBossAt(int x, int y) const;
+    bool IsRoomVisible(int x, int y) const;
 
 private:
     //던전 생성기
@@ -51,8 +57,11 @@ private:
     void HandleRoom(Player& player, RoomType roomType);
     // 전투 결과
     void HandleBattleResult(BattleResult result);
-    
-    void DisplayDungeonMap() const;
+
+    //void DisplayDungeonMap() const;
+
+
+
 
 };
 

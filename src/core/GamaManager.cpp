@@ -31,8 +31,12 @@ void GameManager::Run()
 		switch (stoi(selection))
 		{
 		case 1:
+/*			std::cout << "带傈 风凭 角青" << std::endl;
+			currentState = GameState::Dungeon;*/
+			//带傈
 			std::cout << "带傈 风凭 角青" << std::endl;
-			currentState = GameState::Dungeon;
+			dm.StartDungeon(*player, um);
+			currentState = GameState::MainMenu;
 			system("pause");
 			break;
 		case 2:

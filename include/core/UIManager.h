@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <vector>
 
+class DungeonManager;//던전
 
 class UI
 {
@@ -15,6 +16,9 @@ private:
     int CurrentFloor = 1;
 
 public:
+
+    void DisplayDungeonMap(const DungeonManager& dungeon);//던전
+
     void MainTitle(); //LOSTZEP 타이틀
     void MiniTitle(); //미니 타이틀
     void ZepBuilding(); //초반 스토리 
