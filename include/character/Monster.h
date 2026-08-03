@@ -31,5 +31,5 @@ protected:
 
     // 드랍 관련 스탯
     int DropExp;         // 처치 시 줄 경험치
-    int DropGold;        // 처치 시 줄 골드 (아이템 확장용)
+    int DropGold;        // 처치 시 줄 골드 (아이템 확장용) 
 };

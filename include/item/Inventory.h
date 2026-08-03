@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <vector>
 #include <string>
@@ -28,8 +28,7 @@ template <typename T>
 class Inventory {
 private:
     vector<T> items_;
-    int capacity_;    // ���� �κ��丮 �ִ� ĭ ��
-
+    int capacity_;    // 현재 인벤토리 최대 칸 수
 public:
 
     vector<T>& GetAllItems() {
@@ -41,8 +40,8 @@ public:
     }
 
     void ExpandCapacity() {
-        capacity_ += 5; // �� ���� 5ĭ�� ����
-        cout << "[System] �κ��丮 ������ Ȯ��Ǿ����ϴ�! (���� �ִ� " << capacity_ << "ĭ)\n";
+        capacity_ += 5; // 한 번에 5칸씩 증가
+        cout << "[System] 인벤토리 가방이 확장되었습니다! (현재 최대 " << capacity_ << "칸)\n";
     }
 
     void AddItem(T newItem) {
@@ -75,12 +74,12 @@ public:
 
     void SortByName() {
         sort(items_.begin(), items_.end(), CompareByName<T>);
-        cout << "[System] �������� �̸������� �����߽��ϴ�.\n";
+        cout << "[System] 아이템을 이름순으로 정렬했습니다.\n";
     }
 
     void SortByPrice() {
         sort(items_.begin(), items_.end(), CompareByPrice<T>);
-        cout << "[System] �������� �ݾ׼����� �����߽��ϴ�.\n";
+        cout << "[System] 아이템을 금액순으로 정렬했습니다.\n";
     }
 
     void PrintSummary() {
