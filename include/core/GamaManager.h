@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <windows.h>
 
@@ -19,8 +19,8 @@ private:
 	Player* player = nullptr;
 	//Crafting cm;
 	//���� ���¸� ����. �߰� ����(status?,crafting?,quiz?)
-	Player* player = nullptr;//�ӽ�
-	DungeonManager dm;
+	//Player* player = nullptr;//�ӽ�
+	//DungeonManager dm;
 
 	enum class GameState {
 		MainMenu,
@@ -28,6 +28,7 @@ private:
 		Battle,
 		Inventory,
 		Crafting,
+		Status,
 		Exit
 	};
 	GameState currentState;

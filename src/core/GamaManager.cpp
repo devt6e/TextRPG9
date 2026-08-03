@@ -1,6 +1,6 @@
-#include "core/GamaManager.h"
+﻿#include "core/GamaManager.h"
 
-//���� �ʿ� �� ���� ����
+//todo: 
 //void GameManager::HandleMainMenu()
 //{
 //
@@ -33,35 +33,38 @@ void GameManager::Run()
 
 	while (currentState != GameState::Exit)
 	{
-		um.PrintMenu({"��������","�κ��丮","���ۼ�","����"});
-		std::string selection = um.InputSelection("��ȣ�� �Է��ϼ���: ");
+		um.PrintMenu({"던전입장","인벤토리","스탯관리", "제작소","종료"});
+		std::string selection = um.InputSelection("번호를 입력하세요: ");
 		switch (stoi(selection))
 		{
 		case 1:
-/*			std::cout << "���� ��ƾ ����" << std::endl;
-			currentState = GameState::Dungeon;*/
-			//����
-			std::cout << "���� ��ƾ ����" << std::endl;
+			std::cout << "던전 루틴 실행" << std::endl;
 			dm.StartDungeon(*player, um);
-			currentState = GameState::MainMenu;
+			currentState = GameState::Dungeon;
 			system("pause");
 			break;
 		case 2:
-			std::cout << "�κ��丮 Ȯ��" << std::endl;
+			std::cout << "인벤토리 확인 루틴 실행" << std::endl;
 			currentState = GameState::Inventory;
 			system("pause");
 			break;
 		case 3:
-			std::cout << "���ۼ� ��ƾ ����" << std::endl;
+			std::cout << "handle status 루틴 실행" << std::endl;
+			currentState = GameState::Status;
+			system("pause");
+			break;
+		case 4:
+			std::cout << "handle crafting 루틴 실행" << std::endl;
 			currentState = GameState::Crafting;
 			system("pause");
 			break;
+
 		case 0:
-			std::cout << "���� ����!" << std::endl;
+			std::cout << "게임 종료!" << std::endl;
 			system("pause");
 			return;
 		default:
-			std::cout << "�Է� �߸���!" << std::endl;
+			std::cout << "입력이 잘못되었습니다!" << std::endl;
 			system("pause");
 			break;
 		}
