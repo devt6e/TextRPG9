@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <windows.h>
 #include <vector>
-#include "../../include/core/UIManager.h"
+#include "core/UIManager.h"
 
 void UI::MainTitle()
 {
@@ -270,17 +270,43 @@ void UI::Dungeon()
 }
 void UI::PrintMenu(std::vector<std::string> Pvector)
 {
-    MiniTitle();
     std::cout << std::endl << "====================" << std::endl;
     for (int i = 0; i < Pvector.size(); ++i)
     {
         if (i == Pvector.size()-1)
         {
-            std::cout << "0)." << Pvector[i];
+            std::cout << "0)." << Pvector[i] << std::endl;
             break;
         }
         std::cout<<i+1<<")." << Pvector[i] << std::endl;
     }
+}
+void UI::PrintStatus(std::string name,std::string job, int level,int hp,int maxhp,int mp,int maxmp,int power,int defense)
+{
+    std::cout << std::endl << "================================================" << std::endl;
+    std::cout << "이름: " << name << " | 직업: " << job << " | Lv." << level << std::endl;
+    std::cout << "HP: " << hp << "/" << maxhp << " | MP: " << mp << "/" << maxmp << " | 공격력: " << power << " | 방어력: " << defense;
+    std::cout << std::endl << "================================================" << std::endl;
+}
+int UI::BattleSelection(std::string text)
+{
+    int choice;
+    std::cout << text << std::endl;
+    std::cin >> choice;
+    return choice;
+}
+void UI::PrintBattle(std::string MonsterName,bool IsWin)
+{
+    //몬스터 아스키아트
+    std::cout << MonsterName << "(이)가 나타났다!" << std::endl;
+    system("pause");
+    while (!IsWin)
+    {
+        //몬스터 아스키아트
+        UI::PrintStatus();
+        UI::BattleSelection();
+    }
+
 }
 std::string UI::InputSelection(std::string text)
 {
