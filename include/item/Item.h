@@ -12,9 +12,9 @@ class Player;
 class Item {
 public:
 	string Name, ItemDescription, ItemDropLocation;
-	int Price = 0, ItemCount = 1, ItemMaxStack = 99, HealAmount = 0, BuffAmount = 0, MpAmount = 0;
+	int Price = 0, ItemCount = 1, ItemMaxStack = 99, HealAmount = 0, BuffAmount = 0, MpAmount = 0, DEFBuffAmount = 0;
 
-	Item(string Name = "", int Price = 0, int ItemCount = 1, int HealAmount = 0, int BuffAmount = 0, int MpAmount = 0);
+	Item(string Name = "", int Price = 0, int ItemCount = 1, int HealAmount = 0, int BuffAmount = 0, int MpAmount = 0, int DEFBuffAmount = 0);
 
 	virtual ~Item() {}
 	virtual bool UseItem(Player* player);
@@ -41,6 +41,13 @@ public:
 	bool UseItem(Player* player) override;
 	void ResetBuff(Player* player) override;
 }; // 공격력 임시 버프
+
+class TempDEFPotion : public Item {
+public:
+	TempDEFPotion();
+	bool UseItem(Player* player) override;
+	void ResetBuff(Player* player) override;
+}; // 방어력 임시 버프
 
 class InventoryManager;
 
