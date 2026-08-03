@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <windows.h>
 #include <vector>
-#include "../../include/core/UIManager.h"
+#include "core/UIManager.h"
 
 void UI::MainTitle()
 {
@@ -270,7 +270,6 @@ void UI::Dungeon()
 }
 void UI::PrintMenu(std::vector<std::string> Pvector)
 {
-    MiniTitle();
     std::cout << std::endl << "====================" << std::endl;
     for (int i = 0; i < Pvector.size(); ++i)
     {
@@ -281,6 +280,13 @@ void UI::PrintMenu(std::vector<std::string> Pvector)
         }
         std::cout<<i+1<<")." << Pvector[i] << std::endl;
     }
+}
+void UI::PrintStatus(std::string name,std::string job, int level,int hp,int maxhp,int mp,int maxmp,int power,int defense)
+{
+    std::cout << std::endl << "================================================" << std::endl;
+    std::cout << "이름: " << name << " | 직업: " << job << " | Lv." << level << std::endl;
+    std::cout << "HP: " << hp << "/" << maxhp << " | MP: " << mp << "/" << maxmp << " | 공격력: " << power << " | 방어력: " << defense;
+    std::cout << std::endl << "================================================" << std::endl;
 }
 std::string UI::InputSelection(std::string text)
 {
