@@ -2,6 +2,8 @@
 #include "core/UIManager.h"
 #include "character/Player.h"
 #include "character/M_Slime.h"
+#include "character/M_Goblin.h"
+#include "character/M_Orc.h"
 
 #include <iostream>
 #include <string>
@@ -198,7 +200,7 @@ void DungeonManager::GenerateDungeonMap()
 	visitedMap[playerLoc[0]][playerLoc[1]] = true;
 	clearedMap[playerLoc[0]][playerLoc[1]] = true;
 	dungeonMap[bossLoc[0]][bossLoc[1]] = 2;
-	
+
 
 	// ===== 막다른 방 생성 시작 =====
 	int branchStartX = -1;
@@ -450,7 +452,7 @@ RoomType DungeonManager::DecideRoomType()
 	{
 		return RoomType::Boss;
 	}
-	else if (hasNpcAppeared == false && (npcAppeare < 20 || distanceToBoss==1))
+	else if (hasNpcAppeared == false && (npcAppeare < 20 || distanceToBoss == 1))
 	{
 		hasNpcAppeared = true;
 		return RoomType::NPC;
@@ -677,9 +679,39 @@ void DungeonManager::HandleRoom(Player& player, RoomType roomType)    // 방에 들
 	case(RoomType::Monster):
 	{
 		std::cout << "몬스터 등장!!\n";
-		Slime slime(player.GetLevel());
-		BattleResult battleResult = battleManager.StartBattle(player, slime);
-		HandleBattleResult(battleResult);
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<int> monsterDist(0, 2);
+		int monsterType = monsterDist(gen);
+
+		switch (monsterType)
+		{
+		case 0:
+		{
+			Slime slime(player.GetLevel());
+			BattleResult battleResult = battleManager.StartBattle(player, slime);
+			HandleBattleResult(player, slime, battleResult);
+			break;
+		}
+
+		case 1:
+		{
+			Goblin goblin(player.GetLevel());
+			BattleResult battleResult = battleManager.StartBattle(player, goblin);
+			HandleBattleResult(player, goblin, battleResult);
+
+			break;
+		}
+
+		case 2:
+		{
+			Orc orc(player.GetLevel());
+			BattleResult battleResult = battleManager.StartBattle(player, orc);
+			HandleBattleResult(player, orc, battleResult);
+
+			break;
+		}
+		}
 		break;
 	}
 	case(RoomType::NPC):
@@ -691,14 +723,22 @@ void DungeonManager::HandleRoom(Player& player, RoomType roomType)    // 방에 들
 	}
 	}
 }
-void DungeonManager::HandleBattleResult(BattleResult result)    // 전투 결과
+void DungeonManager::HandleBattleResult(Player& player, Monster& monster, BattleResult result) 
 {
 	switch (result)
 	{
 	case(BattleResult::Victory):
 	{
+		system("pause");
+
 		std::cout << "전투에서 승리했습니다.\n";
 		clearedMap[playerLoc[0]][playerLoc[1]] = true;
+		player.AddExp(monster.GetDropExp());
+		player.SetGold(player.GetGold() + monster.GetDropGold());
+
+		std::cout << monster.GetDropGold() << " 골드를 획득했습니다.\n";
+		system("pause");
+
 	}
 	break;
 	case(BattleResult::Defeat):

@@ -58,8 +58,7 @@ private:
     // 방에 들어갔을 때
     void HandleRoom(Player& player, RoomType roomType);
     // 전투 결과
-    void HandleBattleResult(BattleResult result);
-
+    void HandleBattleResult(Player& player, Monster& monster, BattleResult result);
     //void DisplayDungeonMap() const;
 
 

@@ -1,4 +1,4 @@
-ï»¿#include "core/GamaManager.h"
+#include "core/GamaManager.h"
 
 //todo: 
 //void GameManager::HandleMainMenu()
@@ -33,38 +33,38 @@ void GameManager::Run()
 
 	while (currentState != GameState::Exit)
 	{
-		um.PrintMenu({"ë˜ì „ì…ì¥","ì¸ë²¤í† ë¦¬","ìŠ¤íƒ¯ê´€ë¦¬", "ì œì‘ì†Œ","ì¢…ë£Œ"});
-		std::string selection = um.InputSelection("ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”: ");
+		um.PrintMenu({"´øÀüÀÔÀå","ÀÎº¥Åä¸®","½ºÅÈ°ü¸®", "Á¦ÀÛ¼Ò","Á¾·á"});
+		std::string selection = um.InputSelection("¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä: ");
 		switch (stoi(selection))
 		{
 		case 1:
-			std::cout << "ë˜ì „ ë£¨í‹´ ì‹¤í–‰" << std::endl;
+			std::cout << "´øÀü ·çÆ¾ ½ÇÇà" << std::endl;
 			dm.StartDungeon(*player, um);
 			currentState = GameState::Dungeon;
 			system("pause");
 			break;
 		case 2:
-			std::cout << "ì¸ë²¤í† ë¦¬ í™•ì¸ ë£¨í‹´ ì‹¤í–‰" << std::endl;
+			std::cout << "ÀÎº¥Åä¸® È®ÀÎ ·çÆ¾ ½ÇÇà" << std::endl;
 			currentState = GameState::Inventory;
 			system("pause");
 			break;
 		case 3:
-			std::cout << "handle status ë£¨í‹´ ì‹¤í–‰" << std::endl;
+			std::cout << "handle status ·çÆ¾ ½ÇÇà" << std::endl;
 			currentState = GameState::Status;
 			system("pause");
 			break;
 		case 4:
-			std::cout << "handle crafting ë£¨í‹´ ì‹¤í–‰" << std::endl;
+			std::cout << "handle crafting ·çÆ¾ ½ÇÇà" << std::endl;
 			currentState = GameState::Crafting;
 			system("pause");
 			break;
 
 		case 0:
-			std::cout << "ê²Œì„ ì¢…ë£Œ!" << std::endl;
+			std::cout << "°ÔÀÓ Á¾·á!" << std::endl;
 			system("pause");
 			return;
 		default:
-			std::cout << "ì…ë ¥ì´ ì˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤!" << std::endl;
+			std::cout << "ÀÔ·ÂÀÌ Àß¸øµÇ¾ú½À´Ï´Ù!" << std::endl;
 			system("pause");
 			break;
 		}

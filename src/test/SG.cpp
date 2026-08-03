@@ -8,20 +8,41 @@
 // 6. 커밋하고 pr하기
 // *테스트 내용은 남겨주세요!
 
+//--------------------------이거 몬스터 cpp 밑에 적당한 위치에 넣어야함--------------------------------
+/*// 전투 테스트용 임시 구현 
+void Monster::SetHp(int Value)
+{
+    if (Value < 0)
+    {
+        Hp = 0;
+    }
+    else if (Value > MaxHp)
+    {
+        Hp = MaxHp;
+    }
+    else
+    {
+        Hp = Value;
+    }
+}*/
+//--------------------------이거 몬스터 cpp  밑에 적당한 위치에 넣어야함--------------------------------
+
+
 
 /*#include "core/UIManager.h"
 #include "core/DungeonManager.h"
 #include "core/BattleManager.h"
 #include "character/P_Warrior.h"
 #include "character/M_Slime.h"
-
+#include "character/M_Goblin.h"
+#include "character/M_Orc.h"
 
 int main()
 {
 	Warrior player("테스트 전사");
-/*	Slime slime(player.GetLevel());
-	BattleManager battleManager;
-	battleManager.StartBattle(player, slime);*/
+	//Slime slime(player.GetLevel());
+	//BattleManager battleManager;
+	//battleManager.StartBattle(player, slime);
 
 	DungeonManager dungeonManager;
 	UI ui;
