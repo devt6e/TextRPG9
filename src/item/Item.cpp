@@ -9,8 +9,8 @@
 
 using namespace std;
 
-Item::Item(string Name, int Price, int ItemCount, int HealAmount, int BuffAmount, int MpAmount)
-	: Name(Name), Price(Price), ItemCount(ItemCount), HealAmount(HealAmount), BuffAmount(BuffAmount), MpAmount(MpAmount) {}
+Item::Item(string Name, int Price, int ItemCount, int HealAmount, int BuffAmount, int MpAmount, int DEFBuffAmount)
+	: Name(Name), Price(Price), ItemCount(ItemCount), HealAmount(HealAmount), BuffAmount(BuffAmount), MpAmount(MpAmount), DEFBuffAmount(DEFBuffAmount) {}
 
 void Item::PrintInfo() const {
 	cout << Name << "(" << Price << "G)" << endl;
@@ -22,16 +22,16 @@ bool Item::UseItem(Player* player) {
 		return false;
 	}
 
-	if (HealAmount > 0) { // HP포션의 로직
+	if (HealAmount > 0) { // HP포션
 		player->SetHp(min(player->GetHp() + HealAmount, player->GetMaxHp()));
 		cout << endl << "* " << Name << " 사용! HP 회복: " << player->GetHp()
 			<< " (남은 수량: " << ItemCount - 1 << "개)" << endl;
 		return true;
 	}
 
-	else if (MpAmount > 0) { // MP포션의 로직
-		player->SetMp(min(player->GetMp() + HealAmount, player->GetMaxMp()));
-		cout << endl << "* " << Name << " 사용! HP 회복: " << player->GetMp()
+	else if (MpAmount > 0) { // MP포션
+		player->SetMp(min(player->GetMp() + MpAmount, player->GetMaxMp()));
+		cout << endl << "* " << Name << " 사용! MP 회복: " << player->GetMp()
 			<< " (남은 수량: " << ItemCount - 1 << "개)" << endl;
 		return true;
 	}
@@ -41,6 +41,14 @@ bool Item::UseItem(Player* player) {
 		player->TempAttackBuff += BuffAmount;
 		cout << endl << "* " << Name << " 사용! 공격력 + " << BuffAmount << endl
 			<< "현재 공격력: " << player->GetTotalPower()
+			<< " (남은 수량: " << ItemCount - 1 << "개)" << endl;
+		return true;
+	}
+
+	else if (DEFBuffAmount > 0) { //방어력 임시버프
+		player->TempDEFBuff += DEFBuffAmount;
+		cout << endl << "* " << Name << " 사용! 방어력 + " << DEFBuffAmount << endl
+			<< "현재 방어력: " << player->GetTotalDEF()
 			<< " (남은 수량: " << ItemCount - 1 << "개)" << endl;
 		return true;
 	}
@@ -56,21 +64,21 @@ void Item::ResetBuff(Player* player) { //임시 버프 초기화 함수
 }
 
 HpPotion::HpPotion()
-	: Item("HP 회복 포션", 50, 1, 50, 0) {}
+	: Item("HP 회복 포션", 50, 1, 50, 0, 0, 0) {}
 
 bool HpPotion::UseItem(Player* player) {
 	return Item::UseItem(player);
 }
 
 MpPotion::MpPotion()
-	: Item("MP 회복 포션", 50, 1, 50, 0) {}
+	: Item("MP 회복 포션", 50, 1, 0, 0, 20, 0) {}
 
 bool MpPotion::UseItem(Player* player) {
 	return Item::UseItem(player);
 }
 
 TempABPotion::TempABPotion()
-	: Item("공격력 임시 버프", 100, 1, 0, 10) {}
+	: Item("공격력 임시 버프", 100, 1, 0, 10, 0, 0) {}
 
 bool TempABPotion::UseItem(Player* player) {
 	return Item::UseItem(player);
@@ -79,6 +87,19 @@ bool TempABPotion::UseItem(Player* player) {
 void TempABPotion::ResetBuff(Player* player) {
 	Item::ResetBuff(player);
 }
+
+TempDEFPotion::TempDEFPotion()
+	: Item("방어력 임시 버프", 100, 1, 0, 0, 0, 10) {}
+
+bool TempDEFPotion::UseItem(Player* player) {
+	return Item::UseItem(player);
+}
+
+void TempDEFPotion::ResetBuff(Player* player) {
+	Item::ResetBuff(player);
+}
+
+
 
 
 //인덱스의 아이템을 사용

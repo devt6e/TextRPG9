@@ -3,16 +3,21 @@
 #include <iostream>
 #include "item/Item.h"
 
+//Windows의 인쇄 작업 관련 매크로 강제 해제
+#undef SetJob
+#undef GetJob
+
 // 플레이어 기본 클래스 (직업 클래스들의 부모 클래스)
 class Player {
 public: 
     // 이름, 체력, 마나, 공격력, 방어력을 받아 플레이어 생성
-    Player(std::string Name) : Name(Name) { }
+    Player(std::string Name) : Name(Name) {}
 
     // 가상 소멸자 (자식 클래스 동적 할당 해제용)
     virtual ~Player() {}
 
-    int TempAttackBuff = 0;  //공격력 임시 버프
+    int TempAttackBuff = 0;  // 공격력 임시 버프
+    int TempDEFBuff = 0; // 방어력 임시 버프
 
     // Getter
     std::string GetName() const { return Name; }    // 이름 조회
@@ -28,6 +33,9 @@ public:
     int GetMaxExp() const { return MaxExp; }        // 레벨업 필요 경험치 조회 (100 고정)
     int GetTempAttackBuff() const { return TempAttackBuff; } //임시 버프 수치 조회
     int GetTotalPower() const { return Power + TempAttackBuff; } //(기본 공격력 + 버프)
+    int GetTempDEFBuff() const { return TempDEFBuff; }
+    int GetTotalDEF() const { return Defence + TempDEFBuff; }
+    int GetGold() const { return Gold; }            // 현재 골드 조회
 
     // Setter
     void SetHp(int Value);                          // 현재 체력 수정 (Player.cpp에서 예외처리)
@@ -39,9 +47,12 @@ public:
     void SetLevel(int Value) { Level = Value; }         // 레벨 수정
     void SetExp(int Value) { Exp = Value; }         // 경험치 수정
     void SetJob(std::string Value) { Job = Value; } // 직업 명칭 수정?
+    void SetGold(int Value) { Gold = Value; }       // 골드량 수정
+
+    void AddExp(int Amount); // 경험치 획득 함수 추가
 
     virtual void Attack() = 0;
-    void ResetBuff() { TempAttackBuff = 0; } // 임시 버프 수치를 0으로 초기화
+    void ResetBuff() { TempAttackBuff = 0; TempDEFBuff = 0; } // 임시 버프 수치를 0으로 초기화
 
 protected: // 초기 스탯
     std::string Name;   // 이름
@@ -55,4 +66,5 @@ protected: // 초기 스탯
     int Defence = 20;        // 방어력
     int Exp = 0;            // 현재 경험치 (초기값: 0)
     int MaxExp = 100;         // 레벨업에 필요 경험치 (기본값: 100)
+    int Gold = 0; 
 };
