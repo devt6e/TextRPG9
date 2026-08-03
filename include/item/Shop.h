@@ -100,11 +100,8 @@ public:
 
             int sellPrice = (targetItem->Price * amount * 60) / 100;
 
-            // 인벤토리의 RemoveItem 호출하여 갯수 차감 (0개 시 내부 erase 처리됨)
             if (selectedBag->RemoveItem(sellChoice, amount)) {
-                // 플레이어 골드 증가
-                playerGold += sellPrice;
-                // 문구 출력
+                player->SetGold(player->GetGold() + sellPrice);
                 cout << "[System] " << sellPrice << "G를 획득했습니다!\n";
             }
         }
@@ -112,7 +109,7 @@ public:
 
     void EnterShop(Player* player, InventoryManager& inventoryManager) {
         while (true) {
-            cout << "\n=== [ 마을 상점 ] (보유 골드: " << playerGold << "G) ===\n";
+            cout << "\n=== [ 마을 상점 ] (보유 골드: " << player->GetGold() << "G) ===\n";
             cout << "1. 아이템 구매\n";
             cout << "2. 아이템 판매\n";
             cout << "3. 상점 나가기\n";
@@ -122,10 +119,10 @@ public:
             cin >> choice;
 
             if (choice == 1) {
-                BuyItem(playerGold, inventoryManager);
+                BuyItem(player, inventoryManager);
             }
             else if (choice == 2) {
-                SellItem(playerGold, inventoryManager);
+                SellItem(player, inventoryManager);
             }
             else if (choice == 3) {
                 break;
