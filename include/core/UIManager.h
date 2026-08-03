@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <iostream>
 #include <string>
 #include <cstdlib>
@@ -6,26 +6,28 @@
 #include <vector>
 #include"character/Player.h"
 
-class DungeonManager;//´øÀü
+class DungeonManager;//ë˜ì „
 
 class UI
 {
 
 public:
 
-    void DisplayDungeonMap(const DungeonManager& dungeon);//´øÀü
-    void Gotoxy(int x, int y);//Ãâ·Â ÁÂÇ¥
-    void PrintTitle(); //LOSTZEP Å¸ÀÌÆ²
+
+    void DisplayDungeonMap(const DungeonManager& dungeon);//ï¿½ï¿½ï¿½ï¿½
+    void Gotoxy(int x, int y);//ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥
+    void PrintTitle(); //LOSTZEP Å¸ï¿½ï¿½Æ²
     void PrintMain(); //UI Æ²
-    void PrintBuilding(); //ÃÊ¹İ ½ºÅä¸® 
-    void PrintTown();//ÃÊ¹İ ½ºÅä¸® 
-    void PrintIntro();//ÃÊ¹İ ½ºÅä¸®
-    void PrintStatus(Player* p);//½ºÅÈÃ¢
-    void PrintMenu(std::vector<std::string> menu);//¸Ş´º Ãâ·Â
-    std::string InputSelection(std::string text);//ÀÔ·Â
+    void PrintBuilding(); //ï¿½Ê¹ï¿½ ï¿½ï¿½ï¿½ä¸® 
+    void PrintTown();//ï¿½Ê¹ï¿½ ï¿½ï¿½ï¿½ä¸® 
+    void PrintIntro();//ï¿½Ê¹ï¿½ ï¿½ï¿½ï¿½ä¸®
+    void PrintStatus(Player* p);//ï¿½ï¿½ï¿½ï¿½Ã¢
+    void PrintMenu(std::vector<std::string> menu);//ï¿½Ş´ï¿½ ï¿½ï¿½ï¿½
+    std::string InputSelection(std::string text);//ï¿½Ô·ï¿½
     void PrintMessage(const std::string&);
 
-    //NPC ¾Æ½ºÅ°¾ÆÆ®
+
+    //NPC ì•„ìŠ¤í‚¤ì•„íŠ¸
     void NPC_M();
     void NPC_K();
 
