@@ -1,11 +1,11 @@
-#include "character/P_Thief.h"
+ï»¿#include "character/P_Thief.h"
 #include <iostream>
 
 Thief::Thief(std::string Name) : Player(Name) {
-    Job = "µµÀû";
-    SetPower(GetPower() + 30); // Æ¯È­ ½ºÅÈ: °ø°İ·Â +30
+    Job = "ë„ì ";
+    SetPower(GetPower() + 30); // íŠ¹í™” ìŠ¤íƒ¯: ê³µê²©ë ¥ +30
 }
 
 void Thief::Attack() {
-    std::cout << "µµÀûÀÌ ±âÈ¸¸¦ ¿³º¾´Ï´Ù." << std::endl;
+    std::cout << "ë„ì ì´ ê¸°íšŒë¥¼ ì—¿ë´…ë‹ˆë‹¤." << std::endl;
 };

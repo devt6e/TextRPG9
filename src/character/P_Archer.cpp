@@ -1,11 +1,11 @@
-#include "character/P_Archer.h"
+ï»¿#include "character/P_Archer.h"
 #include <iostream>
 
 Archer::Archer(std::string Name) : Player(Name) {
-    Job = "±Ã¼ö";
-    SetPower(GetPower() + 30); // Æ¯È­ ½ºÅÈ: °ø°İ·Â +30
+    Job = "ê¶ìˆ˜";
+    SetPower(GetPower() + 30); // íŠ¹í™” ìŠ¤íƒ¯: ê³µê²©ë ¥ +30
 }
 
 void Archer::Attack() {
-    std::cout << "±Ã¼ö°¡ È° ½ÃÀ§¸¦ ´ç±é´Ï´Ù." << std::endl;
+    std::cout << "ê¶ìˆ˜ê°€ í™œ ì‹œìœ„ë¥¼ ë‹¹ê¹ë‹ˆë‹¤." << std::endl;
 };

@@ -1,7 +1,7 @@
-#include "character/M_Goblin.h"
+ï»¿#include "character/M_Goblin.h"
 
-Goblin::Goblin(int PlayerLevel) : Monster("°íºí¸°", PlayerLevel) {}
+Goblin::Goblin(int PlayerLevel) : Monster("ê³ ë¸”ë¦°", PlayerLevel) {}
 
 void Goblin::Attack() {
-	std::cout << "°íºí¸°ÀÌ ºñ¿­ÇÏ°Ô ¿ô½À´Ï´Ù." << std::endl;
+	std::cout << "ê³ ë¸”ë¦°ì´ ë¹„ì—´í•˜ê²Œ ì›ƒìŠµë‹ˆë‹¤." << std::endl;
 }
