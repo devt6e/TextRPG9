@@ -5,8 +5,8 @@
 #include "core/DungeonManager.h"
 #include "core/BattleManager.h"
 #include "core/UIManager.h"
-#include "item/Inventory.h"
-#include "item/Item.h"
+//#include "item/Inventory.h"
+//#include "item/Item.h"
 #include "character/Player.h"
 
 
@@ -18,7 +18,10 @@ private:
 	UI um;
 	Player* player = nullptr;
 	//Crafting cm;
-	//°ÔÀÓ »óÅÂ¸¦ °ü¸®. Ãß°¡ ¿¹Á¤(status?,crafting?,quiz?)
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½(status?,crafting?,quiz?)
+	Player* player = nullptr;//ï¿½Ó½ï¿½
+	DungeonManager dm;
+
 	enum class GameState {
 		MainMenu,
 		Dungeon,
@@ -29,14 +32,14 @@ private:
 	};
 	GameState currentState;
 
-	//void HandleMainMenu();	//¸ÞÀÎ ¸Þ´º Ãâ·Â
-	void HandleDungeon();	//´øÀü ÀÔÀå ·ÎÁ÷
-	void HandleCrafting();	//Á¦ÀÛ¼Ò
-	void HandleStatus();	//½ºÅÈ °ü¸® ¸Þ´º
+	//void HandleMainMenu();	//ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½
+	void HandleDungeon();	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	void HandleCrafting();	//ï¿½ï¿½ï¿½Û¼ï¿½
+	void HandleStatus();	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½
 	void CreateCharacter();
 
 public:
 	GameManager() : currentState(GameState::MainMenu) {}
 
-	void Run();	//¸ÞÀÎ °ÔÀÓ ·çÇÁ
+	void Run();	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 };

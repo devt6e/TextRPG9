@@ -1,6 +1,6 @@
 #include "core/GamaManager.h"
 
-//ÃßÈÄ ÇÊ¿ä ½Ã ±¸Çö ¿¹Á¤
+//ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //void GameManager::HandleMainMenu()
 //{
 //
@@ -33,33 +33,35 @@ void GameManager::Run()
 
 	while (currentState != GameState::Exit)
 	{
-		um.PrintMenu({"´øÀüÀÔÀå","ÀÎº¥Åä¸®","Á¦ÀÛ¼Ò","Á¾·á"});
-		std::string selection = um.InputSelection("¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä: ");
+		um.PrintMenu({"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½","ï¿½Îºï¿½ï¿½ä¸®","ï¿½ï¿½ï¿½Û¼ï¿½","ï¿½ï¿½ï¿½ï¿½"});
+		std::string selection = um.InputSelection("ï¿½ï¿½È£ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½: ");
 		switch (stoi(selection))
 		{
 		case 1:
-			std::cout << "´øÀü ·çÆ¾ ½ÇÇà" << std::endl;
-			currentState = GameState::Dungeon;
-			//bm.StartBattle();
-			HandleDungeon();
+/*			std::cout << "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½" << std::endl;
+			currentState = GameState::Dungeon;*/
+			//ï¿½ï¿½ï¿½ï¿½
+			std::cout << "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½" << std::endl;
+			dm.StartDungeon(*player, um);
+			currentState = GameState::MainMenu;
 			system("pause");
 			break;
 		case 2:
-			std::cout << "ÀÎº¥Åä¸® È®ÀÎ" << std::endl;
+			std::cout << "ï¿½Îºï¿½ï¿½ä¸® È®ï¿½ï¿½" << std::endl;
 			currentState = GameState::Inventory;
 			system("pause");
 			break;
 		case 3:
-			std::cout << "Á¦ÀÛ¼Ò ·çÆ¾ ½ÇÇà" << std::endl;
+			std::cout << "ï¿½ï¿½ï¿½Û¼ï¿½ ï¿½ï¿½Æ¾ ï¿½ï¿½ï¿½ï¿½" << std::endl;
 			currentState = GameState::Crafting;
 			system("pause");
 			break;
 		case 0:
-			std::cout << "°ÔÀÓ Á¾·á!" << std::endl;
+			std::cout << "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!" << std::endl;
 			system("pause");
 			return;
 		default:
-			std::cout << "ÀÔ·Â Àß¸øµÊ!" << std::endl;
+			std::cout << "ï¿½Ô·ï¿½ ï¿½ß¸ï¿½ï¿½ï¿½!" << std::endl;
 			system("pause");
 			break;
 		}
