@@ -112,7 +112,8 @@ public:
             cout << "\n=== [ 마을 상점 ] (보유 골드: " << player->GetGold() << "G) ===\n";
             cout << "1. 아이템 구매\n";
             cout << "2. 아이템 판매\n";
-            cout << "3. 상점 나가기\n";
+            cout << "3. 인벤토리 확인\n";
+            cout << "4. 상점 나가기\n";
             cout << "선택: ";
 
             int choice;
@@ -125,6 +126,10 @@ public:
                 SellItem(player, inventoryManager);
             }
             else if (choice == 3) {
+                cout << "\n[ 내 가방 확인 ]\n";
+                inventoryManager.PrintAllSummary();
+            }
+            else if (choice == 4) {
                 break;
             }
             else {
