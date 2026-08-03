@@ -20,6 +20,7 @@ public:
 	ShopManager() {
         shopItems_.push_back(HpPotion());
         shopItems_.push_back(TempABPotion());
+        shopItems_.push_back(MpPotion());
 	}
 
     void PrintShopItems() {
