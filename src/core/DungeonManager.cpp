@@ -446,6 +446,30 @@ void DungeonManager::StartDungeon(Player& player, UI& ui)
 	std::cout << "보스방에 도착했습니다.\n";
 }
 
+RoomType DungeonManager::DecideRoomType()
+{
+	std::random_device rd;
+	std::mt19937 gen(rd());
+
+	std::uniform_int_distribution<int> ranNPC(0, 99);
+	int npcAppeare = ranNPC(gen);
+
+	if(playerLoc[0]== bossLoc[0]&& playerLoc[1] == bossLoc[1])
+	{
+		return RoomType::Boss;
+	}
+	else if (hasNpcAppeared == false && npcAppeare < 20)
+	{
+		hasNpcAppeared = true;
+		return RoomType::NPC;
+	}
+	else
+	{
+		return RoomType::Monster;
+	}
+	
+}
+
 bool DungeonManager::CanMoveTo(int destination) const    // 목적지로 이동 가능?
 {
 	int nextX = playerLoc[0];
