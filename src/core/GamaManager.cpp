@@ -6,14 +6,64 @@
 //
 //}
 
-void GameManager::CreateCharacter()
-{
+/*
+* 
+//선언
+void PrintMessage(const std::string&);
 
+//정의
+void UI::PrintMessage(const std::string& str) { std::cout << str; }
+
+*/
+
+void CreateCharacter(GameManager* gm, UI& um, Player*& p)
+{
+	//보류 //UIManager::PrintMessage(const std::string& str) 
+	//보류 //um.PrintMessage("이름을 입력하세요: ");
+
+	//string UIManager::InputString(const std::string& str) 필요
+	std::string name = "";
+	name = um.InputSelection("이름을 입력하세요: ");
+	//um.PrintMessage("직업을 선택하세요: ");
+	um.PrintMenu({"전사", "마법사", "궁수", "도적", "종료"});
+	//p->SetJob(um.InputSelection());
+	std::string selection = um.InputSelection("직업을 선택하세요: ");
+	switch (stoi(selection))
+	{
+	case 1:
+		p = new Warrior(name);
+		p->SetJob("전사"); //todo: 직업 명칭 변경 시 수정 예정
+		break;
+	case 2:
+		p = new Magician(name);
+		p->SetJob("마법사");
+		break;
+	case 3:
+		p = new Archer(name);
+		p->SetJob("궁수");
+		break;
+	case 4:
+		p = new Thief(name);
+		p->SetJob("도적");
+		break;
+	case 5:
+		gm->SetCurrentState(GameManager::GameState::Exit);
+		//um.PrintMessage("게임을 종료합니다!\n");
+		break;
+	default:
+		//um.PrintMessage("잘못된 입력입니다. 다시 입력하세요\n");
+		break;
+	}
+	//디버깅 로그 
+	//std::cout << p->GetName() << std::endl;
+	//std::cout << p->GetJob() << std::endl; 
+	//system("pause");
 }
 
 void GameManager::HandleDungeon()
 {
 	//dm.StartDungeon();
+	dm.StartDungeon(*player, um);
 }
 
 void GameManager::HandleCrafting()
@@ -26,10 +76,24 @@ void GameManager::HandleStatus()
 
 }
 
+void GameManager::HandleInventory()
+{
+	um.PrintMenu({ "인벤토리 확인", });
+}
+
 void GameManager::Run()
 {
 	system("mode con:cols=150 lines=40 | title LOSTZEP");
+<<<<<<< HEAD
 	um.PrintMain();
+=======
+	//um.MainTitle();	//todo: 새로운 출력 함수로 변경예정
+	um.PrintMain();
+	um.PrintTitle();
+
+	CreateCharacter(this, um, player);
+	//UI::PrintStory();
+>>>>>>> main
 
 	while (currentState != GameState::Exit)
 	{
@@ -60,7 +124,7 @@ void GameManager::Run()
 			break;
 
 		case 0:
-			std::cout << "게임 종료!" << std::endl;
+			std::cout << "게임을 종료합니다!" << std::endl;
 			system("pause");
 			return;
 		default:

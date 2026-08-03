@@ -1,13 +1,13 @@
-#include "character/P_Magician.h"
+ï»¿#include "character/P_Magician.h"
 #include <iostream>
 
 Magician::Magician(std::string Name) : Player(Name) {
-    Job = "¸¶¹ı»ç";
-    SetMaxMp(GetMaxMp() + 30); // ÃÖ´ë ¸¶³ª »ó½Â
-    SetMp(GetMaxMp());         // ÇöÀç ¸¶³ª ¸ÂÃçÁÖ±â
+    Job = "ë§ˆë²•ì‚¬";
+    SetMaxMp(GetMaxMp() + 30); // ìµœëŒ€ ë§ˆë‚˜ ìƒìŠ¹
+    SetMp(GetMaxMp());         // í˜„ì¬ ë§ˆë‚˜ ë§ì¶°ì£¼ê¸°
 }
 
 void Magician::Attack() {
-    std::cout << "¸¶¹ı»ç°¡ ÁÖ¹®À» ½ÃÀüÇÕ´Ï´Ù." << std::endl;
+    std::cout << "ë§ˆë²•ì‚¬ê°€ ì£¼ë¬¸ì„ ì‹œì „í•©ë‹ˆë‹¤." << std::endl;
 };
 
