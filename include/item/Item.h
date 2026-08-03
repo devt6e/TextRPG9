@@ -2,11 +2,10 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
-
+#include <random>
 
 using namespace std;
 
-//ÀÓ½Ã ÇÃ·¹ÀÌ¾î 
 struct Player {
 	int Hp{ 50 };
 	int MaxHp{ 200 };
@@ -15,7 +14,7 @@ struct Player {
 
 	void setHp(int newHp) { Hp = newHp; }
 	void setMaxHp(int MH) { MaxHp = MH; }
-	void setPower(int p) { Power = Power; }
+	void setPower(int p) { Power = p; }
 
 	int getHp() const { return Hp; }
 	int getMaxHp() const { return MaxHp; }
@@ -27,39 +26,35 @@ struct Player {
 	void ResetBuff() { TempAttackBuff = 0; }
 };
 
-
 class Item {
-
 public:
 	string Name, ItemDescription, ItemDropLocation;
-	int Price, ItemCount, ItemMaxStack;
+	int Price = 0, ItemCount = 1, ItemMaxStack = 99, HealAmount = 0, BuffAmount = 0;
 
-	Item(string Name, int Price, int ItemCount);
+	Item(string Name, int Price, int ItemCount, int HealAmount, int BuffAmount);
 
 	virtual ~Item() {}
-	virtual bool UseItem(Player* player) { return false; }
-	virtual void ResetBuff(Player* player) {}
+	virtual bool UseItem(Player* player);
+	virtual void ResetBuff(Player* player);
 
 	void PrintInfo() const;
 };
 
 class HpPotion : public Item {
-protected:
-	int PotionHeal = 50;
-
 public:
-
-	HpPotion() : Item("HP Potion", 50, 1) {}
-
+	HpPotion();
 	bool UseItem(Player* player) override;
 };
 
-class  TempABPotion : public Item {
-protected:
-	int T_AttackBuff = 10;
-
+class TempABPotion : public Item {
 public:
-	TempABPotion() : Item("TempAttackBuff Potion", 100, 1) {}
+	TempABPotion();
 	bool UseItem(Player* player) override;
 	void ResetBuff(Player* player) override;
 };
+
+class InventoryManager;
+
+bool UseConsumableItem(Player* player, InventoryManager& invManager, size_t index);
+bool UseRandomConsumableItem(Player* player, InventoryManager& invManager);
+bool SelectAndUseConsumableItem(Player* player, InventoryManager& invManager);

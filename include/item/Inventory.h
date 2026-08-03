@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
-#include "../../include/item/Item.h"
+#include "item/Item.h"
 
 //string Name;				// 아이템 이름
 //string ItemDescription;		// 아이템 설명
@@ -31,6 +31,7 @@ private:
     int capacity_;    // ���� �κ��丮 �ִ� ĭ ��
 
 public:
+
     vector<T>& GetAllItems() {
         return items_;
     }
@@ -97,6 +98,37 @@ public:
         cout << "==============================================\n";
     }
 
+    bool ConsumeItem(int index) {
+        int realIndex = index - 1;
+
+        if (realIndex < 0 || realIndex >= items_.size()) {
+            cout << "[오류] 사용할 수 없는 슬롯입니다.\n";
+            return false;
+        }
+
+        items_[realIndex].ItemCount--;
+        cout << "-> " << items_[realIndex].Name << "을(를) 사용했습니다! (남은 갯수: " << items_[realIndex].ItemCount << ")\n";
+
+        if (items_[realIndex].ItemCount <= 0) {
+            cout << "[System] " << items_[realIndex].Name << "을(를) 모두 소모하여 인벤토리에서 비웁니다.\n";
+            items_.erase(items_.begin() + realIndex);
+        }
+
+        return true;
+    }
+
+    bool HasEnoughItem(string targetName, int requiredCount) {
+        auto it = find_if(items_.begin(), items_.end(), [&](const T& item) {
+            return item.Name == targetName;
+            });
+
+        if (it == items_.end() || it->ItemCount < requiredCount) {
+            return false;
+        }
+
+        return true;
+    }
+
     T* GetItem(int index) {
         int RealIndex = index - 1;
         if (RealIndex < 0 || RealIndex >= items_.size()) {
@@ -134,6 +166,10 @@ private:
     Inventory<Item> materialBag_;
 
 public:
+
+    Inventory<Item>& GetConsumableBag() { return consumableBag_; }
+    Inventory<Item>& GetMaterialBag() { return materialBag_; }
+
     void AddConsumable(Item item) {
         cout << "[소비 가방] ";
         consumableBag_.AddItem(item);
@@ -142,5 +178,15 @@ public:
     void AddMaterial(Item item) {
         cout << "[재료 가방] ";
         materialBag_.AddItem(item);
+    }
+
+    void PrintAllSummary() {
+        cout << "\n======== [ 전체 인벤토리 ] ========";
+        cout << "\n\n▶ [ 소비 아이템 ]";
+        consumableBag_.PrintSummary();
+
+        cout << "\n▶ [ 재료 아이템 ]";
+        materialBag_.PrintSummary();
+        cout << "===================================\n";
     }
 };
