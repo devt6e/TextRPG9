@@ -5,6 +5,8 @@
 #include <vector>
 #include "core/UIManager.h"
 #include "core/DungeonManager.h"
+#include"character/Player.h"
+//╔ ╗ ╚ ╝ ╠ ╣ ╦ ╩ ╬ ═ ║
 
 void UI::DisplayDungeonMap(const DungeonManager& dungeon)
 {
@@ -93,36 +95,8 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
     std::cout << "[.] 탐색 완료  [?] 미확인 방\n";
     std::cout << std::string(mapWidth, '=') << '\n';
 }
-void UI::MainTitle()
-{
-    system("cls");
-    std::cout << "   ::                                                                                                                                         " << std::endl;
-    std::cout << "    -.                                                                                                                                        " << std::endl;
-    std::cout << "    -.                                         .-       ..                      ..                                      .     .               " << std::endl;
-    std::cout << "    -.                  :.=:.  ..+..        .:-::.:-     ...=---=:     ..==:--=..-    ---.:....:--..-         :..::::::.+.      .. -.. ...    " << std::endl;
-    std::cout << "    +.                 ..:        -..      .:             -.      :.  ::       :-     =         ..:           ....              .. .     .:.. " << std::endl;
-    std::cout << "    #=-              -..:          +. .   -..              :      ..  ..       :              .. =             . .              .: :      ...." << std::endl;
-    std::cout << "    #*=              +**.          +=-.    +=                     ..  ::                    ...:*              -:.     .        ....     .=+. " << std::endl;
-    std::cout << "    #+-.             #++.          =**=      ` =-:::.             -   :.                   =***               .**: ... -=       .*+:.*+**.    " << std::endl;
-    std::cout << "    %+-              -++:          ===:          :-==:            :-. =-                 :+=+:                .++-              :+=:          " << std::endl;
-    std::cout << "    %=:               +=.          ::-             ---            :=. +=               :-==-           .      .--:              :=-:          " << std::endl;
-    std::cout << "   .*:..              .#:..       ::*             .-:-            :-. =              .:===.         ..=       .:::       .-     .::-          " << std::endl;
-    std::cout << "  ::::............      .=*..  ..*-        .-*:...#::              :  =             ...:::::::::......:       ::-::----:::     :.:::.         " << std::endl;
-    std::cout << "                                                                   +  -                                                                       " << std::endl;
-    std::cout << "                                                                  =  =.                                                                       " << std::endl;
-    std::cout << "                                                                   =  :                                                                       " << std::endl;
-    std::cout << "                                                                   .  ;                                                                       " << std::endl;
-    std::cout << "                                                                      .                                                                       " << std::endl;
-    system("pause");
-    system("cls");
-}
-void UI::MiniTitle()
-{
-    system("cls");
-    std::cout << "========================================================" << std::endl;
-    std::cout << "                        Lost ZEP                        " << std::endl;
-    std::cout << "========================================================" << std::endl;
-}
+
+
 void UI::NBCTown()
 {
     std::cout << "================================================================= \n";
@@ -147,59 +121,113 @@ void UI::NBCTown()
     std::cout << "그에 반발하던 매니저님들, 튜터님들을 납치해 갔다!!" << std::endl << std::endl;
     system("pause");       
 }
-void UI::ZepBuilding()
+void UI::Gotoxy(int x, int y)
 {
-    system("cls");
-    std::cout << "======================================================== \n";
-    std::cout << "                        +---------------+                \n";
-    std::cout << "                        | [Z E P TOWER] |                \n";
-    std::cout << "                        |===============|                \n";
-    std::cout << "                        | [#]  [#]  [#] |                \n";
-    std::cout << "                        |---------------|                \n";
-    std::cout << "                        | [#]  [#]  [#] |                \n";
-    std::cout << "                        |---------------|                \n";
-    std::cout << "                        | [#]  [#]  [#] |                \n";
-    std::cout << "                        |---------------|                \n";
-    std::cout << "                        | [#]  [#]  [#] |                \n";
-    std::cout << "                        |---------------|                \n";
-    std::cout << "                        | [#]  [#]  [#] |                \n";
-    std::cout << "                        |---------------|                \n";
-    std::cout << "               o        |   _  ____  _  |                \n";
-    std::cout << "              /|\\       |  | | |  | | | |               \n";
-    std::cout << "              / \\       |==|_|=|==|_|=|=|               \n";
-    std::cout << "======================================================== \n";
-    std::cout << "당신은 납치된 사람들과 포인트를 되찾기 위해 ZEP 빌딩을 오르기로 한다" << std::endl;
-    system("pause");
+    COORD pos = { (SHORT)x, (SHORT)y };
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
-
-void UI::PrintMenu(std::vector<std::string> Pvector)
+void UI::PrintStatus(Player*& p)
 {
-    std::cout << std::endl << "====================" << std::endl;
-    for (int i = 0; i < Pvector.size(); ++i)
+    Gotoxy(71, 22);
+    std::cout << "이름: " << p->GetName() << "  직업: " << p->GetJob() << "  Lv: " << p->GetLevel();
+
+    Gotoxy(71, 23);
+    std::cout << "HP: " << p->GetHp() << "/" << p->GetMaxHp() << "  MP: " << p->GetMp() << "/" << p->GetMaxMp() << "  공격력: " << p->GetPower() << "  방어력: " << p->GetDefence();
+}
+void UI::PrintMenu(std::vector<std::string> menu)
+{
+    for (int i = 0; i < menu.size(); ++i)
     {
-        if (i == Pvector.size()-1)
+        Gotoxy(71, 27 + i);
+        if (i == menu.size() - 1)
         {
-            std::cout << "0)." << Pvector[i] << std::endl;
+            std::cout << "0)." << menu[i] << std::endl;
             break;
         }
-        std::cout<<i+1<<")." << Pvector[i] << std::endl;
+        std::cout << i + 1 << ")." << menu[i] << std::endl;
     }
 }
-
-void UI::PrintBattle(std::string MonsterName,bool IsWin)
+void UI::PrintBuilding()
 {
-    //몬스터 아스키아트
-    std::cout << "test -- 수정예정(경욱님)" << std::endl;
-    //std::cout << MonsterName << "(이)가 나타났다!" << std::endl;
-    system("pause");
-    //while (!IsWin)
-    //{
-    //    //몬스터 아스키아트
-    //    //PrintStatus();
-    //    //BattleSelection();
-    //}
+    Gotoxy(10, 2);  std::cout << "         +---------------+";
+    Gotoxy(10, 3);  std::cout << "         | [Z E P TOWER] |";
+    Gotoxy(10, 4);  std::cout << "         |===============|";
+    Gotoxy(10, 5);  std::cout << "         | [#]  [#]  [#] |";
+    Gotoxy(10, 6);  std::cout << "         |---------------|";
+    Gotoxy(10, 7);  std::cout << "         | [#]  [#]  [#] |";
+    Gotoxy(10, 8);  std::cout << "         |---------------|";
+    Gotoxy(10, 9);  std::cout << "         | [#]  [#]  [#] |";
+    Gotoxy(10, 10);  std::cout << "         |---------------|";
+    Gotoxy(10, 11);  std::cout << "         | [#]  [#]  [#] |";
+    Gotoxy(10, 12); std::cout << "         |---------------|";
+    Gotoxy(10, 13); std::cout << "         | [#]  [#]  [#] |";
+    Gotoxy(10, 14); std::cout << "         |---------------|";
+    Gotoxy(10, 15); std::cout << "  o      |   _  ____  _  |";
+    Gotoxy(10, 16); std::cout << " /|\\     |  | | |  | | | |";
+    Gotoxy(10, 17); std::cout << " / \\     |==|_|=|==|_|=|=|";
+}
+void UI::PrintMain()
+{
+    system("mode con:cols=150 lines=40 | title LOSTZEP");
+    Gotoxy(0, 0);
+    std::cout << R"(
+╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+╠═════════════════════════════════════════════════════════════════════╦═════════════════════════════════════════════════════════════════════════════╣
+║                                                                     ║                                                                             ║
+║                                                                     ║                                                                             ║
+║                                                                     ║                                                                             ║
+║                                                                     ║                                                                             ║
+║                                                                     ╠═════════════════════════════════════════════════════════════════════════════╣
+║                                                                     ║                                                                             ║
+║                                                                     ║                                                                             ║
+║                                                                     ║                                                                             ║
+║                                                                     ║                                                                             ║
+║                                                                     ║                                                                             ║
+║                                                                     ║                                                                             ║
+╚═════════════════════════════════════════════════════════════════════╩═════════════════════════════════════════════════════════════════════════════╝                                                                                                                                                                               
+ )";
+}
+void UI::PrintTitle()
+{
+    int y = 3;
+
+    Gotoxy(2, y++); std::cout << "   ::                                                                                                                                         ";
+    Gotoxy(2, y++); std::cout << "    -.                                                                                                                                        ";
+    Gotoxy(2, y++); std::cout << "    -.                                         .-       ..                      ..                                      .     .               ";
+    Gotoxy(2, y++); std::cout << "    -.                  :.=:.  ..+..        .:-::.:-     ...=---=:     ..==:--=..-    ---.:....:--..-         :..::::::.+.      .. -.. ...    ";
+    Gotoxy(2, y++); std::cout << "    +.                 ..:        -..      .:             -.      :.  ::       :-     =         ..:           ....              .. .     .:.. ";
+    Gotoxy(2, y++); std::cout << "    #=-              -..:          +. .   -..              :      ..  ..       :              .. =             . .              .: :      ....";
+    Gotoxy(2, y++); std::cout << "    #*=              +**.          +=-.    +=                     ..  ::                    ...:*              -:.     .        ....     .=+. ";
+    Gotoxy(2, y++); std::cout << "    #+-.             #++.          =**=      ` =-:::.             -   :.                    =***               .**: ... -=       .*+:.*+**.    ";
+    Gotoxy(2, y++); std::cout << "    %+-              -++:          ===:          :-==:            :-. =-                 :+=+:                .++-              :+=:          ";
+    Gotoxy(2, y++); std::cout << "    %=:               +=.          ::-            ---            :=. +=               :-==-           .      .--:              :=-:          ";
+    Gotoxy(2, y++); std::cout << "   .*:..              .#:..       ::*             .-:-            :-. =              .:===.         ..=       .:::       .-     .::-          ";
+    Gotoxy(2, y++); std::cout << "  ::::............      .=*..  ..*-        .-*:...#::              :  =             ...:::::::::......:       ::-::----:::     :.:::.         ";
+    Gotoxy(2, y++); std::cout << "                                                                   +  -                                                                       ";
+    Gotoxy(2, y++); std::cout << "                                                                  =  =.                                                                       ";
+    Gotoxy(2, y++); std::cout << "                                                                   =  :                                                                       ";
 
 }
+
 std::string UI::InputSelection(std::string text)
 {
     std::string s;
@@ -210,7 +238,7 @@ std::string UI::InputSelection(std::string text)
 }
 void UI::NPC_M()
 {
-    MiniTitle();
+   
     std::cout << "                  ---          " << std::endl;
     std::cout << "                /     \\        " << std::endl;
     std::cout << "                ((o_o))        " << std::endl;
@@ -227,7 +255,7 @@ void UI::NPC_M()
 }
 void UI::NPC_K()
 {
-    MiniTitle();
+    
     std::cout << R"(
                     /\
                    /  \          
