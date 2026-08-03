@@ -13,17 +13,26 @@
 
 #include <iostream>
 #include <limits>
-#include "Item.h"
-#include "Inventory.h"
-#include "player.h"
+#include "item/Item.h"
+#include "item/Inventory.h"
+#include "character/Player.h"
 
 using namespace std;
 
+
+//순수가상함수(Player 클래스) 객체 생성 불가하므로 임시 자식 클래스(Test Player) 생성
+class TestPlayer : public Player {
+public:
+	TestPlayer(const string& name = "테스터") : Player(name) {}
+	void Attack() override {}
+};
+
 void PrintStatus(const Player& player, InventoryManager& invManager) {
 	cout << "\n----------------------------------------" << endl;
-	cout << "[플레이어] HP: " << player.GetHp() << " / " << player.GetMaxHp()
-		<< " | 공격력: " << player.GetPower()
-		<< " | 기본 마나: " << player.GetMp()
+	cout << "[플레이어: " << player.GetName() << "]"
+		<< " | HP: " << player.GetHp() << " / " << player.GetMaxHp()
+		<< " | MP: " << player.GetMp() << " / " << player.GetMaxMp()
+		<< " | 기본 공격력: " << player.GetPower()
 		<< " | 버프: +" << player.GetTempAttackBuff()
 		<< " | 최종 공격력: " << player.GetTotalPower() << endl;
 	cout << "----------------------------------------" << endl;
@@ -33,12 +42,9 @@ void PrintStatus(const Player& player, InventoryManager& invManager) {
 }
 
 int main() {
-	Player player;
-	InventoryManager invManager;
+	TestPlayer player("테스트플레이어");
 
-	player.SetHp(50);
-	player.SetPower(50);
-	player.SetMp(50);
+	InventoryManager invManager;
 
 	HpPotion hpPotion;
 	hpPotion.ItemCount = 2;
@@ -64,11 +70,10 @@ int main() {
 		cout << "1. 아이템 직접 선택" << endl;
 		cout << "2. 랜덤 사용" << endl;
 		cout << "3. 현재 스탯" << endl;
-		cout << "3. 전투 종료 / 공격력 버프 해제" << endl;
+		cout << "4. 전투 종료 / 공격력 버프 해제" << endl; 
 		cout << "0. 프로그램 종료" << endl;
 		cout << "==========================================" << endl;
 		cout << "메뉴 입력 >> ";
-		cout << endl << endl;
 
 		int menuChoice{ 0 };
 		if (!(cin >> menuChoice)) {
@@ -103,7 +108,6 @@ int main() {
 			player.ResetBuff();
 			break;
 
-
 		case 0:
 			cout << endl << endl;
 			cout << "게임종료" << endl;
@@ -119,6 +123,4 @@ int main() {
 
 	return 0;
 }
-
-
 */
