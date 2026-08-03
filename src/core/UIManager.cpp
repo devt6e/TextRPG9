@@ -11,15 +11,21 @@
 void UI::DisplayDungeonMap(const DungeonManager& dungeon)
 {
     system("cls");
-
+    UI::PrintMain();
     int mapSize = dungeon.GetMapSize();
     int mapWidth = mapSize * 6 - 3;
-
-    std::cout << std::string(mapWidth, '=') << '\n';
-    std::cout << "ZEP TOWER - 1F\n";
-    std::cout << std::string(mapWidth, '=') << '\n';
+    int startX = 2;  // X축 시작 위치 (필요에 따라 조절)
+    int startY = 2;  // Y축 시작 위치 (필요에 따라 조절)
+    int currentY = startY;
+    Gotoxy(startX, currentY++);
+    std::cout << std::string(mapWidth, '=');
+    Gotoxy(startX, currentY++);
+    std::cout << "ZEP TOWER - 1F";
+    Gotoxy(startX, currentY++);
+    std::cout << std::string(mapWidth, '=');
     for (int y = 0; y < mapSize; y++)
     {
+        Gotoxy(startX, currentY++);
         for (int x = 0; x < mapSize; x++)
         {
             std::string symbol = "   ";
@@ -40,7 +46,7 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
             {
                 symbol = "[?]";
             }
-
+            
             std::cout << symbol;
             if (x < mapSize - 1)
             {
@@ -60,10 +66,11 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
                 }
             }
         }
-
+        
         std::cout << '\n';
         if (y < mapSize - 1)
         {
+            Gotoxy(startX, currentY++);
             for (int x = 0; x < mapSize; x++)
             {
                 bool connected =
@@ -86,14 +93,18 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
                     std::cout << "   ";
                 }
             }
-
             std::cout << '\n';
         }
     }
+    Gotoxy(startX, currentY++);
+    std::cout << std::string(mapWidth, '=');
+    Gotoxy(startX, currentY++);
+    std::cout << "[P] 현재 위치  [B] 보스";
+    Gotoxy(startX, currentY++);
+    std::cout << "[.] 탐색 완료  [?] 미확인 방";
+    Gotoxy(startX, currentY++);
     std::cout << std::string(mapWidth, '=') << '\n';
-    std::cout << "[P] 현재 위치  [B] 보스\n";
-    std::cout << "[.] 탐색 완료  [?] 미확인 방\n";
-    std::cout << std::string(mapWidth, '=') << '\n';
+    Gotoxy(startX, currentY++);
 }
 void UI::Gotoxy(int x, int y)
 {
@@ -103,10 +114,11 @@ void UI::Gotoxy(int x, int y)
 void UI::PrintStatus(Player* p)
 {
     Gotoxy(81, 22);
-    std::cout << "이름: " << p->GetName() << "  직업: " << p->GetJob() << "  Lv: " << p->GetLevel();
+    std::cout << u8"이름: " << p->GetName() << u8"  직업: " << p->GetJob() << "  Lv: " << p->GetLevel();
 
     Gotoxy(81, 23);
-    std::cout << "HP: " << p->GetHp() << "/" << p->GetMaxHp() << "  MP: " << p->GetMp() << "/" << p->GetMaxMp() << "  공격력: " << p->GetPower() << "  방어력: " << p->GetDefence();
+    std::cout << "HP: " << p->GetHp() << "/" << p->GetMaxHp() << "  MP: " << p->GetMp() << "/" << p->GetMaxMp() << u8"  공격력: " << p->GetPower() << u8"  방어력: " << p->GetDefence() << std::endl;
+    Gotoxy(1, 24);
 }
 void UI::PrintMenu(std::vector<std::string> menu)
 {

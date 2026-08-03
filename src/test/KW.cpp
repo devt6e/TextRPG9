@@ -14,15 +14,20 @@
 #include "core/UIManager.h"
 #include"character/Player.h"
 #include"character/P_Warrior.h"
+#include "core/DungeonManager.h"
 
 int main()
 {
 	Player* p = new Warrior("test");
+	DungeonManager dungeon;
 	SetConsoleOutputCP(CP_UTF8);
+	SetConsoleCP(CP_UTF8);
 	system("mode con:cols=150 lines=40 | title LOSTZEP");
 	UI ui;
 	ui.PrintIntro();
-	ui.PrintStatus(Player * p);
+	ui.PrintStatus(p);
+	system("pause");
+	ui.DisplayDungeonMap(dungeon);
 	system("pause");
 	return 0;
 
