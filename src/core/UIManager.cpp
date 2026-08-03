@@ -288,6 +288,26 @@ void UI::PrintStatus(std::string name,std::string job, int level,int hp,int maxh
     std::cout << "HP: " << hp << "/" << maxhp << " | MP: " << mp << "/" << maxmp << " | 공격력: " << power << " | 방어력: " << defense;
     std::cout << std::endl << "================================================" << std::endl;
 }
+int UI::BattleSelection(std::string text)
+{
+    int choice;
+    std::cout << text << std::endl;
+    std::cin >> choice;
+    return choice;
+}
+void UI::PrintBattle(std::string MonsterName,bool IsWin)
+{
+    //몬스터 아스키아트
+    std::cout << MonsterName << "(이)가 나타났다!" << std::endl;
+    system("pause");
+    while (!IsWin)
+    {
+        //몬스터 아스키아트
+        UI::PrintStatus();
+        UI::BattleSelection();
+    }
+
+}
 std::string UI::InputSelection(std::string text)
 {
     std::string s;
