@@ -1,9 +1,10 @@
 #include "../include/core/GamaManager.h"
 
-void GameManager::HandleMainMenu()
-{
-
-}
+//추후 필요 시 구현 예정
+//void GameManager::HandleMainMenu()
+//{
+//
+//}
 
 void GameManager::HandleBattle()
 {
@@ -22,26 +23,28 @@ void GameManager::HandleStatus()
 
 void GameManager::Run()
 {
+	system("mode con:cols=150 lines=40 | title LOSTZEP");
 	um.MainTitle();
 	while (currentState != GameState::Exit)
 	{
-		um.PrintMenu({"던전 입장","스탯관리","제작소","종료"});
-		//system("pause");
+		um.PrintMenu({"던전입장","인벤토리","제작소","종료"});
 		std::string selection = um.InputSelection("번호를 입력하세요: ");
 		switch (stoi(selection))
 		{
 		case 1:
 			std::cout << "던전 루틴 실행" << std::endl;
 			currentState = GameState::Dungeon;
+			//bm.StartBattle();
 			system("pause");
 			break;
 		case 2:
-			std::cout << "스탯관리 루틴 실행" << std::endl;
-			currentState = GameState::Dungeon;
+			std::cout << "인벤토리 확인" << std::endl;
+			currentState = GameState::Inventory;
 			system("pause");
 			break;
 		case 3:
 			std::cout << "제작소 루틴 실행" << std::endl;
+			currentState = GameState::Crafting;
 			system("pause");
 			break;
 		case 0:
@@ -53,5 +56,6 @@ void GameManager::Run()
 			system("pause");
 			break;
 		}
+		currentState = GameState::MainMenu;
 	}
 }

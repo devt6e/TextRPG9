@@ -20,6 +20,8 @@ private:
 		MainMenu,
 		Dungeon,
 		Battle,
+		Inventory,
+		Crafting,
 		Exit
 	};
 	GameState currentState;
