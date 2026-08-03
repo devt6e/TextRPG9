@@ -17,7 +17,7 @@ void Item::PrintInfo() const {
 bool HpPotion::UseItem(Player* player) {
 
 	if (ItemCount <= 0) {
-		cout << Name << "ÀÇ ¼ö·®ÀÌ ºÎÁ·ÇÔ" << endl;
+		cout << Name << "ì˜ ìˆ˜ëŸ‰ì´ ë¶€ì¡±í•¨" << endl;
 		return false;
 	}
 
@@ -25,8 +25,8 @@ bool HpPotion::UseItem(Player* player) {
 
 	player->setHp(min(player->getHp() + PotionHeal, player->getMaxHp()));
 
-	cout << "* " << Name << " »ç¿ë! HP È¸º¹: " << player->getHp()
-		<< " (³²Àº ¼ö·®: " << ItemCount << "°³)" << endl;
+	cout << "* " << Name << " ì‚¬ìš©! HP íšŒë³µ: " << player->getHp()
+		<< " (ë‚¨ì€ ìˆ˜ëŸ‰: " << ItemCount << "ê°œ)" << endl;
 
 	return true;
 }
@@ -34,7 +34,7 @@ bool HpPotion::UseItem(Player* player) {
 bool TempABPotion::UseItem(Player* player) {
 
 	if (ItemCount <= 0) {
-		cout << Name << "ÀÇ ¼ö·®ÀÌ ºÎÁ·ÇÔ" << endl;
+		cout << Name << "ì˜ ìˆ˜ëŸ‰ì´ ë¶€ì¡±í•¨" << endl;
 		return false;
 	}
 
@@ -42,7 +42,7 @@ bool TempABPotion::UseItem(Player* player) {
 
 	player->TempAttackBuff += T_AttackBuff;
 
-	cout << "* " << Name << " »ç¿ë! °ø°Ý·Â + " << T_AttackBuff << endl << "ÇöÀç °ø°Ý·Â: " << player->getTotalPower() << " (³²Àº ¼ö·®: " << ItemCount << "°³)" << endl;
+	cout << "* " << Name << " ì‚¬ìš©! ê³µê²©ë ¥ + " << T_AttackBuff << endl << "í˜„ìž¬ ê³µê²©ë ¥: " << player->getTotalPower() << " (ë‚¨ì€ ìˆ˜ëŸ‰: " << ItemCount << "ê°œ)" << endl;
 
 	return true;
 }
@@ -51,6 +51,6 @@ void TempABPotion::ResetBuff(Player* player) {
 	if (player->getTempAttackBuff() > 0) {
 		player->TempAttackBuff = 0;
 
-		cout << "¹öÇÁ ÇØÁ¦" << endl;
+		cout << "ë²„í”„ í•´ì œ" << endl;
 	}
 }

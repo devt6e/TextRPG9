@@ -28,7 +28,7 @@ template <typename T>
 class Inventory {
 private:
     vector<T> items_;
-    int capacity_;    // 현재 인벤토리 최대 칸 수
+    int capacity_;    // ���� �κ��丮 �ִ� ĭ ��
 
 public:
     vector<T>& GetAllItems() {
@@ -40,8 +40,8 @@ public:
     }
 
     void ExpandCapacity() {
-        capacity_ += 5; // 한 번에 5칸씩 증가
-        cout << "[System] 인벤토리 가방이 확장되었습니다! (현재 최대 " << capacity_ << "칸)\n";
+        capacity_ += 5; // �� ���� 5ĭ�� ����
+        cout << "[System] �κ��丮 ������ Ȯ��Ǿ����ϴ�! (���� �ִ� " << capacity_ << "ĭ)\n";
     }
 
     void AddItem(T newItem) {
@@ -74,12 +74,12 @@ public:
 
     void SortByName() {
         sort(items_.begin(), items_.end(), CompareByName<T>);
-        cout << "[System] 아이템을 이름순으로 정렬했습니다.\n";
+        cout << "[System] �������� �̸������� �����߽��ϴ�.\n";
     }
 
     void SortByPrice() {
         sort(items_.begin(), items_.end(), CompareByPrice<T>);
-        cout << "[System] 아이템을 금액순으로 정렬했습니다.\n";
+        cout << "[System] �������� �ݾ׼����� �����߽��ϴ�.\n";
     }
 
     void PrintSummary() {
