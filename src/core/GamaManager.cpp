@@ -29,7 +29,7 @@ void GameManager::HandleStatus()
 void GameManager::Run()
 {
 	system("mode con:cols=150 lines=40 | title LOSTZEP");
-	um.MainTitle();
+	um.PrintMain();
 
 	while (currentState != GameState::Exit)
 	{

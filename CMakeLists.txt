@@ -13,3 +13,7 @@ add_executable(TextRPG9 ${SOURCES} ${HEADERS})
 
 # include 폴더를 헤더 검색 경로로 추가
 target_include_directories(TextRPG9 PRIVATE include)
+# MSVC 컴파일러 한글/유니코드(UTF-8) 인코딩 경고(C4566) 방지
+if (MSVC)
+    add_compile_options(/utf-8)
+endif()

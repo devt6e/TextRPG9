@@ -18,10 +18,12 @@ public:
     void PrintTitle(); //LOSTZEP 타이틀
     void PrintMain(); //UI 틀
     void PrintBuilding(); //초반 스토리 
-    void NBCTown(); //초반 스토리 
+    void PrintTown();//초반 스토리 
+    void PrintIntro();//초반 스토리
     void PrintStatus(Player*& p);//스탯창
     void PrintMenu(std::vector<std::string> menu);//메뉴 출력
     std::string InputSelection(std::string text);//입력
+    void PrintMessage(const std::string&);
 
     //NPC 아스키아트
     void NPC_M();
