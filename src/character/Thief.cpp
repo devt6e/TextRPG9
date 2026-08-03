@@ -1,4 +1,4 @@
-#include "chatacter/Thief.h"
+#include "character/Thief.h"
 #include <iostream>
 
 Thief::Thief(std::string Name) : Player(Name) {

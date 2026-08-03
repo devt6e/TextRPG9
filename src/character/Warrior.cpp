@@ -1,4 +1,4 @@
-#include "chatacter/Warrior.h"
+#include "character/Warrior.h"
 #include <iostream>
 
 Warrior :: Warrior(std::string Name) : Player(Name) {

@@ -1,4 +1,4 @@
-#include "chatacter/Magician.h"
+#include "character/Magician.h"
 #include <iostream>
 
 Magician::Magician(std::string Name) : Player(Name) {
