@@ -32,6 +32,7 @@ private:
     int checkpointLoc[2];
     bool visitedMap[MapSize][MapSize];
     bool hasNpcAppeared;//NPC 던전에 나옴?
+    bool clearedMap[MapSize][MapSize];//맵클리어함?
 
 public:
     DungeonManager();
@@ -43,6 +44,7 @@ public:
     bool IsPlayerAt(int x, int y) const;
     bool IsBossAt(int x, int y) const;
     bool IsRoomVisible(int x, int y) const;
+
 
 private:
     //던전 생성기

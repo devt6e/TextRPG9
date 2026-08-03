@@ -1,5 +1,7 @@
 #include "core/DungeonManager.h"
 #include "core/UIManager.h"
+#include "character/Player.h"
+#include "character/M_Slime.h"
 
 #include <iostream>
 #include <string>
@@ -17,28 +19,6 @@ std::uniform_int_distribution<int> dist(0, 4);
 int number = dist(gen);
 
 std::cout << number << '\n';*/
-//-----------------------게임매니저용 임시--------------------------------------
-/* cpp용
-			case 1:
-			std::cout << "던전 루틴 실행" << std::endl;
-			dm.StartDungeon(player, um);
-			currentState = GameState::MainMenu;
-			//currentState = GameState::Dungeon;
-			//system("pause");
-			break;
-}
-*/
-/* 헤더용
-
-private:
-	BattleManager bm;
-	DungeonManager dm;
-
-	UI um;
-	//Player player;
-	Player player;*/
-
-	//-----------------------게임매니저용 임시--------------------------------------
 
 
 DungeonManager::DungeonManager()
@@ -50,7 +30,8 @@ DungeonManager::DungeonManager()
 	hasCheckpoint(false),
 	checkpointLoc{},
 	visitedMap{},
-	hasNpcAppeared(false)
+	hasNpcAppeared(false),
+	clearedMap{}
 {
 	GenerateDungeonMap();
 }
@@ -215,8 +196,9 @@ void DungeonManager::GenerateDungeonMap()
 	// 좌표 모두 결정 맵에 표시
 	dungeonMap[playerLoc[0]][playerLoc[1]] = 1;
 	visitedMap[playerLoc[0]][playerLoc[1]] = true;
+	clearedMap[playerLoc[0]][playerLoc[1]] = true;
 	dungeonMap[bossLoc[0]][bossLoc[1]] = 2;
-
+	
 
 	// ===== 막다른 방 생성 시작 =====
 	int branchStartX = -1;
@@ -435,8 +417,12 @@ void DungeonManager::StartDungeon(Player& player, UI& ui)
 		if (CanMoveTo(direction))
 		{
 			MoveRoom(direction);
-			RoomType decideRoom = DecideRoomType();
-			HandleRoom(player, decideRoom);
+			if (clearedMap[playerLoc[0]][playerLoc[1]] == false)
+			{
+				RoomType decideRoom = DecideRoomType();
+				HandleRoom(player, decideRoom);
+			}
+
 		}
 		else
 		{
@@ -456,11 +442,15 @@ RoomType DungeonManager::DecideRoomType()
 	std::uniform_int_distribution<int> ranNPC(0, 99);
 	int npcAppeare = ranNPC(gen);
 
-	if(playerLoc[0]== bossLoc[0]&& playerLoc[1] == bossLoc[1])
+	int distanceToBoss =
+		std::abs(playerLoc[0] - bossLoc[0]) +
+		std::abs(playerLoc[1] - bossLoc[1]);
+
+	if (playerLoc[0] == bossLoc[0] && playerLoc[1] == bossLoc[1])
 	{
 		return RoomType::Boss;
 	}
-	else if (hasNpcAppeared == false && npcAppeare < 20)
+	else if (hasNpcAppeared == false && (npcAppeare < 20 || distanceToBoss==1))
 	{
 		hasNpcAppeared = true;
 		return RoomType::NPC;
@@ -469,7 +459,7 @@ RoomType DungeonManager::DecideRoomType()
 	{
 		return RoomType::Monster;
 	}
-	
+
 }
 
 bool DungeonManager::CanMoveTo(int destination) const    // 목적지로 이동 가능?
@@ -677,27 +667,53 @@ void DungeonManager::MoveRoom(int destination)    // 현재 위치 변경
 }*/
 void DungeonManager::HandleRoom(Player& player, RoomType roomType)    // 방에 들어갔을 때
 {
-	switch(roomType)
+	switch (roomType)
 	{
 	case(RoomType::Boss):
-		{
+	{
 		std::cout << "보스방 입장!!\n";
-			break;
-		}
-		case(RoomType::Monster):
-		{
-			std::cout << "몬스터 등장!!\n";
-			break;
-		}
-		case(RoomType::NPC):
-		{
-			std::cout << "NPC 등장!!\n";
-			break;
-		}
+		break;
+	}
+	case(RoomType::Monster):
+	{
+		std::cout << "몬스터 등장!!\n";
+		Slime slime(player.GetLevel());
+		BattleResult battleResult = battleManager.StartBattle(player, slime);
+		HandleBattleResult(battleResult);
+		break;
+	}
+	case(RoomType::NPC):
+	{
+		std::cout << "NPC 등장!!\n";
+		system("pause");
+		clearedMap[playerLoc[0]][playerLoc[1]] = true;
+		break;
+	}
 	}
 }
 void DungeonManager::HandleBattleResult(BattleResult result)    // 전투 결과
 {
+	switch (result)
+	{
+	case(BattleResult::Victory):
+	{
+		std::cout << "전투에서 승리했습니다.\n";
+		clearedMap[playerLoc[0]][playerLoc[1]] = true;
+	}
+	break;
+	case(BattleResult::Defeat):
+	{
+		std::cout << "전투에서 패배했습니다.\n";
 
+	}
+	break;
+	case(BattleResult::Escaped):
+	{
+		std::cout << "전투에서 도망쳤습니다.\n";
+
+	}
+	break;
+
+	}
 }
 

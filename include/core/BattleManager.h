@@ -22,7 +22,7 @@ public:
 private://임시
     void PlayerAttack(Player& player, Monster& monster);//공격
     void MonsterAttack(Monster& monster, Player& player);//몬스터 공격
-    bool TryEscape(Player& player);//런 시도
+    bool TryEscape();//런 시도
     bool UseItem(Player& player);// 템사용
 };
 

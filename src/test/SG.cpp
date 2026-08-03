@@ -9,16 +9,21 @@
 // *테스트 내용은 남겨주세요!
 
 
-/*#include "core/BattleManager.h"
+/*#include "core/UIManager.h"
+#include "core/DungeonManager.h"
+#include "core/BattleManager.h"
 #include "character/P_Warrior.h"
 #include "character/M_Slime.h"
-
 
 
 int main()
 {
 	Warrior player("테스트 전사");
-	Slime slime(player.GetLevel());
+/*	Slime slime(player.GetLevel());
 	BattleManager battleManager;
-	battleManager.StartBattle(player, slime);
+	battleManager.StartBattle(player, slime);*/
+
+	DungeonManager dungeonManager;
+	UI ui;
+	dungeonManager.StartDungeon(player, ui);
 }*/
