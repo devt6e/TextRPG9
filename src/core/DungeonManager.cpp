@@ -5,7 +5,7 @@
 #include <string>
 #include <random>
 #include <cstdlib>
-
+//
 /*// 1. 랜덤 생성기 준비
 std::random_device rd;
 std::mt19937 gen(rd());
@@ -17,28 +17,28 @@ std::uniform_int_distribution<int> dist(0, 4);
 int number = dist(gen);
 
 std::cout << number << '\n';*/
-//-----------------------메인용 임시--------------------------------------
-/* 
-	#include <iostream>
-#include "../../include/core/DungeonManager.h"
-class Player
-{
-};
-int main()
-{
-
-	std::cout << "hello CPP" << std::endl;
-    Player player;
-    UI ui;
-    DungeonManager dungeonManager;
-
-    dungeonManager.StartDungeon(player, ui);
-    //임시로 던전 재입장
-    dungeonManager.StartDungeon(player, ui);
-
+//-----------------------게임매니저용 임시--------------------------------------
+/* cpp용
+			case 1:
+			std::cout << "던전 루틴 실행" << std::endl;
+			dm.StartDungeon(player, um);
+			currentState = GameState::MainMenu;
+			//currentState = GameState::Dungeon;
+			//system("pause");
+			break;
 }
 */
-//-----------------------메인용 임시--------------------------------------
+/* 헤더용
+
+private:
+	BattleManager bm;
+	DungeonManager dm;
+
+	UI um;
+	//Player player;
+	Player player;*/
+
+//-----------------------게임매니저용 임시--------------------------------------
 
 
 DungeonManager::DungeonManager()
@@ -49,7 +49,8 @@ DungeonManager::DungeonManager()
 	bossLoc{},
 	hasCheckpoint(false),
 	checkpointLoc{},
-	visitedMap{}
+	visitedMap{},
+	hasNpcAppeared(false)
 {
 	GenerateDungeonMap();
 }

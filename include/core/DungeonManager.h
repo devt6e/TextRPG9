@@ -24,14 +24,14 @@ private:
 
     int currentFloor;
     int currentRoom;
-    static const int MapSize = 10; //방 사이즈 5*5 6이면 6*6임
+    static const int MapSize = 5; //방 사이즈 5*5 6이면 6*6임
     int dungeonMap[MapSize][MapSize];
     int playerLoc[2];
     int bossLoc[2];
     bool hasCheckpoint;
     int checkpointLoc[2];
     bool visitedMap[MapSize][MapSize];
-
+    bool hasNpcAppeared;//NPC 던전에 나옴?
 
 public:
     DungeonManager();

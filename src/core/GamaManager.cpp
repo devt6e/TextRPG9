@@ -32,8 +32,10 @@ void GameManager::Run()
 		{
 		case 1:
 			std::cout << "带傈 风凭 角青" << std::endl;
-			currentState = GameState::Dungeon;
-			system("pause");
+			dm.StartDungeon(*player, um);
+			currentState = GameState::MainMenu;
+			//currentState = GameState::Dungeon;
+			//system("pause");
 			break;
 		case 2:
 			std::cout << "胶湃包府 风凭 角青" << std::endl;

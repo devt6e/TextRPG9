@@ -2,10 +2,12 @@
 #include <iostream>
 #include <windows.h>
 
-#include "DungeonManager.h"
-#include "UIManager.h"
-#include "../item/Inventory.h"
-#include "../item/Item.h"
+#include "core/DungeonManager.h"
+#include "core/BattleManager.h"
+#include "core/UIManager.h"
+//#include "item/Inventory.h"
+//#include "item/Item.h"
+#include "character/Player.h"
 
 
 class GameManager
@@ -13,6 +15,9 @@ class GameManager
 private:
 	BattleManager bm;
 	UI um;
+	Player* player = nullptr;
+	DungeonManager dm;
+
 	//Player player;
 	//Crafting cm;
 	//게임 상태를 관리. 추가 예정(status?,crafting?,quiz?)
