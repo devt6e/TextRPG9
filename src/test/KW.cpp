@@ -18,6 +18,7 @@
 
 int main()
 {
+	std::string s = "오류없으면";
 	Player* p = new Warrior("test");
 	DungeonManager dungeon;
 	SetConsoleOutputCP(CP_UTF8);
@@ -26,8 +27,9 @@ int main()
 	UI ui;
 	ui.PrintIntro();
 	ui.PrintStatus(p);
+	std::cout << s;
 	system("pause");
-	ui.DisplayDungeonMap(dungeon);
+	//ui.DisplayDungeonMap(dungeon);
 	system("pause");
 	return 0;
 
