@@ -1,44 +1,74 @@
 #pragma once
 #include <string>
+#include <iostream>
+#include "item/Item.h"
 
-// í”Œë ˆì´ì–´ ê¸°ë³¸ í´ë˜ìŠ¤ (ì§ì—… í´ë˜ìŠ¤ë“¤ì˜ ë¶€ëª¨ í´ë˜ìŠ¤)
+// ÇÃ·¹ÀÌ¾î ±âº» Å¬·¡½º (Á÷¾÷ Å¬·¡½ºµéÀÇ ºÎ¸ğ Å¬·¡½º)
 class Player {
-public: 
-    // ì´ë¦„, ì²´ë ¥, ë§ˆë‚˜, ê³µê²©ë ¥, ë°©ì–´ë ¥ì„ ë°›ì•„ í”Œë ˆì´ì–´ ìƒì„±
+public:
+    // ÀÌ¸§, Ã¼·Â, ¸¶³ª, °ø°İ·Â, ¹æ¾î·ÂÀ» ¹Ş¾Æ ÇÃ·¹ÀÌ¾î »ı¼º
     Player(std::string Name);
 
-    // ê°€ìƒ ì†Œë©¸ì (ìì‹ í´ë˜ìŠ¤ ë™ì  í• ë‹¹ í•´ì œìš©)
-    virtual ~Player() {}  
+    // °¡»ó ¼Ò¸êÀÚ (ÀÚ½Ä Å¬·¡½º µ¿Àû ÇÒ´ç ÇØÁ¦¿ë)
+    virtual ~Player() {}
+
+    int TempAttackBuff = 0;  // °ø°İ·Â ÀÓ½Ã ¹öÇÁ
 
     // Getter
-    std::string GetName() const { return Name; }    // ì´ë¦„ ì¡°íšŒ
-    std::string GetJob() const { return Job; }      // ì§ì—… ì¡°íšŒ
-    int GetLevel() const { return Level; }          // í˜„ì¬ ë ˆë²¨ ì¡°íšŒ
-    int GetHp() const { return Hp; }                // í˜„ì¬ ì²´ë ¥ ì¡°íšŒ
-    int GetMp() const { return Mp; }                // í˜„ì¬ ë§ˆë‚˜ ì¡°íšŒ
-    int GetPower() const { return Power; }          // í˜„ì¬ ê³µê²©ë ¥ ì¡°íšŒ
-    int GetDefence() const { return Defence; }      // í˜„ì¬ ë°©ì–´ë ¥ ì¡°íšŒ
-    int GetExp() const { return Exp; }              // í˜„ì¬ ê²½í—˜ì¹˜ ì¡°íšŒ
-    int GetMaxExp() const { return MaxExp; }        // ë ˆë²¨ì—… í•„ìš” ê²½í—˜ì¹˜ ì¡°íšŒ (100 ê³ ì •)
+    std::string GetName() const { return Name; }    // ÀÌ¸§ Á¶È¸
+    std::string GetJob() const { return Job; }      // Á÷¾÷ Á¶È¸
+    int GetLevel() const { return Level; }          // ÇöÀç ·¹º§ Á¶È¸
+
+    int GetHp() const { return Hp; }                // ÇöÀç Ã¼·Â Á¶È¸
+    int GetMaxHp() const { return MaxHp; }          // ÃÖ´ë Ã¼·Â Á¶È¸
+
+    int GetMp() const { return Mp; }                // ÇöÀç ¸¶³ª Á¶È¸
+    int GetMaxMp() const { return MaxMp; }          // ÃÖ´ë ¸¶³ª Á¶È¸
+
+    int GetPower() const { return Power; }          // ÇöÀç °ø°İ·Â Á¶È¸
+    int GetDefence() const { return Defence; }      // ÇöÀç ¹æ¾î·Â Á¶È¸
+
+    int GetExp() const { return Exp; }              // ÇöÀç °æÇèÄ¡ Á¶È¸
+    int GetMaxExp() const { return MaxExp; }        // ·¹º§¾÷ ÇÊ¿ä °æÇèÄ¡ Á¶È¸
+
+    int GetTempAttackBuff() const { return TempAttackBuff; } // ÀÓ½Ã ¹öÇÁ ¼öÄ¡ Á¶È¸
+    int GetTotalPower() const { return Power + TempAttackBuff; } // ±âº» °ø°İ·Â + ¹öÇÁ
 
     // Setter
-    void SetHp(int Value) { Hp = Value; }           // í˜„ì¬ ì²´ë ¥ ìˆ˜ì •
-    void SetMp(int Value) { Mp = Value; }           // í˜„ì¬ ë§ˆë‚˜ ìˆ˜ì •
-    void SetPower(int Value) { Power = Value; }     // í˜„ì¬ ê³µê²©ë ¥ ìˆ˜ì •
-    void SetDefence(int Value) { Defence = Value; } // í˜„ì¬ ë°©ì–´ë ¥ ìˆ˜ì •
-    void SetExp(int Value) { Exp = Value; }         // ê²½í—˜ì¹˜ ìˆ˜ì •
-    void SetJob(std::string Value) { Job = Value; } // ì§ì—… ëª…ì¹­ ìˆ˜ì •?
+    void SetHp(int Value);                          // ÇöÀç Ã¼·Â ¼öÁ¤
+    void SetMaxHp(int Value) { MaxHp = Value; }     // ÃÖ´ë Ã¼·Â ¼öÁ¤
+
+    void SetMp(int Value);                          // ÇöÀç ¸¶³ª ¼öÁ¤
+    void SetMaxMp(int Value) { MaxMp = Value; }     // ÃÖ´ë ¸¶³ª ¼öÁ¤
+
+    void SetPower(int Value) { Power = Value; }     // ÇöÀç °ø°İ·Â ¼öÁ¤
+    void SetDefence(int Value) { Defence = Value; } // ÇöÀç ¹æ¾î·Â ¼öÁ¤
+    void SetLevel(int Value) { Level = Value; }     // ·¹º§ ¼öÁ¤
+
+    void SetExp(int Value) { Exp = Value; }         // °æÇèÄ¡ ¼öÁ¤
+    void SetJob(std::string Value) { Job = Value; } // Á÷¾÷ ¼öÁ¤
 
     virtual void Attack() = 0;
 
-protected: // ì´ˆê¸° ìŠ¤íƒ¯
-    std::string Name;   // ì´ë¦„
-    std::string Job;        // ì§ì—… (ê¸°ë³¸ê°’: ì´ˆë³´ì?)
-    int Level = 1 ;         // ë ˆë²¨ (ì´ˆê¸°ê°’: 1)
-    int Hp = 200;             // ì²´ë ¥ (ì´ˆê¸°ê°’: 200)
-    int Mp = 100;             // ë§ˆë‚˜
-    int Power = 30;          // ê³µê²©ë ¥ (ì´ˆê¸°ê°’: 30)
-    int Defence = 20;        // ë°©ì–´ë ¥
-    int Exp = 0;            // í˜„ì¬ ê²½í—˜ì¹˜ (ì´ˆê¸°ê°’: 0)
-    int MaxExp = 100;         // ë ˆë²¨ì—…ì— í•„ìš” ê²½í—˜ì¹˜ (ê¸°ë³¸ê°’: 100)
+    // ÀÓ½Ã ¹öÇÁ ÃÊ±âÈ­
+    void ResetBuff() { TempAttackBuff = 0; }
+
+protected:
+    // ÃÊ±â ½ºÅÈ
+    std::string Name;
+    std::string Job = "ÃÊº¸ÀÚ";
+
+    int Level = 1;
+
+    int Hp = 200;
+    int MaxHp = 200;
+
+    int Mp = 100;
+    int MaxMp = 100;
+
+    int Power = 30;
+    int Defence = 20;
+
+    int Exp = 0;
+    int MaxExp = 100;
 };

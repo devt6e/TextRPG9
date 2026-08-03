@@ -98,6 +98,22 @@ public:
         cout << "==============================================\n";
     }
 
+    void PrintItemDetail(int index) {
+        int realIndex = index - 1;
+
+        if (realIndex < 0 || realIndex >= items_.size()) {
+            cout << "[오류] 잘못된 번호입니다.\n";
+            return;
+        }
+
+        const T& item = items_[realIndex];
+        cout << "\n--- < " << item.Name << " > 상세 정보 ---\n";
+        cout << "* 가격: " << item.Price << "G\n";
+        cout << "* 설명: " << item.ItemDescription << "\n";
+        cout << "* 획득: " << item.ItemDropLocation << "\n";
+        cout << "------------------------------\n";
+    }
+
     bool ConsumeItem(int index) {
         int realIndex = index - 1;
 
@@ -167,26 +183,12 @@ private:
 
 public:
 
-    Inventory<Item>& GetConsumableBag() { return consumableBag_; }
-    Inventory<Item>& GetMaterialBag() { return materialBag_; }
+    Inventory<Item>& GetConsumableBag();
+    Inventory<Item>& GetMaterialBag();
 
-    void AddConsumable(Item item) {
-        cout << "[소비 가방] ";
-        consumableBag_.AddItem(item);
-    }
+    void AddConsumable(Item item);
 
-    void AddMaterial(Item item) {
-        cout << "[재료 가방] ";
-        materialBag_.AddItem(item);
-    }
+    void AddMaterial(Item item);
 
-    void PrintAllSummary() {
-        cout << "\n======== [ 전체 인벤토리 ] ========";
-        cout << "\n\n▶ [ 소비 아이템 ]";
-        consumableBag_.PrintSummary();
-
-        cout << "\n▶ [ 재료 아이템 ]";
-        materialBag_.PrintSummary();
-        cout << "===================================\n";
-    }
+    void PrintAllSummary();
 };

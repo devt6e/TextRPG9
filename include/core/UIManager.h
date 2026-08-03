@@ -17,7 +17,9 @@ private:
 
 public:
 
+
     void DisplayDungeonMap(const DungeonManager& dungeon);//던전
+
 
     void MainTitle(); //LOSTZEP 타이틀
     void MiniTitle(); //미니 타이틀
