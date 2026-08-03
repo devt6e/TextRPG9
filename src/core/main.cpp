@@ -1,8 +1,8 @@
-﻿#include <iostream>
-
-#include "core/GamaManager.h"
-
-int main()
-{
-	GameManager().Run();
-}
+﻿//#include <iostream>
+//
+//#include "core/GamaManager.h"
+//
+//int main()
+//{
+//	GameManager().Run();
+//}
