@@ -1,4 +1,4 @@
-#include "character/Thief.h"
+#include "character/P_Thief.h"
 #include <iostream>
 
 Thief::Thief(std::string Name) : Player(Name) {
@@ -9,4 +9,3 @@ Thief::Thief(std::string Name) : Player(Name) {
 void Thief::Attack() {
     std::cout << "µµÀûÀÌ ±âÈ¸¸¦ ¿³º¾´Ï´Ù." << std::endl;
 };
-;
