@@ -435,6 +435,8 @@ void DungeonManager::StartDungeon(Player& player, UI& ui)
 		if (CanMoveTo(direction))
 		{
 			MoveRoom(direction);
+			RoomType decideRoom = DecideRoomType();
+			HandleRoom(player, decideRoom);
 		}
 		else
 		{
@@ -675,7 +677,24 @@ void DungeonManager::MoveRoom(int destination)    // 현재 위치 변경
 }*/
 void DungeonManager::HandleRoom(Player& player, RoomType roomType)    // 방에 들어갔을 때
 {
-
+	switch(roomType)
+	{
+	case(RoomType::Boss):
+		{
+		std::cout << "보스방 입장!!\n";
+			break;
+		}
+		case(RoomType::Monster):
+		{
+			std::cout << "몬스터 등장!!\n";
+			break;
+		}
+		case(RoomType::NPC):
+		{
+			std::cout << "NPC 등장!!\n";
+			break;
+		}
+	}
 }
 void DungeonManager::HandleBattleResult(BattleResult result)    // 전투 결과
 {

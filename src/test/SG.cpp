@@ -1,15 +1,24 @@
-ï»¿//ì„±êµ­ë‹˜ ê°œë°œ í…ŒìŠ¤íŠ¸ìš© ë©”ì¸
-//=======í…ŒìŠ¤íŠ¸ì ˆì°¨=======
-// 1. src/core/main.cpp ì „ì²´ì£¼ì„ì²˜ë¦¬(ctrl+a í•˜ê³  ctrl+/ í•˜ê¸°)
-// 2. ë³¸ì¸ì´ë¦„.cpp ì—ì„œ í…ŒìŠ¤íŠ¸ í•˜ê¸°
-// 3. ì˜¤ë¥˜ì—†ìœ¼ë©´
-// 4. ë³¸ì¸ì´ë¦„.cpp ì „ì²´ì£¼ì„ì²˜ë¦¬
-// 5. src/core/main.cpp ì „ì²´ì£¼ì„ì²˜ë¦¬ í•´ì œ(ctrl+a í•˜ê³  ctrl+/ í•˜ê¸°)
-// 6. ì»¤ë°‹í•˜ê³  prí•˜ê¸°
-// *í…ŒìŠ¤íŠ¸ ë‚´ìš©ì€ ë‚¨ê²¨ì£¼ì„¸ìš”!
+//¼º±¹´Ô °³¹ß Å×½ºÆ®¿ë ¸ŞÀÎ
+//=======Å×½ºÆ®ÀıÂ÷=======
+// 1. src/core/main.cpp ÀüÃ¼ÁÖ¼®Ã³¸®(ctrl+a ÇÏ°í ctrl+/ ÇÏ±â)
+// 2. º»ÀÎÀÌ¸§.cpp ¿¡¼­ Å×½ºÆ® ÇÏ±â
+// 3. ¿À·ù¾øÀ¸¸é
+// 4. º»ÀÎÀÌ¸§.cpp ÀüÃ¼ÁÖ¼®Ã³¸®
+// 5. src/core/main.cpp ÀüÃ¼ÁÖ¼®Ã³¸® ÇØÁ¦(ctrl+a ÇÏ°í ctrl+/ ÇÏ±â)
+// 6. Ä¿¹ÔÇÏ°í prÇÏ±â
+// *Å×½ºÆ® ³»¿ëÀº ³²°ÜÁÖ¼¼¿ä!
 
 
-//int main()
-//{
-//
-//}
+/*#include "core/BattleManager.h"
+#include "character/P_Warrior.h"
+#include "character/M_Slime.h"
+
+
+
+int main()
+{
+	Warrior player("Å×½ºÆ® Àü»ç");
+	Slime slime(player.GetLevel());
+	BattleManager battleManager;
+	battleManager.StartBattle(player, slime);
+}*/
