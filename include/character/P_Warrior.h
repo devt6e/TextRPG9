@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "character/Player.h"
 
 class Warrior : public Player {

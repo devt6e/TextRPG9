@@ -1,7 +1,7 @@
-Ôªø#include "character/M_Orc.h"
+#include "character/M_Orc.h"
 
-Orc::Orc(int PlayerLevel) : Monster("Ïò§ÌÅ¨", PlayerLevel) {}
+Orc::Orc(int PlayerLevel) : Monster("ø¿≈©", PlayerLevel) {}
 
 void Orc::Attack() {
-	std::cout << "Ïò§ÌÅ¨Í∞Ä Í∑ºÏú°ÏùÑ Í≥ºÏãúÌï©ÎãàÎã§." << std::endl;
+	std::cout << "ø¿≈©∞° ±Ÿ¿∞¿ª ∞˙Ω√«’¥œ¥Ÿ." << std::endl;
 }

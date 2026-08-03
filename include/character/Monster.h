@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 #include <string>
 #include <iostream>
 
@@ -14,22 +14,22 @@ public:
     int GetMaxHp() const { return MaxHp; }
     int GetPower() const { return Power; }
     int GetDefence() const { return Defence; }
-    int GetDropExp() const { return DropExp; }   // ê²½í—˜ì¹˜ ë“œë
-    int GetDropGold() const { return DropGold; } // ê³¨ë“œ ë“œë
+    int GetDropExp() const { return DropExp; }   // °æÇèÄ¡ µå¶ø
+    int GetDropGold() const { return DropGold; } // °ñµå µå¶ø
 
     // Setter 
-    void SetHp(int Value); // í˜„ì¬ ì²´ë ¥ ìˆ˜ì • (Monster.cppì—ì„œ ì˜ˆì™¸ì²˜ë¦¬)
+    void SetHp(int Value); // ÇöÀç Ã¼·Â ¼öÁ¤ (Monster.cpp¿¡¼­ ¿¹¿ÜÃ³¸®)
 
     virtual void Attack() = 0;
 
 protected:
-    std::string Name;    // ëª¬ìŠ¤í„° ì´ë¦„ (ì˜ˆ: ìŠ¬ë¼ì„)
-    int Hp;              // í˜„ì¬ ì²´ë ¥
-    int MaxHp;           // ìµœëŒ€ ì²´ë ¥
-    int Power;           // ê³µê²©ë ¥
-    int Defence = 10;         // ë°©ì–´ë ¥
+    std::string Name;    // ¸ó½ºÅÍ ÀÌ¸§ (¿¹: ½½¶óÀÓ)
+    int Hp;              // ÇöÀç Ã¼·Â
+    int MaxHp;           // ÃÖ´ë Ã¼·Â
+    int Power;           // °ø°İ·Â
+    int Defence = 10;         // ¹æ¾î·Â
 
-    // ë“œë ê´€ë ¨ ìŠ¤íƒ¯
-    int DropExp;         // ì²˜ì¹˜ ì‹œ ì¤„ ê²½í—˜ì¹˜
-    int DropGold;        // ì²˜ì¹˜ ì‹œ ì¤„ ê³¨ë“œ (ì•„ì´í…œ í™•ì¥ìš©) 
+    // µå¶ø °ü·Ã ½ºÅÈ
+    int DropExp;         // Ã³Ä¡ ½Ã ÁÙ °æÇèÄ¡
+    int DropGold;        // Ã³Ä¡ ½Ã ÁÙ °ñµå (¾ÆÀÌÅÛ È®Àå¿ë) 
 };

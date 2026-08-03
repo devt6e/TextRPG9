@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 #include <iostream>
 #include <string>
 #include <algorithm>
@@ -8,7 +8,7 @@ using namespace std;
 
 class Player;
 
-// ì•„ì´í…œ ë¶€ëª¨ í´ë˜ìŠ¤
+// ¾ÆÀÌÅÛ ºÎ¸ğ Å¬·¡½º
 class Item {
 public:
 	string Name, ItemDescription, ItemDropLocation;
@@ -27,27 +27,27 @@ class HpPotion : public Item {
 public:
 	HpPotion();
 	bool UseItem(Player* player) override;
-}; // HPí¬ì…˜
+}; // HPÆ÷¼Ç
 
 class MpPotion : public Item {
 public:
 	MpPotion();
 	bool UseItem(Player* player) override;
-}; // MPí¬ì…˜
+}; // MPÆ÷¼Ç
 
 class TempABPotion : public Item {
 public:
 	TempABPotion();
 	bool UseItem(Player* player) override;
 	void ResetBuff(Player* player) override;
-}; // ê³µê²©ë ¥ ì„ì‹œ ë²„í”„
+}; // °ø°İ·Â ÀÓ½Ã ¹öÇÁ
 
 class TempDEFPotion : public Item {
 public:
 	TempDEFPotion();
 	bool UseItem(Player* player) override;
 	void ResetBuff(Player* player) override;
-}; // ë°©ì–´ë ¥ ì„ì‹œ ë²„í”„
+}; // ¹æ¾î·Â ÀÓ½Ã ¹öÇÁ
 
 class InventoryManager;
 

@@ -1,7 +1,7 @@
-ï»¿#include "character/M_Slime.h"
+#include "character/M_Slime.h"
 
-Slime::Slime(int PlayerLevel) : Monster("ìŠ¬ë¼ì„", PlayerLevel) {}
+Slime::Slime(int PlayerLevel) : Monster("½½¶óÀÓ", PlayerLevel) {}
 
 	void Slime::Attack() {
-		std::cout << "ìŠ¬ë¼ì„ì´ ë§ë‘í•´ë³´ì…ë‹ˆë‹¤." << std::endl;
+		std::cout << "½½¶óÀÓÀÌ ¸»¶ûÇØº¸ÀÔ´Ï´Ù." << std::endl;
 	}

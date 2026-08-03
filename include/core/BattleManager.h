@@ -1,28 +1,28 @@
-ï»¿#pragma once
+#pragma once
 #include <iostream>
 #include <string>
 
-//ì„ì‹œ í”Œë ˆì´ì–´ ëª¬ìŠ¤í„° ë³´ê³  ê°€ì ¸ì˜¬ ì˜ˆì •ì„
+//ÀÓ½Ã ÇÃ·¹ÀÌ¾î ¸ó½ºÅÍ º¸°í °¡Á®¿Ã ¿¹Á¤ÀÓ
 class Player;
 class Monster;
 
 enum class BattleResult
 {
-    Victory,//ìŠ¹ë¦¬
-    Defeat,//íŒ¨ë°°
-    Escaped//ëŸ°
+    Victory,//½Â¸®
+    Defeat,//ÆĞ¹è
+    Escaped//·±
 };
 
 class BattleManager
 {
 public:
-    //ë©”ì¸ì—ì„œ? ì „íˆ¬ í• ë•Œ ì‚¬ìš©
+    //¸ŞÀÎ¿¡¼­? ÀüÅõ ÇÒ¶§ »ç¿ë
     BattleResult StartBattle(Player& player, Monster& monster);
 
-private://ì„ì‹œ
-    void PlayerAttack(Player& player, Monster& monster);//ê³µê²©
-    void MonsterAttack(Monster& monster, Player& player);//ëª¬ìŠ¤í„° ê³µê²©
-    bool TryEscape(Player& player);//ëŸ° ì‹œë„
-    bool UseItem(Player& player);// í…œì‚¬ìš©
+private://ÀÓ½Ã
+    void PlayerAttack(Player& player, Monster& monster);//°ø°İ
+    void MonsterAttack(Monster& monster, Player& player);//¸ó½ºÅÍ °ø°İ
+    bool TryEscape(Player& player);//·± ½Ãµµ
+    bool UseItem(Player& player);// ÅÛ»ç¿ë
 };
 

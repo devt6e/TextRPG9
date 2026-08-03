@@ -1,24 +1,24 @@
-ï»¿#include <iostream>
+#include <iostream>
 #include <string>
 #include <random>
 
 #include "core/BattleManager.h"
 //#include "../../include/core/UI/UI2.h"
 
-// ì„ì‹œ
+// ÀÓ½Ã
 // #include "Player.h"
 // #include "Monster.h"
 
 
 /*
-// 1. ëœë¤ ìƒì„±ê¸° ì¤€ë¹„
+// 1. ·£´ı »ı¼º±â ÁØºñ
 std::random_device rd;
 std::mt19937 gen(rd());
 
-// 2. ë²”ìœ„ ì„¤ì •: 1ë¶€í„° 10ê¹Œì§€
+// 2. ¹üÀ§ ¼³Á¤: 1ºÎÅÍ 10±îÁö
 std::uniform_int_distribution<int> dist(1, 10);
 
-// 3. ëœë¤ ìˆ«ì ë½‘ê¸°
+// 3. ·£´ı ¼ıÀÚ »Ì±â
 int number = dist(gen);
 
 std::cout << number << '\n';
@@ -29,7 +29,7 @@ BattleResult BattleManager::StartBattle(
     Player& player,
     Monster& monster)
 {
-    // ì„ì‹œ
+    // ÀÓ½Ã
     return BattleResult::Victory;
 }
 
