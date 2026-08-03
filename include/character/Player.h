@@ -3,6 +3,10 @@
 #include <iostream>
 #include "item/Item.h"
 
+//Windows의 인쇄 작업 관련 매크로 강제 해제
+#undef SetJob
+#undef GetJob
+
 // 플레이어 기본 클래스 (직업 클래스들의 부모 클래스)
 class Player {
 public: 
@@ -12,7 +16,8 @@ public:
     // 가상 소멸자 (자식 클래스 동적 할당 해제용)
     virtual ~Player() {}
 
-    int TempAttackBuff = 0;  //공격력 임시 버프
+    int TempAttackBuff = 0;  // 공격력 임시 버프
+    int TempDEFBuff = 0; // 방어력 임시 버프
 
     // Getter
     std::string GetName() const { return Name; }    // 이름 조회
@@ -28,6 +33,8 @@ public:
     int GetMaxExp() const { return MaxExp; }        // 레벨업 필요 경험치 조회 (100 고정)
     int GetTempAttackBuff() const { return TempAttackBuff; } //임시 버프 수치 조회
     int GetTotalPower() const { return Power + TempAttackBuff; } //(기본 공격력 + 버프)
+    int GetTempDEFBuff() const { return TempDEFBuff; }
+    int GetTotalDEF() const { return Defence + TempDEFBuff; }
     int GetGold() const { return Gold; }            // 현재 골드 조회
 
     // Setter
@@ -42,8 +49,10 @@ public:
     void SetJob(std::string Value) { Job = Value; } // 직업 명칭 수정?
     void SetGold(int Value) { Gold = Value; }       // 골드량 수정
 
+    void AddExp(int Amount); // 경험치 획득 함수 추가
+
     virtual void Attack() = 0;
-    void ResetBuff() { TempAttackBuff = 0; } // 임시 버프 수치를 0으로 초기화
+    void ResetBuff() { TempAttackBuff = 0; TempDEFBuff = 0; } // 임시 버프 수치를 0으로 초기화
 
 protected: // 초기 스탯
     std::string Name;   // 이름
