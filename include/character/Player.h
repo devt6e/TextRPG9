@@ -3,6 +3,10 @@
 #include <iostream>
 #include "item/Item.h"
 
+// Windows의 인쇄 작업 관련 매크로 강제 해제
+#undef SetJob
+#undef GetJob
+
 // 플레이어 기본 클래스 (직업 클래스들의 부모 클래스)
 class Player {
 public: 
