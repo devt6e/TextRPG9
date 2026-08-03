@@ -303,8 +303,8 @@ void UI::PrintBattle(std::string MonsterName,bool IsWin)
     while (!IsWin)
     {
         //몬스터 아스키아트
-        UI::PrintStatus();
-        UI::BattleSelection();
+        PrintStatus();
+        BattleSelection();
     }
 
 }
