@@ -1,6 +1,15 @@
-// ¾ÆÀÌÅÛ ±â´É Å×½ºÆ®¿ë ÀÓ½Ã ¸ŞÀÎ
+ï»¿// ì•„ì´í…œ ê¸°ëŠ¥ í…ŒìŠ¤íŠ¸ìš© ì„ì‹œ ë©”ì¸
 
 /*
+//í•´ì£¼ë‹˜ ê°œë°œ í…ŒìŠ¤íŠ¸ìš© ë©”ì¸
+//=======í…ŒìŠ¤íŠ¸ì ˆì°¨=======
+// 1. src/core/main.cpp ì „ì²´ì£¼ì„ì²˜ë¦¬(ctrl+a í•˜ê³  ctrl+/ í•˜ê¸°)
+// 2. ë³¸ì¸ì´ë¦„.cpp ì—ì„œ í…ŒìŠ¤íŠ¸ í•˜ê¸°
+// 3. ì˜¤ë¥˜ì—†ìœ¼ë©´
+// 4. ë³¸ì¸ì´ë¦„.cpp ì „ì²´ì£¼ì„ì²˜ë¦¬
+// 5. src/core/main.cpp ì „ì²´ì£¼ì„ì²˜ë¦¬ í•´ì œ(ctrl+a í•˜ê³  ctrl+/ í•˜ê¸°)
+// 6. ì»¤ë°‹í•˜ê³  prí•˜ê¸°
+// *í…ŒìŠ¤íŠ¸ ë‚´ìš©ì€ ë‚¨ê²¨ì£¼ì„¸ìš”!
 
 #include <iostream>
 #include <limits>
@@ -12,11 +21,11 @@ using namespace std;
 
 void PrintStatus(const Player& player, InventoryManager& invManager) {
 	cout << "\n----------------------------------------" << endl;
-	cout << "[ÇÃ·¹ÀÌ¾î] HP: " << player.GetHp() << " / " << player.GetMaxHp()
-		<< " | °ø°İ·Â: " << player.GetPower()
-		<< " | ±âº» ¸¶³ª: " << player.GetMp()
-		<< " | ¹öÇÁ: +" << player.GetTempAttackBuff()
-		<< " | ÃÖÁ¾ °ø°İ·Â: " << player.GetTotalPower() << endl;
+	cout << "[í”Œë ˆì´ì–´] HP: " << player.GetHp() << " / " << player.GetMaxHp()
+		<< " | ê³µê²©ë ¥: " << player.GetPower()
+		<< " | ê¸°ë³¸ ë§ˆë‚˜: " << player.GetMp()
+		<< " | ë²„í”„: +" << player.GetTempAttackBuff()
+		<< " | ìµœì¢… ê³µê²©ë ¥: " << player.GetTotalPower() << endl;
 	cout << "----------------------------------------" << endl;
 
 	invManager.GetConsumableBag().PrintSummary();
@@ -44,60 +53,60 @@ int main() {
 	invManager.AddConsumable(mpPotion);
 	invManager.AddConsumable(buffPotion);
 
-	cout << endl << "Å×½ºÆ® ½ÃÀÛ" << endl;
+	cout << endl << "í…ŒìŠ¤íŠ¸ ì‹œì‘" << endl;
 
 	bool running = true;
 
 	while (running) {
 
 		cout << "==========================================" << endl;
-		cout << "[¸ŞÀÎ ¸Ş´º]" << endl;
-		cout << "1. ¾ÆÀÌÅÛ Á÷Á¢ ¼±ÅÃ" << endl;
-		cout << "2. ·£´ı »ç¿ë" << endl;
-		cout << "3. ÇöÀç ½ºÅÈ" << endl;
-		cout << "3. ÀüÅõ Á¾·á / °ø°İ·Â ¹öÇÁ ÇØÁ¦" << endl;
-		cout << "0. ÇÁ·Î±×·¥ Á¾·á" << endl;
+		cout << "[ë©”ì¸ ë©”ë‰´]" << endl;
+		cout << "1. ì•„ì´í…œ ì§ì ‘ ì„ íƒ" << endl;
+		cout << "2. ëœë¤ ì‚¬ìš©" << endl;
+		cout << "3. í˜„ì¬ ìŠ¤íƒ¯" << endl;
+		cout << "3. ì „íˆ¬ ì¢…ë£Œ / ê³µê²©ë ¥ ë²„í”„ í•´ì œ" << endl;
+		cout << "0. í”„ë¡œê·¸ë¨ ì¢…ë£Œ" << endl;
 		cout << "==========================================" << endl;
-		cout << "¸Ş´º ÀÔ·Â >> ";
+		cout << "ë©”ë‰´ ì…ë ¥ >> ";
 		cout << endl << endl;
 
 		int menuChoice{ 0 };
 		if (!(cin >> menuChoice)) {
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			cout << " Àß¸øµÈ ÀÔ·Â" << endl;
+			cout << " ì˜ëª»ëœ ì…ë ¥" << endl;
 			continue;
 		}
 
 		switch (menuChoice) {
 		case 1:
 			cout << endl << endl;
-			cout << "¾ÆÀÌÅÛ ¼±ÅÃ!" << endl;
+			cout << "ì•„ì´í…œ ì„ íƒ!" << endl;
 			SelectAndUseConsumableItem(&player, invManager);
 			break;
 
 		case 2:
 			cout << endl << endl;
-			cout << "¾ÆÀÌÅÛ ·£´ı ¼±ÅÃ!" << endl;
+			cout << "ì•„ì´í…œ ëœë¤ ì„ íƒ!" << endl;
 			UseRandomConsumableItem(&player, invManager);
 			break;
 
 		case 3:
 			cout << endl << endl;
-			cout << "ÇöÀç ½ºÅÈ" << endl;
+			cout << "í˜„ì¬ ìŠ¤íƒ¯" << endl;
 			PrintStatus(player, invManager);
 			break;
 
 		case 4:
 			cout << endl << endl;
-			cout << "ÀüÅõ Á¾·á" << endl;
+			cout << "ì „íˆ¬ ì¢…ë£Œ" << endl;
 			player.ResetBuff();
 			break;
 
 
 		case 0:
 			cout << endl << endl;
-			cout << "°ÔÀÓÁ¾·á" << endl;
+			cout << "ê²Œì„ì¢…ë£Œ" << endl;
 			running = false;
 			break;
 
