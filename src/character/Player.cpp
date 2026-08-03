@@ -1,21 +1,6 @@
-#include "Player.h"
+#include "character/Player.h"
 #include <iostream>
 
-// »ı¼ºÀÚ: ÀÌ¸§°ú ±âº» ½ºÅÈ(·¹º§ 1, HP 200, °ø°İ·Â 30, °æÇèÄ¡ 0/100) ÃÊ±âÈ­
-Player::Player(std::string Name, int Hp, int Mp, int Power, int Defence)
-    : Name(Name), Job("ÃÊº¸ÀÚ"), Level(1), Hp(200), Mp(Mp), Power(Power), Defence(Defence), Exp(0), MaxExp(100) {
-}
-
-void Player::Level() {
-    Level++;
-    Exp = 0;
-
-
-int main() {
-    string name;
-    const int SIZE = 4;
-    int stat[SIZE] = { 0 };
-
-
-    return 0;
+// ìƒì„±ì: ì´ë¦„ê³¼ ê¸°ë³¸ ìŠ¤íƒ¯(ë ˆë²¨ 1, HP 200, ê³µê²©ë ¥ 30, ê²½í—˜ì¹˜ 0/100) ì´ˆê¸°í™”
+Player::Player(std::string Name) : Name(Name) {
 }
