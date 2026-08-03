@@ -8,7 +8,7 @@ public:
     Player(std::string Name);
 
     // 가상 소멸자 (자식 클래스 동적 할당 해제용)
-    virtual ~Player() {}  
+    virtual ~Player() {}
 
     // Getter
     std::string GetName() const { return Name; }    // 이름 조회

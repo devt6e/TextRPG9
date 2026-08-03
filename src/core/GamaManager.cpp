@@ -6,9 +6,14 @@
 //
 //}
 
+void GameManager::CreateCharacter()
+{
+
+}
+
 void GameManager::HandleDungeon()
 {
-	dm.StartDungeon();
+	//dm.StartDungeon();
 }
 
 void GameManager::HandleCrafting()
@@ -25,6 +30,7 @@ void GameManager::Run()
 {
 	system("mode con:cols=150 lines=40 | title LOSTZEP");
 	um.MainTitle();
+
 	while (currentState != GameState::Exit)
 	{
 		um.PrintMenu({"던전입장","인벤토리","제작소","종료"});
