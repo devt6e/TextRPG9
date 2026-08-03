@@ -1,36 +1,46 @@
-#pragma once
+ï»¿#pragma once
 #include <iostream>
 #include <windows.h>
 
-#include "DungeonManager.h"
-#include "UIManager.h"
-#include "../item/Inventory.h"
-#include "../item/Item.h"
+#include "core/DungeonManager.h"
+#include "core/BattleManager.h"
+#include "core/UIManager.h"
+//#include "item/Inventory.h"
+//#include "item/Item.h"
+#include "character/Player.h"
 
 
 class GameManager
 {
 private:
 	BattleManager bm;
+	DungeonManager dm;
 	UI um;
-	//Player player;
+	Player* player = nullptr;
 	//Crafting cm;
-	//°ÔÀÓ »óÅÂ¸¦ °ü¸®. Ãß°¡ ¿¹Á¤(status?,crafting?,quiz?)
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½(status?,crafting?,quiz?)
+	//Player* player = nullptr;//ï¿½Ó½ï¿½
+	//DungeonManager dm;
+
 	enum class GameState {
 		MainMenu,
 		Dungeon,
 		Battle,
+		Inventory,
+		Crafting,
+		Status,
 		Exit
 	};
 	GameState currentState;
 
-	void HandleMainMenu();	//¸ÞÀÎ ¸Þ´º Ãâ·Â
-	void HandleBattle();	//ÀüÅõ ¹ß»ý ·ÎÁ÷
-	void HandleCrafting();	//Á¦ÀÛ¼Ò
-	void HandleStatus();	//½ºÅÈ °ü¸® ¸Þ´º
+	//void HandleMainMenu();	//ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½
+	void HandleDungeon();	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	void HandleCrafting();	//ï¿½ï¿½ï¿½Û¼ï¿½
+	void HandleStatus();	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½
+	void CreateCharacter();
 
 public:
 	GameManager() : currentState(GameState::MainMenu) {}
 
-	void Run();	//¸ÞÀÎ °ÔÀÓ ·çÇÁ
+	void Run();	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 };

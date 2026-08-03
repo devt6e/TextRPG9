@@ -1,12 +1,12 @@
-#include "character/P_Warrior.h"
+ï»¿#include "character/P_Warrior.h"
 #include <iostream>
 
 Warrior :: Warrior(std::string Name) : Player(Name) {
-        Job = "Àü»ç";
-        SetMaxHp(GetMaxHp() + 30); // ÃÖ´ë Ã¼·Â »ó½Â
-        SetHp(GetMaxHp());         // ÇöÀç Ã¼·Â ¸ÂÃçÁÖ±â
+        Job = "ì „ì‚¬";
+        SetMaxHp(GetMaxHp() + 30); // ìµœëŒ€ ì²´ë ¥ ìƒìŠ¹
+        SetHp(GetMaxHp());         // í˜„ì¬ ì²´ë ¥ ë§ì¶°ì£¼ê¸°
     }
 
     void Warrior::Attack() {
-        std::cout << "Àü»ç°¡ ÀÚ¼¼¸¦ °íÃÄÀâ½À´Ï´Ù." << std::endl;
+        std::cout << "ì „ì‚¬ê°€ ìì„¸ë¥¼ ê³ ì³ì¡ìŠµë‹ˆë‹¤." << std::endl;
     };

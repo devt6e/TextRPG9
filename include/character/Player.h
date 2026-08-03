@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <string>
 #include <iostream>
 #include "item/Item.h"
@@ -10,7 +10,7 @@ public:
     Player(std::string Name) : Name(Name) {}
 
     // 가상 소멸자 (자식 클래스 동적 할당 해제용)
-    virtual ~Player() {}  
+    virtual ~Player() {}
 
     int TempAttackBuff = 0;  //공격력 임시 버프
 

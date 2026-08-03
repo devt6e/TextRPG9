@@ -1,10 +1,98 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <string>
 #include <cstdlib>
 #include <windows.h>
 #include <vector>
 #include "core/UIManager.h"
+#include "core/DungeonManager.h"
 
+void UI::DisplayDungeonMap(const DungeonManager& dungeon)
+{
+    system("cls");
+
+    int mapSize = dungeon.GetMapSize();
+    int mapWidth = mapSize * 6 - 3;
+
+    std::cout << std::string(mapWidth, '=') << '\n';
+    std::cout << "ZEP TOWER - 1F\n";
+    std::cout << std::string(mapWidth, '=') << '\n';
+    for (int y = 0; y < mapSize; y++)
+    {
+        for (int x = 0; x < mapSize; x++)
+        {
+            std::string symbol = "   ";
+
+            if (dungeon.IsPlayerAt(x, y))
+            {
+                symbol = "[P]";
+            }
+            else if (dungeon.IsBossAt(x, y))
+            {
+                symbol = "[B]";
+            }
+            else if (dungeon.IsRoomVisited(x, y))
+            {
+                symbol = "[.]";
+            }
+            else if (dungeon.IsRoomVisible(x, y))
+            {
+                symbol = "[?]";
+            }
+
+            std::cout << symbol;
+            if (x < mapSize - 1)
+            {
+                bool connected =
+                    dungeon.HasRoom(x, y) &&
+                    dungeon.HasRoom(x + 1, y) &&
+                    dungeon.IsRoomVisible(x, y) &&
+                    dungeon.IsRoomVisible(x + 1, y);
+
+                if (connected)
+                {
+                    std::cout << "---";
+                }
+                else
+                {
+                    std::cout << "   ";
+                }
+            }
+        }
+
+        std::cout << '\n';
+        if (y < mapSize - 1)
+        {
+            for (int x = 0; x < mapSize; x++)
+            {
+                bool connected =
+                    dungeon.HasRoom(x, y) &&
+                    dungeon.HasRoom(x, y + 1) &&
+                    dungeon.IsRoomVisible(x, y) &&
+                    dungeon.IsRoomVisible(x, y + 1);
+
+                if (connected)
+                {
+                    std::cout << " | ";
+                }
+                else
+                {
+                    std::cout << "   ";
+                }
+
+                if (x < mapSize - 1)
+                {
+                    std::cout << "   ";
+                }
+            }
+
+            std::cout << '\n';
+        }
+    }
+    std::cout << std::string(mapWidth, '=') << '\n';
+    std::cout << "[P] í˜„ìž¬ ìœ„ì¹˜  [B] ë³´ìŠ¤\n";
+    std::cout << "[.] íƒìƒ‰ ì™„ë£Œ  [?] ë¯¸í™•ì¸ ë°©\n";
+    std::cout << std::string(mapWidth, '=') << '\n';
+}
 void UI::MainTitle()
 {
     system("cls");
@@ -54,9 +142,9 @@ void UI::NBCTown()
     std::cout << "           o                      o                        o      \n";
     std::cout << "                                                                  \n";
     std::cout << "================================================================= \n";
-    std::cout << "ÆòÈ­·Î¿î ³»ÀÏ¹è¿òÄ·ÇÁ ¸¶À»... " << std::endl << std::endl;
-    std::cout << "¾î´À ³¯ ZEP È¸»ç¿¡¼­ Æ÷ÀÎÆ® Á¦µµ¸¦ ÆóÁöÇÏ°Ô µÇ°í..." << std::endl << std::endl;
-    std::cout << "±×¿¡ ¹Ý¹ßÇÏ´ø ¸Å´ÏÀú´Ôµé, Æ©ÅÍ´ÔµéÀ» ³³Ä¡ÇØ °¬´Ù!!" << std::endl << std::endl;
+    std::cout << "í‰í™”ë¡œìš´ ë‚´ì¼ë°°ì›€ìº í”„ ë§ˆì„... " << std::endl << std::endl;
+    std::cout << "ì–´ëŠ ë‚  ZEP íšŒì‚¬ì—ì„œ í¬ì¸íŠ¸ ì œë„ë¥¼ íì§€í•˜ê²Œ ë˜ê³ ..." << std::endl << std::endl;
+    std::cout << "ê·¸ì— ë°˜ë°œí•˜ë˜ ë§¤ë‹ˆì €ë‹˜ë“¤, íŠœí„°ë‹˜ë“¤ì„ ë‚©ì¹˜í•´ ê°”ë‹¤!!" << std::endl << std::endl;
     system("pause");       
 }
 void UI::ZepBuilding()
@@ -80,7 +168,7 @@ void UI::ZepBuilding()
     std::cout << "              /|\\       |  | | |  | | | |               \n";
     std::cout << "              / \\       |==|_|=|==|_|=|=|               \n";
     std::cout << "======================================================== \n";
-    std::cout << "´ç½ÅÀº ³³Ä¡µÈ »ç¶÷µé°ú Æ÷ÀÎÆ®¸¦ µÇÃ£±â À§ÇØ ZEP ºôµùÀ» ¿À¸£±â·Î ÇÑ´Ù" << std::endl;
+    std::cout << "ë‹¹ì‹ ì€ ë‚©ì¹˜ëœ ì‚¬ëžŒë“¤ê³¼ í¬ì¸íŠ¸ë¥¼ ë˜ì°¾ê¸° ìœ„í•´ ZEP ë¹Œë”©ì„ ì˜¤ë¥´ê¸°ë¡œ í•œë‹¤" << std::endl;
     system("pause");
 }
 void UI::Dungeon()
@@ -90,7 +178,7 @@ void UI::Dungeon()
         Maps1();
         while (PlayerLocation != 6)
         {
-            std::cout << "¸ñÀûÁö¸¦ ¼±ÅÃÇÏ¼¼¿ä. : ";
+            std::cout << "ëª©ì ì§€ë¥¼ ì„ íƒí•˜ì„¸ìš”. : ";
             std::cin >> RoomChoice;
             switch (RoomChoice)
             {
@@ -103,7 +191,7 @@ void UI::Dungeon()
                 }
                 else
                 {
-                    std::cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.";
+                    std::cout << "ìž˜ëª»ëœ ìž…ë ¥ìž…ë‹ˆë‹¤.";
                     system("pause");
                     break;
                 }
@@ -116,7 +204,7 @@ void UI::Dungeon()
                 }
                 else
                 {
-                    std::cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.";
+                    std::cout << "ìž˜ëª»ëœ ìž…ë ¥ìž…ë‹ˆë‹¤.";
                     system("pause");
                     break;
                 }
@@ -129,7 +217,7 @@ void UI::Dungeon()
                 }
                 else
                 {
-                    std::cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.";
+                    std::cout << "ìž˜ëª»ëœ ìž…ë ¥ìž…ë‹ˆë‹¤.";
                     system("pause");
                     break;
                 }
@@ -142,7 +230,7 @@ void UI::Dungeon()
                 }
                 else
                 {
-                    std::cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.";
+                    std::cout << "ìž˜ëª»ëœ ìž…ë ¥ìž…ë‹ˆë‹¤.";
                     system("pause");
                     break;
                 }
@@ -155,7 +243,7 @@ void UI::Dungeon()
                 }
                 else
                 {
-                    std::cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.";
+                    std::cout << "ìž˜ëª»ëœ ìž…ë ¥ìž…ë‹ˆë‹¤.";
                     system("pause");
                     break;
                 }
@@ -166,7 +254,7 @@ void UI::Dungeon()
                     break;
                 }
             default:
-                std::cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.";
+                std::cout << "ìž˜ëª»ëœ ìž…ë ¥ìž…ë‹ˆë‹¤.";
                 system("pause");
                 break;
 
@@ -182,7 +270,7 @@ void UI::Dungeon()
         Maps2();
         while (PlayerLocation != 6)
         {
-            std::cout << "¸ñÀûÁö¸¦ ¼±ÅÃÇÏ¼¼¿ä. : ";
+            std::cout << "ëª©ì ì§€ë¥¼ ì„ íƒí•˜ì„¸ìš”. : ";
             std::cin >> RoomChoice;
             switch (RoomChoice)
             {
@@ -195,7 +283,7 @@ void UI::Dungeon()
                 }
                 else
                 {
-                    std::cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.";
+                    std::cout << "ìž˜ëª»ëœ ìž…ë ¥ìž…ë‹ˆë‹¤.";
                     system("pause");
                     break;
                 }
@@ -208,7 +296,7 @@ void UI::Dungeon()
                 }
                 else
                 {
-                    std::cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.";
+                    std::cout << "ìž˜ëª»ëœ ìž…ë ¥ìž…ë‹ˆë‹¤.";
                     system("pause");
                     break;
                 }
@@ -221,7 +309,7 @@ void UI::Dungeon()
                 }
                 else
                 {
-                    std::cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.";
+                    std::cout << "ìž˜ëª»ëœ ìž…ë ¥ìž…ë‹ˆë‹¤.";
                     system("pause");
                     break;
                 }
@@ -234,7 +322,7 @@ void UI::Dungeon()
                 }
                 else
                 {
-                    std::cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.";
+                    std::cout << "ìž˜ëª»ëœ ìž…ë ¥ìž…ë‹ˆë‹¤.";
                     system("pause");
                     break;
                 }
@@ -247,7 +335,7 @@ void UI::Dungeon()
                 }
                 else
                 {
-                    std::cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.";
+                    std::cout << "ìž˜ëª»ëœ ìž…ë ¥ìž…ë‹ˆë‹¤.";
                     system("pause");
                     break;
                 }
@@ -259,7 +347,7 @@ void UI::Dungeon()
                 }
                 else
                 {
-                    std::cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.";
+                    std::cout << "ìž˜ëª»ëœ ìž…ë ¥ìž…ë‹ˆë‹¤.";
                     system("pause");
                     break;
                 }
@@ -284,8 +372,8 @@ void UI::PrintMenu(std::vector<std::string> Pvector)
 void UI::PrintStatus(std::string name,std::string job, int level,int hp,int maxhp,int mp,int maxmp,int power,int defense)
 {
     std::cout << std::endl << "================================================" << std::endl;
-    std::cout << "ÀÌ¸§: " << name << " | Á÷¾÷: " << job << " | Lv." << level << std::endl;
-    std::cout << "HP: " << hp << "/" << maxhp << " | MP: " << mp << "/" << maxmp << " | °ø°Ý·Â: " << power << " | ¹æ¾î·Â: " << defense;
+    std::cout << "ì´ë¦„: " << name << " | ì§ì—…: " << job << " | Lv." << level << std::endl;
+    std::cout << "HP: " << hp << "/" << maxhp << " | MP: " << mp << "/" << maxmp << " | ê³µê²©ë ¥: " << power << " | ë°©ì–´ë ¥: " << defense;
     std::cout << std::endl << "================================================" << std::endl;
 }
 int UI::BattleSelection(std::string text)
@@ -297,15 +385,16 @@ int UI::BattleSelection(std::string text)
 }
 void UI::PrintBattle(std::string MonsterName,bool IsWin)
 {
-    //¸ó½ºÅÍ ¾Æ½ºÅ°¾ÆÆ®
-    std::cout << MonsterName << "(ÀÌ)°¡ ³ªÅ¸³µ´Ù!" << std::endl;
+    //ëª¬ìŠ¤í„° ì•„ìŠ¤í‚¤ì•„íŠ¸
+    std::cout << "test -- ìˆ˜ì •ì˜ˆì •(ê²½ìš±ë‹˜)" << std::endl;
+    //std::cout << MonsterName << "(ì´)ê°€ ë‚˜íƒ€ë‚¬ë‹¤!" << std::endl;
     system("pause");
-    while (!IsWin)
-    {
-        //¸ó½ºÅÍ ¾Æ½ºÅ°¾ÆÆ®
-        UI::PrintStatus();
-        UI::BattleSelection();
-    }
+    //while (!IsWin)
+    //{
+    //    //ëª¬ìŠ¤í„° ì•„ìŠ¤í‚¤ì•„íŠ¸
+    //    //PrintStatus();
+    //    //BattleSelection();
+    //}
 
 }
 std::string UI::InputSelection(std::string text)
@@ -366,13 +455,13 @@ void UI::Maps1()
     std::cout << "                   [ Zep Tower 1F ]                       \n";
     std::cout << "========================================================  \n";
     std::cout << "                    [ 1 ]                                 \n";
-    std::cout << "                     ¦¢                                    \n";
-    std::cout << "        [@ ] ¦¡¦¡¦¡¦¡¦¡  [ 2 ] ¦¡¦¡¦¡¦¡ [ 4 ]                      \n";
-    std::cout << "                     ¦¢          ¦¢                         \n";
-    std::cout << "                    [ 3 ] ¦¡¦¡¦¡¦¡ [ 5 ] ¦¡¦¡¦¡¦¡¦¡ [B6]           \n";
+    std::cout << "                     â”‚                                    \n";
+    std::cout << "        [@ ] â”€â”€â”€â”€â”€  [ 2 ] â”€â”€â”€â”€ [ 4 ]                      \n";
+    std::cout << "                     â”‚          â”‚                         \n";
+    std::cout << "                    [ 3 ] â”€â”€â”€â”€ [ 5 ] â”€â”€â”€â”€â”€ [B6]           \n";
     std::cout << "                                                          \n";
     std::cout << "========================================================  \n";
-    std::cout << "  [@ ] ÇÃ·¹ÀÌ¾î         [B ] º¸½º         [  ] ÀÏ¹Ý ¹æ      \n";
+    std::cout << "  [@ ] í”Œë ˆì´ì–´         [B ] ë³´ìŠ¤         [  ] ì¼ë°˜ ë°©      \n";
     std::cout << "========================================================  \n";
 }
 
@@ -384,13 +473,13 @@ void UI::Maps1_1()
     std::cout << "                   [ Zep Tower 1F ]                       \n";
     std::cout << "========================================================  \n";
     std::cout << "                    [ @ ]                                 \n";
-    std::cout << "                     ¦¢                                    \n";
-    std::cout << "        [  ] ¦¡¦¡¦¡¦¡¦¡  [ 2 ] ¦¡¦¡¦¡¦¡ [ 4 ]                      \n";
-    std::cout << "                     ¦¢          ¦¢                         \n";
-    std::cout << "                    [ 3 ] ¦¡¦¡¦¡¦¡ [ 5 ] ¦¡¦¡¦¡¦¡¦¡ [B6]           \n";
+    std::cout << "                     â”‚                                    \n";
+    std::cout << "        [  ] â”€â”€â”€â”€â”€  [ 2 ] â”€â”€â”€â”€ [ 4 ]                      \n";
+    std::cout << "                     â”‚          â”‚                         \n";
+    std::cout << "                    [ 3 ] â”€â”€â”€â”€ [ 5 ] â”€â”€â”€â”€â”€ [B6]           \n";
     std::cout << "                                                          \n";
     std::cout << "========================================================  \n";
-    std::cout << "  [@ ] ÇÃ·¹ÀÌ¾î         [B ] º¸½º         [  ] ÀÏ¹Ý ¹æ      \n";
+    std::cout << "  [@ ] í”Œë ˆì´ì–´         [B ] ë³´ìŠ¤         [  ] ì¼ë°˜ ë°©      \n";
     std::cout << "========================================================  \n";
 }
 
@@ -402,13 +491,13 @@ void UI::Maps1_2()
     std::cout << "                   [ Zep Tower 1F ]                       \n";
     std::cout << "========================================================  \n";
     std::cout << "                    [ 1 ]                                 \n";
-    std::cout << "                     ¦¢                                    \n";
-    std::cout << "        [  ] ¦¡¦¡¦¡¦¡¦¡  [ @ ] ¦¡¦¡¦¡¦¡ [ 4 ]                      \n";
-    std::cout << "                     ¦¢          ¦¢                         \n";
-    std::cout << "                    [ 3 ] ¦¡¦¡¦¡¦¡ [ 5 ] ¦¡¦¡¦¡¦¡¦¡ [B6]           \n";
+    std::cout << "                     â”‚                                    \n";
+    std::cout << "        [  ] â”€â”€â”€â”€â”€  [ @ ] â”€â”€â”€â”€ [ 4 ]                      \n";
+    std::cout << "                     â”‚          â”‚                         \n";
+    std::cout << "                    [ 3 ] â”€â”€â”€â”€ [ 5 ] â”€â”€â”€â”€â”€ [B6]           \n";
     std::cout << "                                                          \n";
     std::cout << "========================================================  \n";
-    std::cout << "  [@ ] ÇÃ·¹ÀÌ¾î         [B ] º¸½º         [  ] ÀÏ¹Ý ¹æ      \n";
+    std::cout << "  [@ ] í”Œë ˆì´ì–´         [B ] ë³´ìŠ¤         [  ] ì¼ë°˜ ë°©      \n";
     std::cout << "========================================================  \n";
 }
 
@@ -420,13 +509,13 @@ void UI::Maps1_3()
     std::cout << "                   [ Zep Tower 1F ]                       \n";
     std::cout << "========================================================  \n";
     std::cout << "                    [ 1 ]                                 \n";
-    std::cout << "                     ¦¢                                    \n";
-    std::cout << "        [  ] ¦¡¦¡¦¡¦¡¦¡  [ 2 ] ¦¡¦¡¦¡¦¡ [ 4 ]                      \n";
-    std::cout << "                     ¦¢          ¦¢                         \n";
-    std::cout << "                    [ @ ] ¦¡¦¡¦¡¦¡ [ 5 ] ¦¡¦¡¦¡¦¡¦¡ [B6]           \n";
+    std::cout << "                     â”‚                                    \n";
+    std::cout << "        [  ] â”€â”€â”€â”€â”€  [ 2 ] â”€â”€â”€â”€ [ 4 ]                      \n";
+    std::cout << "                     â”‚          â”‚                         \n";
+    std::cout << "                    [ @ ] â”€â”€â”€â”€ [ 5 ] â”€â”€â”€â”€â”€ [B6]           \n";
     std::cout << "                                                          \n";
     std::cout << "========================================================  \n";
-    std::cout << "  [@ ] ÇÃ·¹ÀÌ¾î         [B ] º¸½º         [  ] ÀÏ¹Ý ¹æ      \n";
+    std::cout << "  [@ ] í”Œë ˆì´ì–´         [B ] ë³´ìŠ¤         [  ] ì¼ë°˜ ë°©      \n";
     std::cout << "========================================================  \n";
 }
 
@@ -438,13 +527,13 @@ void UI::Maps1_4()
     std::cout << "                   [ Zep Tower 1F ]                       \n";
     std::cout << "========================================================  \n";
     std::cout << "                    [ 1 ]                                 \n";
-    std::cout << "                     ¦¢                                    \n";
-    std::cout << "        [  ] ¦¡¦¡¦¡¦¡¦¡  [ 2 ] ¦¡¦¡¦¡¦¡ [ @ ]                      \n";
-    std::cout << "                     ¦¢          ¦¢                         \n";
-    std::cout << "                    [ 3 ] ¦¡¦¡¦¡¦¡ [ 5 ] ¦¡¦¡¦¡¦¡¦¡ [B6]           \n";
+    std::cout << "                     â”‚                                    \n";
+    std::cout << "        [  ] â”€â”€â”€â”€â”€  [ 2 ] â”€â”€â”€â”€ [ @ ]                      \n";
+    std::cout << "                     â”‚          â”‚                         \n";
+    std::cout << "                    [ 3 ] â”€â”€â”€â”€ [ 5 ] â”€â”€â”€â”€â”€ [B6]           \n";
     std::cout << "                                                          \n";
     std::cout << "========================================================  \n";
-    std::cout << "  [@ ] ÇÃ·¹ÀÌ¾î         [B ] º¸½º         [  ] ÀÏ¹Ý ¹æ      \n";
+    std::cout << "  [@ ] í”Œë ˆì´ì–´         [B ] ë³´ìŠ¤         [  ] ì¼ë°˜ ë°©      \n";
     std::cout << "========================================================  \n";
 }
 
@@ -456,13 +545,13 @@ void UI::Maps1_5()
     std::cout << "                   [ Zep Tower 1F ]                       \n";
     std::cout << "========================================================  \n";
     std::cout << "                    [ 1 ]                                 \n";
-    std::cout << "                     ¦¢                                    \n";
-    std::cout << "        [  ] ¦¡¦¡¦¡¦¡¦¡  [ 2 ] ¦¡¦¡¦¡¦¡ [ 4 ]                      \n";
-    std::cout << "                     ¦¢          ¦¢                         \n";
-    std::cout << "                    [ 3 ] ¦¡¦¡¦¡¦¡ [ @ ] ¦¡¦¡¦¡¦¡¦¡ [B6]           \n";
+    std::cout << "                     â”‚                                    \n";
+    std::cout << "        [  ] â”€â”€â”€â”€â”€  [ 2 ] â”€â”€â”€â”€ [ 4 ]                      \n";
+    std::cout << "                     â”‚          â”‚                         \n";
+    std::cout << "                    [ 3 ] â”€â”€â”€â”€ [ @ ] â”€â”€â”€â”€â”€ [B6]           \n";
     std::cout << "                                                          \n";
     std::cout << "========================================================  \n";
-    std::cout << "  [@ ] ÇÃ·¹ÀÌ¾î         [B ] º¸½º         [  ] ÀÏ¹Ý ¹æ      \n";
+    std::cout << "  [@ ] í”Œë ˆì´ì–´         [B ] ë³´ìŠ¤         [  ] ì¼ë°˜ ë°©      \n";
     std::cout << "========================================================  \n";
 }
 
@@ -475,13 +564,13 @@ void UI::Maps2()
     std::cout << "========================================================  \n";
     std::cout << "                                                          \n";
     std::cout << "                                         [ 1 ]            \n";
-    std::cout << "                                           ¦¢              \n";
-    std::cout << "        [ @] ¦¡¦¡¦¡¦¡¦¡  [ 2 ] ¦¡¦¡¦¡¦¡ [ 3 ]¦¡¦¡¦¡¦¡ [ 4 ]            \n";
-    std::cout << "                                ¦¢                         \n";
-    std::cout << "                               [ 5 ] ¦¡¦¡¦¡¦¡¦¡ [B6]           \n";
+    std::cout << "                                           â”‚              \n";
+    std::cout << "        [ @] â”€â”€â”€â”€â”€  [ 2 ] â”€â”€â”€â”€ [ 3 ]â”€â”€â”€â”€ [ 4 ]            \n";
+    std::cout << "                                â”‚                         \n";
+    std::cout << "                               [ 5 ] â”€â”€â”€â”€â”€ [B6]           \n";
     std::cout << "                                                          \n";
     std::cout << "========================================================  \n";
-    std::cout << "  [@ ] ÇÃ·¹ÀÌ¾î         [B ] º¸½º         [  ] ÀÏ¹Ý ¹æ      \n";
+    std::cout << "  [@ ] í”Œë ˆì´ì–´         [B ] ë³´ìŠ¤         [  ] ì¼ë°˜ ë°©      \n";
     std::cout << "========================================================  \n";
 }
 
@@ -494,13 +583,13 @@ void UI::Maps2_1()
     std::cout << "========================================================  \n";
     std::cout << "                                                          \n";
     std::cout << "                                         [ @ ]            \n";
-    std::cout << "                                           ¦¢              \n";
-    std::cout << "        [  ] ¦¡¦¡¦¡¦¡¦¡  [ 2 ] ¦¡¦¡¦¡¦¡ [ 3 ]¦¡¦¡¦¡¦¡ [ 4 ]            \n";
-    std::cout << "                                ¦¢                         \n";
-    std::cout << "                               [ 5 ] ¦¡¦¡¦¡¦¡¦¡ [B6]           \n";
+    std::cout << "                                           â”‚              \n";
+    std::cout << "        [  ] â”€â”€â”€â”€â”€  [ 2 ] â”€â”€â”€â”€ [ 3 ]â”€â”€â”€â”€ [ 4 ]            \n";
+    std::cout << "                                â”‚                         \n";
+    std::cout << "                               [ 5 ] â”€â”€â”€â”€â”€ [B6]           \n";
     std::cout << "                                                          \n";
     std::cout << "========================================================  \n";
-    std::cout << "  [@ ] ÇÃ·¹ÀÌ¾î         [B ] º¸½º         [  ] ÀÏ¹Ý ¹æ      \n";
+    std::cout << "  [@ ] í”Œë ˆì´ì–´         [B ] ë³´ìŠ¤         [  ] ì¼ë°˜ ë°©      \n";
     std::cout << "========================================================  \n";
 }
 
@@ -513,13 +602,13 @@ void UI::Maps2_2()
     std::cout << "========================================================  \n";
     std::cout << "                                                          \n";
     std::cout << "                                         [ 1 ]            \n";
-    std::cout << "                                           ¦¢              \n";
-    std::cout << "        [  ] ¦¡¦¡¦¡¦¡¦¡  [ @ ] ¦¡¦¡¦¡¦¡ [ 3 ]¦¡¦¡¦¡¦¡ [ 4 ]            \n";
-    std::cout << "                                ¦¢                         \n";
-    std::cout << "                               [ 5 ] ¦¡¦¡¦¡¦¡¦¡ [B6]           \n";
+    std::cout << "                                           â”‚              \n";
+    std::cout << "        [  ] â”€â”€â”€â”€â”€  [ @ ] â”€â”€â”€â”€ [ 3 ]â”€â”€â”€â”€ [ 4 ]            \n";
+    std::cout << "                                â”‚                         \n";
+    std::cout << "                               [ 5 ] â”€â”€â”€â”€â”€ [B6]           \n";
     std::cout << "                                                          \n";
     std::cout << "========================================================  \n";
-    std::cout << "  [@ ] ÇÃ·¹ÀÌ¾î         [B ] º¸½º         [  ] ÀÏ¹Ý ¹æ      \n";
+    std::cout << "  [@ ] í”Œë ˆì´ì–´         [B ] ë³´ìŠ¤         [  ] ì¼ë°˜ ë°©      \n";
     std::cout << "========================================================  \n";
 }
 
@@ -532,13 +621,13 @@ void UI::Maps2_3()
     std::cout << "========================================================  \n";
     std::cout << "                                                          \n";
     std::cout << "                                         [ 1 ]            \n";
-    std::cout << "                                           ¦¢              \n";
-    std::cout << "        [  ] ¦¡¦¡¦¡¦¡¦¡  [ 2 ] ¦¡¦¡¦¡¦¡ [ @ ]¦¡¦¡¦¡¦¡ [ 4 ]            \n";
-    std::cout << "                                ¦¢                         \n";
-    std::cout << "                               [ 5 ] ¦¡¦¡¦¡¦¡¦¡ [B6]           \n";
+    std::cout << "                                           â”‚              \n";
+    std::cout << "        [  ] â”€â”€â”€â”€â”€  [ 2 ] â”€â”€â”€â”€ [ @ ]â”€â”€â”€â”€ [ 4 ]            \n";
+    std::cout << "                                â”‚                         \n";
+    std::cout << "                               [ 5 ] â”€â”€â”€â”€â”€ [B6]           \n";
     std::cout << "                                                          \n";
     std::cout << "========================================================  \n";
-    std::cout << "  [@ ] ÇÃ·¹ÀÌ¾î         [B ] º¸½º         [  ] ÀÏ¹Ý ¹æ      \n";
+    std::cout << "  [@ ] í”Œë ˆì´ì–´         [B ] ë³´ìŠ¤         [  ] ì¼ë°˜ ë°©      \n";
     std::cout << "========================================================  \n";
 }
 
@@ -551,13 +640,13 @@ void UI::Maps2_4()
     std::cout << "========================================================  \n";
     std::cout << "                                                          \n";
     std::cout << "                                         [ 1 ]            \n";
-    std::cout << "                                           ¦¢              \n";
-    std::cout << "        [  ] ¦¡¦¡¦¡¦¡¦¡  [ 2 ] ¦¡¦¡¦¡¦¡ [ 3 ]¦¡¦¡¦¡¦¡ [ @ ]            \n";
-    std::cout << "                                ¦¢                         \n";
-    std::cout << "                               [ 5 ] ¦¡¦¡¦¡¦¡¦¡ [B6]           \n";
+    std::cout << "                                           â”‚              \n";
+    std::cout << "        [  ] â”€â”€â”€â”€â”€  [ 2 ] â”€â”€â”€â”€ [ 3 ]â”€â”€â”€â”€ [ @ ]            \n";
+    std::cout << "                                â”‚                         \n";
+    std::cout << "                               [ 5 ] â”€â”€â”€â”€â”€ [B6]           \n";
     std::cout << "                                                          \n";
     std::cout << "========================================================  \n";
-    std::cout << "  [@ ] ÇÃ·¹ÀÌ¾î         [B ] º¸½º         [  ] ÀÏ¹Ý ¹æ      \n";
+    std::cout << "  [@ ] í”Œë ˆì´ì–´         [B ] ë³´ìŠ¤         [  ] ì¼ë°˜ ë°©      \n";
     std::cout << "========================================================  \n";
 }
 
@@ -570,13 +659,13 @@ void UI::Maps2_5()
     std::cout << "========================================================  \n";
     std::cout << "                                                          \n";
     std::cout << "                                         [ 1 ]            \n";
-    std::cout << "                                           ¦¢              \n";
-    std::cout << "        [  ] ¦¡¦¡¦¡¦¡¦¡  [ 2 ] ¦¡¦¡¦¡¦¡ [ 3 ]¦¡¦¡¦¡¦¡ [ 4 ]            \n";
-    std::cout << "                                ¦¢                         \n";
-    std::cout << "                               [ @ ] ¦¡¦¡¦¡¦¡¦¡ [B6]           \n";
+    std::cout << "                                           â”‚              \n";
+    std::cout << "        [  ] â”€â”€â”€â”€â”€  [ 2 ] â”€â”€â”€â”€ [ 3 ]â”€â”€â”€â”€ [ 4 ]            \n";
+    std::cout << "                                â”‚                         \n";
+    std::cout << "                               [ @ ] â”€â”€â”€â”€â”€ [B6]           \n";
     std::cout << "                                                          \n";
     std::cout << "========================================================  \n";
-    std::cout << "  [@ ] ÇÃ·¹ÀÌ¾î         [B ] º¸½º         [  ] ÀÏ¹Ý ¹æ      \n";
+    std::cout << "  [@ ] í”Œë ˆì´ì–´         [B ] ë³´ìŠ¤         [  ] ì¼ë°˜ ë°©      \n";
     std::cout << "========================================================  \n";
 }
 
