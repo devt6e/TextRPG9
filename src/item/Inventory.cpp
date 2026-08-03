@@ -1,4 +1,4 @@
-#include "Item/Inventory.h"
+﻿#include "Item/Inventory.h"
 
 Inventory<Item>& InventoryManager::GetConsumableBag() {
 	return consumableBag_;
