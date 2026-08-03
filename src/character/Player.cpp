@@ -1,18 +1,14 @@
-#include "character/Player.h"
+ï»¿#include "character/Player.h"
 #include <iostream>
 
-// »ý¼ºÀÚ: ÀÌ¸§°ú ±âº» ½ºÅÈ(·¹º§ 1, HP 200, °ø°Ý·Â 30, °æÇèÄ¡ 0/100) ÃÊ±âÈ­
-Player::Player(std::string Name) : Name(Name) {
-}
-
-// ÃÖ´ë Ã¼·ÂÀ» ³Ñ°Å³ª 0 ¹Ì¸¸À¸·Î ¶³¾îÁöÁö ¾Ê°Ô ÇÏ´Â ÇÔ¼ö
+// ìµœëŒ€ ì²´ë ¥ì„ ë„˜ê±°ë‚˜ 0 ë¯¸ë§Œìœ¼ë¡œ ë–¨ì–´ì§€ì§€ ì•Šê²Œ í•˜ëŠ” í•¨ìˆ˜
 void Player::SetHp(int Value) {
     Hp = Value;
     if (Hp > MaxHp) Hp = MaxHp;
     if (Hp < 0) Hp = 0;
 }
 
-// ÃÖ´ë ¸¶³ªÀ» ³Ñ°Å³ª 0 ¹Ì¸¸À¸·Î ¶³¾îÁöÁö ¾Ê°Ô ÇÏ´Â ÇÔ¼ö
+// ìµœëŒ€ ë§ˆë‚˜ì„ ë„˜ê±°ë‚˜ 0 ë¯¸ë§Œìœ¼ë¡œ ë–¨ì–´ì§€ì§€ ì•Šê²Œ í•˜ëŠ” í•¨ìˆ˜
 void Player::SetMp(int Value) {
     Mp = Value;
     if (Mp > MaxMp) Mp = MaxMp;
