@@ -30,6 +30,7 @@ public:
 
 	void SetCurrentState(GameState gs) { this->currentState = gs; }
 	GameState GetCurrentState() { return currentState; }
+	void Run();	//���� ���� ����
 
 private:
 	BattleManager bm;
@@ -52,5 +53,5 @@ private:
 
 	//void CreateCharacter(); //legacy: 멤버에서 분리했음
 
-	void Run();	//���� ���� ����
+	
 };
