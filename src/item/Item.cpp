@@ -22,14 +22,14 @@ bool Item::UseItem(Player* player) {
 		return false;
 	}
 
-	if (HealAmount > 0) { // HP포션
+	if (HealAmount > 0) { // HP포션 | 에너지 드링크
 		player->SetHp(min(player->GetHp() + HealAmount, player->GetMaxHp()));
 		std::cout << std::endl << "* " << Name << " 사용! HP 회복: " << player->GetHp()
 			<< " (남은 수량: " << ItemCount - 1 << "개)" << std::endl;
 		return true;
 	}
 
-	else if (MpAmount > 0) { // MP포션
+	else if (MpAmount > 0) { // MP포션 | 아메리카노
 		player->SetMp(min(player->GetMp() + MpAmount, player->GetMaxMp()));
 		std::cout << std::endl << "* " << Name << " 사용! MP 회복: " << player->GetMp()
 			<< " (남은 수량: " << ItemCount - 1 << "개)" << std::endl;
@@ -37,7 +37,7 @@ bool Item::UseItem(Player* player) {
 	}
 
 
-	else if (BuffAmount > 0) { //공격력 임시버프
+	else if (BuffAmount > 0) { //공격력 임시버프 | 쿠키의 장난감
 		player->TempAttackBuff += BuffAmount;
 		std::cout << std::endl << "* " << Name << " 사용! 공격력 + " << BuffAmount << std::endl
 			<< "현재 공격력: " << player->GetTotalPower()
@@ -45,7 +45,7 @@ bool Item::UseItem(Player* player) {
 		return true;
 	}
 
-	else if (DEFBuffAmount > 0) { //방어력 임시버프
+	else if (DEFBuffAmount > 0) { //방어력 임시버프 | 온열 안대
 		player->TempDEFBuff += DEFBuffAmount;
 		std::cout << std::endl << "* " << Name << " 사용! 방어력 + " << DEFBuffAmount << std::endl
 			<< "현재 방어력: " << player->GetTotalDEF()
@@ -64,21 +64,21 @@ void Item::ResetBuff(Player* player) { //임시 버프 초기화 함수
 }
 
 HpPotion::HpPotion()
-	: Item("HP 회복 포션", 50, 1, 50, 0, 0, 0) {}
+	: Item("에너지 드링크", 5, 1, 50, 0, 0, 0) {}
 
 bool HpPotion::UseItem(Player* player) {
 	return Item::UseItem(player);
 }
 
 MpPotion::MpPotion()
-	: Item("MP 회복 포션", 50, 1, 0, 0, 20, 0) {}
+	: Item("아이스 아메리카노", 5, 1, 0, 0, 20, 0) {}
 
 bool MpPotion::UseItem(Player* player) {
 	return Item::UseItem(player);
 }
 
 TempABPotion::TempABPotion()
-	: Item("공격력 임시 버프", 100, 1, 0, 10, 0, 0) {}
+	: Item("쿠키의 장난감", 5, 1, 0, 10, 0, 0) {}
 
 bool TempABPotion::UseItem(Player* player) {
 	return Item::UseItem(player);
@@ -89,7 +89,7 @@ void TempABPotion::ResetBuff(Player* player) {
 }
 
 TempDEFPotion::TempDEFPotion()
-	: Item("방어력 임시 버프", 100, 1, 0, 0, 0, 10) {}
+	: Item("온열안대", 5, 1, 0, 0, 0, 10) {}
 
 bool TempDEFPotion::UseItem(Player* player) {
 	return Item::UseItem(player);

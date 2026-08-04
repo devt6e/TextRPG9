@@ -18,10 +18,16 @@ public:
     int GetDefence() const { return Defence; }
     int GetDropExp() const { return DropExp; }   // 경험치 드랍
     int GetDropGold() const { return DropGold; } // 골드 드랍
+    Item GetDrop() const { return drops; }
 
     // Setter 
     void SetHp(int Value); // 현재 체력 수정 (Monster.cpp에서 예외처리)
 
+    // 상황별 대사 가상 함수 추가
+    virtual void SpeakEncounter() const = 0; // 조우 시
+    virtual void SpeakBattleStart() const = 0; // 전투 시작 시
+    virtual void SpeakVictory() const = 0;    // 플레이어 승리 시 (몬스터의 유언)
+    virtual void SpeakDefeat() const = 0;     // 플레이어 패배 시 (몬스터의 승리 대사)
 
     virtual void Attack() = 0;
     virtual Item* DropItem() { return nullptr; }
@@ -39,7 +45,7 @@ protected:
     int DropGold;        // 처치 시 줄 골드 (아이템 확장용) 
 };
 
-// 1. 몬스터쿠키 납치범 (해주님)
+// 1. 몬스터쿠키 납치범
 class CookieKidnapper : public Monster {
 public:
     CookieKidnapper(int PlayerLevel);
@@ -47,7 +53,7 @@ public:
     Item* DropItem() override;
 };
 
-// 2. ZEM 탈취범 (채원님)
+// 2. ZEM 탈취범
 class ZemThief : public Monster {
 public:
     ZemThief(int PlayerLevel);
@@ -69,4 +75,5 @@ public:
     MorningCallStudent(int PlayerLevel);
     void Attack() override;
     Item* DropItem() override;
+    Item drops;
 };
