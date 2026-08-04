@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "character/Npc.h"
 
 class Manager3 : public NPC {
@@ -9,8 +9,8 @@ public:
     Manager3();
 
     void SpeakEncounter() const override;
-    void AskQuiz() const override;
-    bool CheckAnswer(int playerAnswer); // Á¤´ä ÆÇº° ÇÔ¼ö
+    void AskQuiz() override;
+    bool CheckAnswer(int playerAnswer); // ì •ë‹µ íŒë³„ í•¨ìˆ˜
     void OnCorrect() override;
     void OnWrong() const override;
     void GiveReward() const override;

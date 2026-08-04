@@ -1,4 +1,4 @@
-#include "character/NPC.h"
+﻿#include "character/NPC.h"
 
 NPC::NPC(const std::string& npcName) : name(npcName), isRescued(false) {}
 
