@@ -15,6 +15,7 @@ enum class RoomType
 {   //
     Monster,
     NPC,
+    MidBoss,
     Boss
 };
 
@@ -34,7 +35,10 @@ private:
     bool hasCheckpoint;
     int checkpointLoc[2];
     bool visitedMap[MapWidth][MapHeight];
-    bool hasNpcAppeared;//NPC 던전에 나옴?
+    bool npcEncountered[3];
+    int rescuedNpcCount;
+    bool midBossPending;
+    bool midBossDefeated;
     bool clearedMap[MapWidth][MapHeight];//맵클리어함?
     bool shouldExitDungeon;
 

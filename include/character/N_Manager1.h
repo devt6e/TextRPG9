@@ -1,16 +1,16 @@
-#pragma once
+ï»¿#pragma once
 #include "character/Npc.h"
 
 class Manager1 : public NPC {
 private:
-    int currentQuizIndex; // ÇöÀç ÃâÁ¦µÈ ÄûÁîÀÇ ÀÎµ¦½º ÀúÀå¿ë
+    int currentQuizIndex; // í˜„ì¬ ì¶œì œëœ í€´ì¦ˆì˜ ì¸ë±ìŠ¤ ì €ì¥ìš©
 
 public:
     Manager1();
 
     void SpeakEncounter() const override;
     void AskQuiz() const override;
-    bool CheckAnswer(int playerAnswer); // Á¤´ä ÆÇº° ÇÔ¼ö
+    bool CheckAnswer(int playerAnswer); // ì •ë‹µ íŒë³„ í•¨ìˆ˜
     void OnCorrect() override;
     void OnWrong() const override;
     void GiveReward() const override;

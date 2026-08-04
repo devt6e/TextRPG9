@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include "item/Item.h"
+#include "core/UIManager.h"
 
 class Monster {
 public:
@@ -17,7 +18,6 @@ public:
     int GetDefence() const { return Defence; }
     int GetDropExp() const { return DropExp; }   // 경험치 드랍
     int GetDropGold() const { return DropGold; } // 골드 드랍
-    Item GetDrop() const { return drops; }
 
     // Setter 
     void SetHp(int Value); // 현재 체력 수정 (Monster.cpp에서 예외처리)
@@ -29,8 +29,10 @@ public:
     virtual void SpeakDefeat() const = 0;     // 플레이어 패배 시 (몬스터의 승리 대사)
 
     virtual void Attack() = 0;
+    virtual Item* DropItem() { return nullptr; }
 
 protected:
+    UI um;
     std::string Name;    // 몬스터 이름 (예: 슬라임)
     int Hp;              // 현재 체력
     int MaxHp;           // 최대 체력
@@ -40,5 +42,4 @@ protected:
     // 드랍 관련 스탯
     int DropExp;         // 처치 시 줄 경험치
     int DropGold;        // 처치 시 줄 골드 (아이템 확장용) 
-    Item drops;
 };

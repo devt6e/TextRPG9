@@ -1,54 +1,49 @@
-#include "character/N_Manager1.h"
+ï»¿#include "character/N_Manager1.h"
 #include <iostream>
 #include <vector>
 #include <cstdlib>
-#include <ctime>
+#include <random>
 
 struct QuizData {
     std::string question;
     int correctAnswer;
 };
 
-// Á¤Àû µ¥ÀÌÅÍ·Î ÄûÁî ¸ñ·Ï Á¤ÀÇ
+// ì •ì  ë°ì´í„°ë¡œ í€´ì¦ˆ ëª©ë¡ ì •ì˜
 static const std::vector<QuizData> manager1Quizzes = {
-    {"[QUIZ 1] º¯¼­¿ø ¸Å´ÏÀú´ÔÀÇ MBTI´Â ¹«¾ùÀÏ±î¿ä?\n1. ENTP\n2. ISFJ\n3. INTJ\n4. ENTJ", 3},
-    {"[QUIZ 2] º¯¼­¿ø ¸Å´ÏÀú´ÔÀº ³«¼­¸¦ ÁÁ¾ÆÇÕ´Ï´Ù. ¸Å´ÏÀú´ÔÀÌ ÇÑ ³«¼­ÀÇ ¸ğÆ¼ºê°¡ ¾Æ´Ñ °ÍÀº ¹«¾ùÀÏ±î¿ä?\n1. »ç¸·¿©¿ì\n2. ÀÎÇü\n3. ¶±ººÀÌ\n4. ¼±ÀÎÀå", 2}
+    {"[QUIZ 1] ë³€ì„œì› ë§¤ë‹ˆì €ë‹˜ì˜ MBTIëŠ” ë¬´ì—‡ì¼ê¹Œìš”?\n1. ENTP\n2. ISFJ\n3. INTJ\n4. ENTJ", 3},
+    {"[QUIZ 2] ë³€ì„œì› ë§¤ë‹ˆì €ë‹˜ì€ ë‚™ì„œë¥¼ ì¢‹ì•„í•©ë‹ˆë‹¤. ë§¤ë‹ˆì €ë‹˜ì´ í•œ ë‚™ì„œì˜ ëª¨í‹°ë¸Œê°€ ì•„ë‹Œ ê²ƒì€ ë¬´ì—‡ì¼ê¹Œìš”?\n1. ì‚¬ë§‰ì—¬ìš°\n2. ì¸í˜•\n3. ë–¡ë³¶ì´\n4. ì„ ì¸ì¥", 2}
 };
 
-Manager1::Manager1() : NPC("º¯¼­¿ø ¸Å´ÏÀú´Ô"), currentQuizIndex(-1) {}
+Manager1::Manager1() : NPC("ë³€ì„œì› ë§¤ë‹ˆì €ë‹˜"), currentQuizIndex(-1) {}
 
 void Manager1::SpeakEncounter() const {
     if (!isRescued) {
-        std::cout << "\n ¾îµò°¡¿¡ ²Ç²Ç ¹­¿© °ï¶õÇØÇÏ°í °è½Å " << name << "À»(¸¦) ¹ß°ßÇß½À´Ï´Ù!\n";
-        std::cout << name << ": \"¾îÈŞ, »¡¸® ¿©±â¼­ Å»ÃâÇÒ ¼ö ÀÖ°Ô Á¦ ÄûÁî¸¦ ¸ÂÇô¼­ ¹®À» ¿­¾îÁÖ¼¼¿ä! (Æ²¸®¸é ±âÈ¸´Â ³¡ÀÌ¿¡¿ä!)\"\n";
+        std::cout << "\n ì–´ë”˜ê°€ì— ê½ê½ ë¬¶ì—¬ ê³¤ë€í•´í•˜ê³  ê³„ì‹  " << name << "ì„(ë¥¼) ë°œê²¬í–ˆìŠµë‹ˆë‹¤!\n";
+        std::cout << name << ": \"ì–´íœ´, ë¹¨ë¦¬ ì—¬ê¸°ì„œ íƒˆì¶œí•  ìˆ˜ ìˆê²Œ ì œ í€´ì¦ˆë¥¼ ë§í˜€ì„œ ë¬¸ì„ ì—´ì–´ì£¼ì„¸ìš”! (í‹€ë¦¬ë©´ ê¸°íšŒëŠ” ëì´ì—ìš”!)\"\n";
     }
     else {
-        std::cout << "\n ÀÌ¹Ì ±¸ÃâµÈ " << name << "ÀÌ(°¡) ¹àÀº ¹Ì¼Ò·Î ¹İ°ÜÁİ´Ï´Ù.\n";
-        std::cout << name << ": \"´Ù½Ã ÇÑ¹ø °í¸¶¿ö¿ä! ¿À´Ãµµ ÄÚµù Èû³»¼¼¿ä!\"\n";
+        std::cout << "\n ì´ë¯¸ êµ¬ì¶œëœ " << name << "ì´(ê°€) ë°ì€ ë¯¸ì†Œë¡œ ë°˜ê²¨ì¤ë‹ˆë‹¤.\n";
+        std::cout << name << ": \"ë‹¤ì‹œ í•œë²ˆ ê³ ë§ˆì›Œìš”! ì˜¤ëŠ˜ë„ ì½”ë”© í˜ë‚´ì„¸ìš”!\"\n";
     }
 }
 
-void Manager1::AskQuiz() const {
+void Manager1::AskQuiz() {
     if (isRescued) {
-        std::cout << name << ": \"ÀÌ¹Ì Àú¸¦ ±¸ÃâÇØÁÖ¼ÌÀİ¾Æ¿ä!\"\n";
+        std::cout << name << ": \"ì´ë¯¸ ì €ë¥¼ êµ¬ì¶œí•´ì£¼ì…¨ì–ì•„ìš”!\"\n";
         return;
     }
 
-    // ÀÌ¹ø¿¡ ÃâÁ¦ÇÒ ÀÎµ¦½º °áÁ¤ (Ãâ·ÂÇÒ ¶§¸¶´Ù ·£´ıÀ¸·Î »ÌÈ÷µµ·Ï Àü¿ª/Áö¿ª Ã³¸®)
-    // º¸Åë °ÔÀÓ ·çÇÁ¿¡¼­ AskQuiz¸¦ ºÎ¸¦ ¶§ °áÁ¤µÇ¹Ç·Î, ¿©±â¼­´Â ¿¹½Ã·Î Ãâ·Â¸¸ ´ã´çÇÏ°Ô ÇÕ´Ï´Ù.
-    std::cout << "\n[º¯¼­¿ø ¸Å´ÏÀú´ÔÀÇ ÄûÁî°¡ ÃâÁ¦µË´Ï´Ù!]\n";
+    static std::mt19937 gen(std::random_device{}());
+    std::uniform_int_distribution<int> quizDist(0, static_cast<int>(manager1Quizzes.size()) - 1);
+    currentQuizIndex = quizDist(gen);
+    std::cout << "\n[ë³€ì„œì› ë§¤ë‹ˆì €ë‹˜ì˜ í€´ì¦ˆê°€ ì¶œì œë©ë‹ˆë‹¤!]\n";
+    std::cout << manager1Quizzes[currentQuizIndex].question << "\n";
 }
 
-// ÇÃ·¹ÀÌ¾î°¡ ÀÔ·ÂÇÑ Á¤´äÀ» ¹Ş¾Æ ÆÇº°ÇÏ´Â ÇÔ¼ö
+// í”Œë ˆì´ì–´ê°€ ì…ë ¥í•œ ì •ë‹µì„ ë°›ì•„ íŒë³„í•˜ëŠ” í•¨ìˆ˜
 bool Manager1::CheckAnswer(int playerAnswer) {
-    if (isRescued || currentQuizIndex == -1) {
-        // ÀÓ½Ã·Î ÀÌ¹ø È£Ãâ¿¡ ¸ÂÃç ·£´ı ÀÎµ¦½º¸¦ °íÁ¤ÇÏ´Â ·ÎÁ÷ Ãß°¡
-        std::srand(static_cast<unsigned int>(std::time(nullptr)));
-        currentQuizIndex = std::rand() % manager1Quizzes.size();
-    }
-
-    std::cout << manager1Quizzes[currentQuizIndex].question << "\n";
-    std::cout << "ÇÃ·¹ÀÌ¾î ÀÔ·Â Á¤´ä: " << playerAnswer << "\n";
+    if (isRescued || currentQuizIndex == -1) return false;
 
     if (playerAnswer == manager1Quizzes[currentQuizIndex].correctAnswer) {
         OnCorrect();
@@ -62,18 +57,18 @@ bool Manager1::CheckAnswer(int playerAnswer) {
 
 void Manager1::OnCorrect() {
     isRescued = true;
-    std::cout << name << ": \"Á¤´äÀÌ¿¡¿ä! µåµğ¾î ¿©±â¼­ Å»ÃâÇÒ ¼ö ÀÖ°Ô µÇ¾ú³×¿ä. Á¤¸» °í¸¶¿ö¿ä!\"\n";
+    std::cout << name << ": \"ì •ë‹µì´ì—ìš”! ë“œë””ì–´ ì—¬ê¸°ì„œ íƒˆì¶œí•  ìˆ˜ ìˆê²Œ ë˜ì—ˆë„¤ìš”. ì •ë§ ê³ ë§ˆì›Œìš”!\"\n";
 }
 
 void Manager1::OnWrong() const {
-    std::cout << name << ": \"¾Æ´Ï¿¡¿ä, ±×°Ç Æ²·È¾î¿ä... ´õ ÀÌ»ó ±âÈ¸´Â ¾ø³×¿ä. Àú´Â ¿©±â¿¡ °¤ÇôÀÖÀ»°Ô¿ä...\"\n";
+    std::cout << name << ": \"ì•„ë‹ˆì—ìš”, ê·¸ê±´ í‹€ë ¸ì–´ìš”... ë” ì´ìƒ ê¸°íšŒëŠ” ì—†ë„¤ìš”. ì €ëŠ” ì—¬ê¸°ì— ê°‡í˜€ìˆì„ê²Œìš”...\"\n";
 }
 
 void Manager1::GiveReward() const {
     if (isRescued) {
-        std::cout << "±¸Ãâ ¼º°ø º¸»óÀ¸·Î [" << name << "]À»(¸¦) È¹µæÇß½À´Ï´Ù!\n";
+        std::cout << "êµ¬ì¶œ ì„±ê³µ ë³´ìƒìœ¼ë¡œ [" << name << "]ì„(ë¥¼) íšë“í–ˆìŠµë‹ˆë‹¤!\n";
     }
     else {
-        std::cout << "ÄûÁî¸¦ Æ²·Á¼­ º¸»óÀ» ¹ŞÁö ¸øÇß½À´Ï´Ù...\n";
+        std::cout << "í€´ì¦ˆë¥¼ í‹€ë ¤ì„œ ë³´ìƒì„ ë°›ì§€ ëª»í–ˆìŠµë‹ˆë‹¤...\n";
     }
 }
