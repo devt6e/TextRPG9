@@ -1,27 +1,5 @@
 ﻿#include "core/GamaManager.h"
 
-
-////임시 메뉴 출력 함수. todo: UIManager::PrintMenu() 수정
-//void PrintMenu(std::vector<std::string> v)
-//{
-//	for (int i = 0; i < v.size(); i++)
-//	{
-//		if (v[i] == "게임종료" || v[i] == "뒤로가기")
-//			std::cout << "0. " << v[i] << std::endl;
-//		else
-//			std::cout << i + 1 << ". " << v[i] << std::endl;
-//	}
-//}
-
-////임시 아이템 출력 함수. todo: UIManager로 이식
-//void PrintItems(std::vector<Item> items)
-//{
-//	for (int i = 0; i < items.size(); i++)
-//	{
-//		printf("%d. %s(%d zem)\n", i + 1, items[i].Name.c_str(), items[i].Price);
-//	}
-//}
-
 void CreateCharacter(GameManager* gm, UI& um, Player*& p)
 {
 	//보류 //UIManager::PrintMessage(const std::string& str) 
@@ -62,7 +40,7 @@ void GameManager::HandleDungeon()
 
 void GameManager::HandleStore()
 {
-	while (1)
+	while (currentState == GameManager::GameState::Store)
 	{
 		um.PrintSelection({ "상품구매", "상품판매", "뒤로가기" });
 		int selection = um.InputSelection("입력: ");
@@ -73,44 +51,23 @@ void GameManager::HandleStore()
 			//std::cout << "(Debug)아이템 구매 루틴" << std::endl; //디버그용
 			um.PrintLog("(Debug)아이템 구매 루틴 실행");
 
-			//vector<Item> ShopManager::GetItems() 함수 추가 요청
-			//아이템 목록 출력
-			//void UIManager::PrintItem(vector<Item> itmes) 함수 추가 요청
-
-			/*
-			for(int i = 0; i < items.size(); i++)
-			{
-				printf("%d. %s(%d zem)\n",i+1, items[i].Name.c_str(), items[i].Price);
-			}
-			*/
 			sm.PrintShopItems();	//임시
 			sm.BuyItem(player, im);
-			//std::cout << "===============" << std::endl;
-			//std::string idx = um.InputSelection("몇번? ");
-			//std::string nBuy = um.InputSelection("몇개? ");
-			//if(player->GetGold() > items[idx-1].Price*nBuy)
-			//	im.AddItem(items[idx-1], nBuy);	//InventoryManager::AddItem(Item _item, int cnt) 함수 추가 요청
-			//else
-			//	std::cout << "젬이 부족합니다" << std::endl;
+
 			um.Pause();
 			break;
 		}
 		case 2:
 		{
-			//std::cout << "(Debug)아이템 판매 루틴" << std::endl; //디버그용
 			 um.PrintLog("(Debug)아이템 판매 루틴 실행");
-			//인벤토리 목록 출력
-			//void UIManager::PrintItem(vector<Item> itmes) 함수 추가 요청
+
 			std::vector<Item> items = iven.GetAllItems();
 			if (items.size() < 1)
 			{
-				//std::cout << "판매할 아이템이 없습니다" << std::endl;
 				um.PrintLog("판매할 아이템이 없습니다");
 				break;
 			}
 
-			//PrintItems(items);
-			//std::cout << "===============" << std::endl;
 			um.PrintSelection(items);
 			int numberSelection = um.InputSelection("몇번? ");
 
