@@ -184,6 +184,11 @@ void UI::Erase(std::vector<int> coord, int rangeX, int rangeY)
     }
 }
 
+void UI::EraseArt() {Erase({ 1, 2 }, 147, 19);}
+void UI::EraseLog() { Erase({ 1, 22 }, 79, 11); }
+void UI::EraseSelection() { Erase({ 81, 27 }, 67, 6); }
+void UI::EraseStat() { Erase({ 81, 22 }, 67, 4); } 
+
 void UI::PrintStatus(Player* p)
 {
     Offsets = STAT_POS;
@@ -208,6 +213,7 @@ void UI::PrintInventory(std::vector<std::string> Inv)
 }
 void UI::PrintSelection(std::vector<std::string> menu)
 {
+    EraseSelection();
     for (int i = 0; i < menu.size(); ++i)
     {
         Gotoxy(81, 27 + i);
@@ -221,6 +227,7 @@ void UI::PrintSelection(std::vector<std::string> menu)
 }
 void UI::PrintSelection(std::vector<Item> menu)
 {
+    EraseSelection();
     for (int i = 0; i < menu.size(); ++i)
     {
         Gotoxy(81, 27 + i);
@@ -239,7 +246,8 @@ void UI::PrintLog(const std::string& str)
     if (Offsets[1] + n >= LOG_MAX_Y)
     {
         n = 0;
-        UI::Erase(LOG_POS, 78, 11);
+        //UI::Erase(LOG_POS, 78, 11);
+        EraseLog();
     }
     UI::Gotoxy(Offsets[0], Offsets[1] + n);
     n++;
@@ -341,10 +349,11 @@ void UI::PrintTitle()
     UI::Gotoxy(2, y++); std::cout << "                                                                   +  -                                                                       ";
     UI::Gotoxy(2, y++); std::cout << "                                                                  =  =.                                                                       ";
     UI::Gotoxy(2, y++); std::cout << "                                                                   =  :                                                                       ";
-
+    Gotoxy(0, 35);
 }
 void UI::PrintIntro()
 {
+    EraseArt();
     UI::PrintMain();
     UI::PrintTown();
     UI::Gotoxy(2, 22);
@@ -361,6 +370,10 @@ void UI::PrintIntro()
     UI::Gotoxy(2, 22);
     std::cout << "당신은 납치당한 사람들과 포인트를 되찾기 위해 ZEP 빌딩을 오르기로 한다..." << std::endl;
     UI::Gotoxy(2, 23);
+    system("pause");
+    system("cls");
+    UI::PrintMain();
+    PrintTitle();
 }
 void UI::PrintArt(std::string_view s)
 {
@@ -372,22 +385,22 @@ void UI::PrintArt(std::string_view s)
 int UI::InputSelection(std::string text)
 {
     int a;
-    Offsets = LOG_POS;
-    UI::Gotoxy(Offsets[0], Offsets[1]);
+    Offsets = SELECT_POS;   //LOG_POS -> SELECT_POS 변경
+    UI::Gotoxy(Offsets[0], Offsets[1]+5);
     std::cout << text;
-    Offsets = SELECT_POS;
-    UI::Gotoxy(Offsets[0], Offsets[1]);
+    //Offsets = SELECT_POS;
+    //UI::Gotoxy(Offsets[0], Offsets[1]);
     std::cin >> a;
     return a;
 }
 std::string UI::InputString(std::string text)
 {
     std::string s;
-    Offsets = LOG_POS;
+    Offsets = SELECT_POS;   //LOG_POS->SELECT_POS 로 수정
     UI::Gotoxy(Offsets[0], Offsets[1]);
     std::cout << text;
-    Offsets = SELECT_POS;
-    UI::Gotoxy(Offsets[0], Offsets[1]);
+    //Offsets = SELECT_POS;                 //입력의 자연스러움을 위해 수정
+    //UI::Gotoxy(Offsets[0], Offsets[1]);   //입력의 자연스러움을 위해 수정
     std::cin >> s;
     return s;
 

@@ -20,7 +20,7 @@ void ShopManager::PrintShopItems() {
     //    cout << i + 1 << ". " << shopItems_[i].Name << " - " << shopItems_[i].Price << "G\n";
     //}
     /*um.PrintMenu();*/
-    um.PrintSelection(this->GetItems);
+    //um.PrintSelection(this->GetItems);
 
 }
 

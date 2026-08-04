@@ -47,6 +47,7 @@ public:
     void SetLevel(int Value) { Level = Value; }         // 레벨 수정
     void SetExp(int Value) { Exp = Value; }         // 경험치 수정
     void SetJob(std::string Value) { Job = Value; } // 직업 명칭 수정?
+
     void SetGold(int Value) { Gold = Value; }       // 골드량 수정
 
     void AddExp(int Amount); // 경험치 획득 함수 추가
