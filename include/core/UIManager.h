@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <string>
 #include <cstdlib>
@@ -6,7 +6,7 @@
 #include <vector>
 #include"character/Player.h"
 
-class DungeonManager;//´øÀü
+class DungeonManager;//던전
 
 class UI
 {
@@ -14,19 +14,23 @@ private:
     std::vector<int> Offsets = { 0,0 };
 public:
 
-    void DisplayDungeonMap(const DungeonManager& dungeon);//ï¿½ï¿½ï¿½ï¿½
-    void Gotoxy(int x, int y);//ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥
+    void DisplayDungeonMap(const DungeonManager& dungeon);//맵 출력
+    void Gotoxy(int x, int y);//좌표 설정
     void Gotoxy(std::vector<int> coor);
-    void PrintTitle(); //LOSTZEP Å¸ï¿½ï¿½Æ²
-    void PrintMain(); //UI Æ²
-    void PrintBuilding(); //ï¿½Ê¹ï¿½ ï¿½ï¿½ï¿½ä¸® 
-    void PrintTown();//ï¿½Ê¹ï¿½ ï¿½ï¿½ï¿½ä¸® 
-    void PrintIntro();//ï¿½Ê¹ï¿½ ï¿½ï¿½ï¿½ä¸®
-    void PrintStatus(Player* p);//ï¿½ï¿½ï¿½ï¿½Ã¢
-    void PrintInventory(std::vector<string> Inv);
-    void PrintMenu(std::vector<std::string> menu);//ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½
-    std::string InputSelection(std::string text);//ï¿½Ô·ï¿½
-    void PrintMessage(const std::string&);
+    void Erase(std::vector<int> coord, int rangeX, int rangeY);
+    void PrintTitle(); //LOSTZEP 타이틀
+    void PrintMain(); //UI 뼈대
+    void PrintBuilding(); //초반 스토리 
+    void PrintTown();//초반 스토리 
+    void PrintIntro();//초반 스토리
+    void PrintStatus(Player* p);//스탯창 출력
+    void PrintInventory(std::vector<std::string> Inv);//인벤토리 출력
+    void PrintSelection(std::vector<std::string> menu);//선택지 출력
+    void UI::PrintSelection(std::vector<Item> menu);//
+    std::string InputString(std::string text);// 입력 스트링
+    int InputSelection(std::string text);//입력 정수
+    void PrintLog(const std::string&);
+    void UI::PrintArt(std::string_view s);
 
     void PrintDungeonMoveOptions(
         bool canMoveUp,
@@ -35,7 +39,7 @@ public:
         bool canMoveRight);
 
 
-    //NPC ¾Æ½ºÅ°¾ÆÆ®
+    //NPC 아스키아트
     void NPC_M();
     void NPC_K();
 

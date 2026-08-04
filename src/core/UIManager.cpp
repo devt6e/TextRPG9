@@ -10,6 +10,14 @@
 #define LOG_POS {2,22}
 #define STAT_POS {81,22}
 #define SELECT_POS {81,27}
+#define ART_MAX_Y 19
+#define LOG_MAX_Y 32
+#define STAT_MAX_Y 25
+#define SELECTION_MAX_Y 32
+//art x: 1~146, y: 2~19 u.Erase({ 1, 2 }, 147, 19);
+//log x: 1~78, y: 22~32 u.Erase({ 1, 22 }, 79, 11);
+//stat x: 81~146, y: 22~25 u.Erase({ 81, 22 }, 67, 4);
+//selection x: 81~146, y: 27~32 u.Erase({ 81, 27 }, 67, 6);
 //╔ ╗ ╚ ╝ ╠ ╣ ╦ ╩ ╬ ═ ║
 
 void UI::DisplayDungeonMap(const DungeonManager& dungeon)
@@ -118,30 +126,41 @@ void UI::PrintDungeonMoveOptions(
     bool canMoveLeft,
     bool canMoveRight)
 {
-    std::cout << "\n�̵� ������ ����: ";
+    Offsets = SELECT_POS;
+    Gotoxy(Offsets[0], Offsets[1]);
+    std::cout << "이동 가능한 방향: ";
 
     if (canMoveUp)
     {
-        std::cout << "W(��) ";
+        Gotoxy(Offsets[0], ++Offsets[1]);
+
+        std::cout << "W(위) ";
     }
 
     if (canMoveDown)
     {
-        std::cout << "S(�Ʒ�) ";
+        Gotoxy(Offsets[0], ++Offsets[1]);
+
+        std::cout << "S(아래) ";
     }
 
     if (canMoveLeft)
     {
-        std::cout << "A(����) ";
+        Gotoxy(Offsets[0], ++Offsets[1]);
+
+        std::cout << "A(왼쪽) ";
     }
 
     if (canMoveRight)
     {
-        std::cout << "D(������) ";
-    }
+        Gotoxy(Offsets[0], ++Offsets[1]);
 
-    std::cout << "\nQ(������ ����)\n";
-    std::cout << "�Է�: ";
+        std::cout << "D(오른쪽) ";
+    }
+    Gotoxy(Offsets[0], ++Offsets[1]);
+    std::cout << "Q(마을로 복귀)";
+    Gotoxy(Offsets[0], ++Offsets[1]);
+    std::cout << "입력: ";
 }
 
 
@@ -155,15 +174,26 @@ void UI::Gotoxy(std::vector<int> coor)
     COORD pos = { (SHORT)(coor[0]), (SHORT)(coor[1]) };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
+void UI::Erase(std::vector<int> coord, int rangeX, int rangeY)
+{
+    for (int h = 0; h < rangeY; h++)
+    {
+        Gotoxy(coord[0], coord[1] + h);
+        for (int w = 0; w < rangeX; w++)
+            std::cout << " ";
+    }
+}
+
 void UI::PrintStatus(Player* p)
 {
     Offsets = STAT_POS;
-    UI::Gotoxy(Offsets[0], Offsets[1]++);
+    UI::Gotoxy(Offsets[0], Offsets[1]);
     std::cout << u8"이름: " << p->GetName() << u8"  직업: " << p->GetJob() << "  Lv: " << p->GetLevel();
+    UI::Gotoxy(Offsets[0], ++Offsets[1]);
     std::cout << "HP: " << p->GetHp() << "/" << p->GetMaxHp() << "  MP: " << p->GetMp() << "/" << p->GetMaxMp() << u8"  공격력: " << p->GetPower() << u8"  방어력: " << p->GetDefence() << std::endl;
     UI::Gotoxy(1, 24);
 }
-void UI::PrintInventory(std::vector<string> Inv)
+void UI::PrintInventory(std::vector<std::string> Inv)
 {
     Offsets = STAT_POS;
     UI::Gotoxy(Offsets[0],Offsets[1]);
@@ -176,7 +206,7 @@ void UI::PrintInventory(std::vector<string> Inv)
         }
     }
 }
-void UI::PrintMenu(std::vector<std::string> menu)
+void UI::PrintSelection(std::vector<std::string> menu)
 {
     for (int i = 0; i < menu.size(); ++i)
     {
@@ -189,9 +219,30 @@ void UI::PrintMenu(std::vector<std::string> menu)
         std::cout << i + 1 << ")." << menu[i] << std::endl;
     }
 }
-void UI::PrintMessage(const std::string& str) 
-{ 
-    UI::Gotoxy(LOG_POS);
+void UI::PrintSelection(std::vector<Item> menu)
+{
+    for (int i = 0; i < menu.size(); ++i)
+    {
+        Gotoxy(81, 27 + i);
+        if (i == menu.size() - 1)
+        {
+            std::cout << "0)." << menu[i].Name << "(" << menu[i].Price << ")" << std::endl;
+            break;
+        }
+        std::cout << i + 1 << ")." << menu[i].Name << "(" << menu[i].Price << ")" << std::endl;
+    }
+}
+void UI::PrintLog(const std::string& str)
+{
+    static int n = 0;
+    Offsets = LOG_POS;
+    if (Offsets[1] + n >= LOG_MAX_Y)
+    {
+        n = 0;
+        UI::Erase(LOG_POS, 78, 11);
+    }
+    UI::Gotoxy(Offsets[0], Offsets[1] + n);
+    n++;
     std::cout << str << "  ";
 }
 void UI::PrintBuilding()
@@ -301,7 +352,7 @@ void UI::PrintIntro()
     UI::Gotoxy(2, 23);
     std::cout << "어느 날 ZEP 회사에서 포인트 제도를 폐지하고..." << std::endl;
     UI::Gotoxy(2, 24);
-    std:cout << "그에 항의하던 매니저님들, 튜터님들을 납치했다!!" << std::endl;
+    std::cout << "그에 항의하던 매니저님들, 튜터님들을 납치했다!!" << std::endl;
     UI::Gotoxy(2, 25);
     system("pause");
     system("cls");
@@ -311,11 +362,32 @@ void UI::PrintIntro()
     std::cout << "당신은 납치당한 사람들과 포인트를 되찾기 위해 ZEP 빌딩을 오르기로 한다..." << std::endl;
     UI::Gotoxy(2, 23);
 }
+void UI::PrintArt(std::string_view s)
+{
+    Offsets = ART_POS;
+    Gotoxy(Offsets[0], Offsets[1]);
+    std::cout << s;
+}
 
-std::string UI::InputSelection(std::string text)
+int UI::InputSelection(std::string text)
+{
+    int a;
+    Offsets = LOG_POS;
+    UI::Gotoxy(Offsets[0], Offsets[1]);
+    std::cout << text;
+    Offsets = SELECT_POS;
+    UI::Gotoxy(Offsets[0], Offsets[1]);
+    std::cin >> a;
+    return a;
+}
+std::string UI::InputString(std::string text)
 {
     std::string s;
+    Offsets = LOG_POS;
+    UI::Gotoxy(Offsets[0], Offsets[1]);
     std::cout << text;
+    Offsets = SELECT_POS;
+    UI::Gotoxy(Offsets[0], Offsets[1]);
     std::cin >> s;
     return s;
 

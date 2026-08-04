@@ -9,7 +9,7 @@
 // *테스트 내용은 남겨주세요!
 
 //--------------------------이거 몬스터 cpp 밑에 적당한 위치에 넣어야함--------------------------------
-/*// 전투 테스트용 임시 구현 
+/*// 전투 테스트용 임시 구현
 void Monster::SetHp(int Value)
 {
     if (Value < 0)
@@ -25,7 +25,7 @@ void Monster::SetHp(int Value)
         Hp = Value;
     }
 }*/
-//--------------------------이거 몬스터 cpp  밑에 적당한 위치에 넣어야함--------------------------------
+//--------------------------이거 몬스터 cpp  밑에 적당한 위치에 넣어야함-------------------------------
 /*
     ------------------------이건 게임매니저에 죽으면 강제종료----------
     case 1:
@@ -63,17 +63,17 @@ int main()
 {
     SetConsoleOutputCP(CP_UTF8);
 
-	Warrior player("테스트 전사");
+    Warrior player("Test Warrior");
     //player.SetHp(1);
-	//Slime slime(player.GetLevel());
-	//BattleManager battleManager;
-	//battleManager.StartBattle(player, slime);
+    //Slime slime(player.GetLevel());
+    //BattleManager battleManager;
+    //battleManager.StartBattle(player, slime);
 
-	DungeonManager dungeonManager;
-	UI ui;
+    DungeonManager dungeonManager;
+    UI ui;
     InventoryManager inventoryManager;
     inventoryManager.AddConsumable(HpPotion());
-	dungeonManager.StartDungeon(player, ui, inventoryManager);
+    dungeonManager.StartDungeon(player, ui, inventoryManager);
     //GameManager().Run();
 
 }*/

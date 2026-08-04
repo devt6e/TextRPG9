@@ -4,17 +4,15 @@
 #include <algorithm>
 #include <random>
 
-using namespace std;
-
 class Player;
 
 // 아이템 부모 클래스
 class Item {
 public:
-	string Name, ItemDescription, ItemDropLocation;
+	std::string Name, ItemDescription, ItemDropLocation;
 	int Price = 0, ItemCount = 1, ItemMaxStack = 99, HealAmount = 0, BuffAmount = 0, MpAmount = 0, DEFBuffAmount = 0;
 
-	Item(string Name = "", int Price = 0, int ItemCount = 1, int HealAmount = 0, int BuffAmount = 0, int MpAmount = 0, int DEFBuffAmount = 0);
+	Item(std::string Name = "", int Price = 0, int ItemCount = 1, int HealAmount = 0, int BuffAmount = 0, int MpAmount = 0, int DEFBuffAmount = 0);
 
 	virtual ~Item() {}
 	virtual bool UseItem(Player* player);
