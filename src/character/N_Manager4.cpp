@@ -19,26 +19,42 @@ Manager4::Manager4() : NPC("권예림 매니저님"), currentQuizIndex(-1) {}
 
 void Manager4::SpeakEncounter() const {
     if (!isRescued) {
-        std::cout << "\n 어딘가에 꽁꽁 묶여 곤란해하고 계신 " << name << "을(를) 발견했습니다!\n";
-        std::cout << name << ": \"어휴, 빨리 여기서 탈출할 수 있게 제 퀴즈를 맞혀서 문을 열어주세요! (틀리면 기회는 끝이에요!)\"\n";
+        std::string s1 = "\n 어딘가에 꽁꽁 묶여 곤란해하고 계신 ";
+        s1.append(name);
+        s1.append("을(를) 발견했습니다!");
+        um.PrintLog(s1);
+
+        std::string s2 = name;
+        s2.append(": \"어휴, 빨리 여기서 탈출할 수 있게 제 퀴즈를 맞혀서 문을 열어주세요! (틀리면 기회는 끝이에요!)\"");
+        um.PrintLog(s2);
     }
     else {
-        std::cout << "\n 이미 구출된 " << name << "이(가) 밝은 미소로 반겨줍니다.\n";
-        std::cout << name << ": \"다시 한번 고마워요!\"\n";
+        std::string s1 = "\n 이미 구출된 ";
+        s1.append(name);
+        s1.append("이(가) 밝은 미소로 반겨줍니다.");
+        um.PrintLog(s1);
+
+        std::string s2 = name;
+        s2.append(": \"다시 한번 고마워요!\"");
+        um.PrintLog(s2);
     }
 }
 
 void Manager4::AskQuiz() {
     if (isRescued) {
-        std::cout << name << ": \"이미 저를 구출해주셨잖아요!\"\n";
+        std::string s = name;
+        s.append(": \"이미 저를 구출해주셨잖아요!\"");
+        um.PrintLog(s);
         return;
     }
 
     static std::mt19937 gen(std::random_device{}());
     std::uniform_int_distribution<int> quizDist(0, static_cast<int>(manager4Quizzes.size()) - 1);
     currentQuizIndex = quizDist(gen);
-    std::cout << "\n[권예림 매니저님의 퀴즈가 출제됩니다!]\n";
-    std::cout << manager4Quizzes[currentQuizIndex].question << "\n";
+
+    // 단일 문자열 및 퀴즈 데이터 출력
+    um.PrintLog("\n[권예림 매니저님의 퀴즈가 출제됩니다!]");
+    um.PrintLog(manager4Quizzes[currentQuizIndex].question);
 }
 
 // 플레이어가 입력한 정답을 받아 판별하는 함수
@@ -57,18 +73,25 @@ bool Manager4::CheckAnswer(int playerAnswer) {
 
 void Manager4::OnCorrect() {
     isRescued = true;
-    std::cout << name << ": \"정답이에요! 드디어 여기서 탈출할 수 있게 되었네요. 정말 고마워요!\"\n";
+    std::string s = name;
+    s.append(": \"정답이에요! 드디어 여기서 탈출할 수 있게 되었네요. 정말 고마워요!\"");
+    um.PrintLog(s);
 }
 
 void Manager4::OnWrong() const {
-    std::cout << name << ": \"아니에요, 그건 틀렸어요... 더 이상 기회는 없네요. 저는 여기에 갇혀있을게요...\"\n";
+    std::string s = name;
+    s.append(": \"아니에요, 그건 틀렸어요... 더 이상 기회는 없네요. 저는 여기에 갇혀있을게요...\"");
+    um.PrintLog(s);
 }
 
 void Manager4::GiveReward() const {
     if (isRescued) {
-        std::cout << "구출 성공 보상으로 [" << name << "의 보상]을(를) 획득했습니다!\n";
+        std::string s = "구출 성공 보상으로 [";
+        s.append(name);
+        s.append("의 보상]을(를) 획득했습니다!");
+        um.PrintLog(s);
     }
     else {
-        std::cout << "퀴즈를 틀려서 보상을 받지 못했습니다...\n";
+        um.PrintLog("퀴즈를 틀려서 보상을 받지 못했습니다...");
     }
 }
