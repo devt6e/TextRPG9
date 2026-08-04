@@ -7,49 +7,49 @@
 #include "item/Inventory.h"
 #include "character/Player.h"
 
-using namespace std;
+//using namespace std;
 
-Item::Item(string Name, int Price, int ItemCount, int HealAmount, int BuffAmount, int MpAmount, int DEFBuffAmount)
+Item::Item(std::string Name, int Price, int ItemCount, int HealAmount, int BuffAmount, int MpAmount, int DEFBuffAmount)
 	: Name(Name), Price(Price), ItemCount(ItemCount), HealAmount(HealAmount), BuffAmount(BuffAmount), MpAmount(MpAmount), DEFBuffAmount(DEFBuffAmount) {}
 
 void Item::PrintInfo() const {
-	cout << Name << "(" << Price << "G)" << endl;
+	std::cout << Name << "(" << Price << "G)" << std::endl;
 }
 
 bool Item::UseItem(Player* player) {
 	if (ItemCount <= 0) { //아이템 0개 이하인 경우 사용 불가
-		cout << Name << "의 수량이 부족함" << endl;
+		std::cout << Name << "의 수량이 부족함" << std::endl;
 		return false;
 	}
 
 	if (HealAmount > 0) { // HP포션
 		player->SetHp(min(player->GetHp() + HealAmount, player->GetMaxHp()));
-		cout << endl << "* " << Name << " 사용! HP 회복: " << player->GetHp()
-			<< " (남은 수량: " << ItemCount - 1 << "개)" << endl;
+		std::cout << std::endl << "* " << Name << " 사용! HP 회복: " << player->GetHp()
+			<< " (남은 수량: " << ItemCount - 1 << "개)" << std::endl;
 		return true;
 	}
 
 	else if (MpAmount > 0) { // MP포션
 		player->SetMp(min(player->GetMp() + MpAmount, player->GetMaxMp()));
-		cout << endl << "* " << Name << " 사용! MP 회복: " << player->GetMp()
-			<< " (남은 수량: " << ItemCount - 1 << "개)" << endl;
+		std::cout << std::endl << "* " << Name << " 사용! MP 회복: " << player->GetMp()
+			<< " (남은 수량: " << ItemCount - 1 << "개)" << std::endl;
 		return true;
 	}
 
 
 	else if (BuffAmount > 0) { //공격력 임시버프
 		player->TempAttackBuff += BuffAmount;
-		cout << endl << "* " << Name << " 사용! 공격력 + " << BuffAmount << endl
+		std::cout << std::endl << "* " << Name << " 사용! 공격력 + " << BuffAmount << std::endl
 			<< "현재 공격력: " << player->GetTotalPower()
-			<< " (남은 수량: " << ItemCount - 1 << "개)" << endl;
+			<< " (남은 수량: " << ItemCount - 1 << "개)" << std::endl;
 		return true;
 	}
 
 	else if (DEFBuffAmount > 0) { //방어력 임시버프
 		player->TempDEFBuff += DEFBuffAmount;
-		cout << endl << "* " << Name << " 사용! 방어력 + " << DEFBuffAmount << endl
+		std::cout << std::endl << "* " << Name << " 사용! 방어력 + " << DEFBuffAmount << std::endl
 			<< "현재 방어력: " << player->GetTotalDEF()
-			<< " (남은 수량: " << ItemCount - 1 << "개)" << endl;
+			<< " (남은 수량: " << ItemCount - 1 << "개)" << std::endl;
 		return true;
 	}
 
@@ -59,7 +59,7 @@ bool Item::UseItem(Player* player) {
 void Item::ResetBuff(Player* player) { //임시 버프 초기화 함수
 	if (player->GetTempAttackBuff() > 0) {
 		player->TempAttackBuff = 0; //버프 수치를 0으로 초기화
-		cout << "버프 해제" << endl;
+		std::cout << "버프 해제" << std::endl;
 	}
 }
 
@@ -105,11 +105,11 @@ void TempDEFPotion::ResetBuff(Player* player) {
 //인덱스의 아이템을 사용
 bool UseConsumableItem(Player* player, InventoryManager& invManager, size_t index)
 {
-	vector<Item>& consumables = invManager.GetConsumableBag().GetAllItems();
+	std::vector<Item>& consumables = invManager.GetConsumableBag().GetAllItems();
 
 	if (index >= consumables.size())
 	{
-		cout << "번호를 다시 입력하세요" << endl;
+		std::cout << "번호를 다시 입력하세요" << std::endl;
 		return false;
 	}
 
@@ -130,11 +130,11 @@ bool UseConsumableItem(Player* player, InventoryManager& invManager, size_t inde
 //랜덤 아이템 사용
 bool UseRandomConsumableItem(Player* player, InventoryManager& invManager)
 {
-	vector<Item>& consumables = invManager.GetConsumableBag().GetAllItems();
+	std::vector<Item>& consumables = invManager.GetConsumableBag().GetAllItems();
 
 	if (consumables.empty())
 	{
-		cout << "* 가방이 비어있습니다." << endl;
+		std::cout << "* 가방이 비어있습니다." << std::endl;
 		return false;
 	}
 
@@ -159,36 +159,36 @@ bool UseRandomConsumableItem(Player* player, InventoryManager& invManager)
 
 //아이템 지정 사용 시 플레이어에게 번호를 입력받아 사용하는 함수
 bool SelectAndUseConsumableItem(Player* player, InventoryManager& invManager) {
-	vector<Item>& consumables = invManager.GetConsumableBag().GetAllItems();
+	std::vector<Item>& consumables = invManager.GetConsumableBag().GetAllItems();
 
 	if (consumables.empty()) {
-		cout << "* 가방이 비어있습니다." << endl;
+		std::cout << "* 가방이 비어있습니다." << std::endl;
 		return false;
 	}
 
-	cout << endl;
-	cout << "아이템 번호 입력" << endl;
-	cout << endl;
+	std::cout << std::endl;
+	std::cout << "아이템 번호 입력" << std::endl;
+	std::cout << std::endl;
 
 	for (size_t i = 0; i < consumables.size(); ++i) {
-		cout << i + 1 << ". " << consumables[i].Name
-			<< " (수량: " << consumables[i].ItemCount << "개)" << endl;
+		std::cout << i + 1 << ". " << consumables[i].Name
+			<< " (수량: " << consumables[i].ItemCount << "개)" << std::endl;
 	}
-	cout << "0. 취소 (사용하지 않음)" << endl;
-	cout << "==========================================" << endl;
-	cout << "선택할 번호 입력 >> ";
+	std::cout << "0. 취소 (사용하지 않음)" << std::endl;
+	std::cout << "==========================================" << std::endl;
+	std::cout << "선택할 번호 입력 >> ";
 
 	int choice{ 0 };
 
-	if (!(cin >> choice)) {
-		cin.clear();
-		cin.ignore();
-		cout << "숫자를 다시 입력하세요" << endl;
+	if (!(std::cin >> choice)) {
+		std::cin.clear();
+		std::cin.ignore();
+		std::cout << "숫자를 다시 입력하세요" << std::endl;
 		return false;
 	}
 
 	if (choice == 0) {
-		cout << "아이템 사용 취소" << endl;
+		std::cout << "아이템 사용 취소" << std::endl;
 		return false;
 	}
 

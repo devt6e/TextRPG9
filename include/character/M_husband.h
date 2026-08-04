@@ -2,9 +2,9 @@
 #include "Monster.h"
 
 
-class Orc : public Monster {
+class husband : public Monster {
 public:
-	Orc(int PlayerLevel);
+	husband(int PlayerLevel);
 
 	void SpeakEncounter() const override;
 	void SpeakBattleStart() const override;

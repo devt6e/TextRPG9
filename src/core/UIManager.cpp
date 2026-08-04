@@ -193,7 +193,7 @@ void UI::PrintStatus(Player* p)
     std::cout << "HP: " << p->GetHp() << "/" << p->GetMaxHp() << "  MP: " << p->GetMp() << "/" << p->GetMaxMp() << u8"  공격력: " << p->GetPower() << u8"  방어력: " << p->GetDefence() << std::endl;
     UI::Gotoxy(1, 24);
 }
-void UI::PrintInventory(std::vector<string> Inv)
+void UI::PrintInventory(std::vector<std::string> Inv)
 {
     Offsets = STAT_POS;
     UI::Gotoxy(Offsets[0],Offsets[1]);
@@ -352,7 +352,7 @@ void UI::PrintIntro()
     UI::Gotoxy(2, 23);
     std::cout << "어느 날 ZEP 회사에서 포인트 제도를 폐지하고..." << std::endl;
     UI::Gotoxy(2, 24);
-    std:cout << "그에 항의하던 매니저님들, 튜터님들을 납치했다!!" << std::endl;
+    std::cout << "그에 항의하던 매니저님들, 튜터님들을 납치했다!!" << std::endl;
     UI::Gotoxy(2, 25);
     system("pause");
     system("cls");
@@ -366,7 +366,7 @@ void UI::PrintArt(std::string_view s)
 {
     Offsets = ART_POS;
     Gotoxy(Offsets[0], Offsets[1]);
-    cout << s;
+    std::cout << s;
 }
 
 int UI::InputSelection(std::string text)
