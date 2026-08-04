@@ -1,10 +1,10 @@
-﻿#pragma once
+#pragma once
 #include "Monster.h"
 
 
-class Orc : public Monster {
+class Morning : public Monster {
 public:
-	Orc(int PlayerLevel);
+	Morning(int PlayerLevel);
 
 	void SpeakEncounter() const override;
 	void SpeakBattleStart() const override;
