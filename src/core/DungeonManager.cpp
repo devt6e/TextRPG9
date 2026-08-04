@@ -918,6 +918,10 @@ void DungeonManager::HandleRoom(Player& player,
 
 			int answer = ui.InputSelection("정답: ");
 			bool isCorrect = manager2.CheckAnswer(answer);
+			if (!isCorrect)
+			{
+				ui.WaitForAnyKey("구출 실패 결과를 확인하려면 아무 키나 입력하세요: "); // ysg: 오답 대사가 다음 로그에 밀리기 전에 확인
+			}
 			manager2.GiveReward();
 
 			if (isCorrect)
@@ -966,6 +970,10 @@ void DungeonManager::HandleRoom(Player& player,
 			npc.AskQuiz();
 			int answer = ui.InputSelection("정답: ");
 			bool rescued = npc.CheckAnswer(answer);
+			if (!rescued)
+			{
+				ui.WaitForAnyKey("구출 실패 결과를 확인하려면 아무 키나 입력하세요: "); // ysg: 긴 실패 대사를 읽기 전에 후속 로그로 넘어가는 문제 방지
+			}
 			npc.GiveReward();
 			return rescued;
 		};
