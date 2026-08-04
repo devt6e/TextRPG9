@@ -36,6 +36,7 @@ BattleResult BattleManager::StartBattle(
 	InventoryManager& inventoryManager)
 {
 	int choice;
+	ui.PrintStatus(&player); // ysg: 전투 시작 시 현재 플레이어 스탯 표시
 	while (player.GetHp() > 0 && monster.GetHp() > 0)
 	{
 		ui.PrintSelection({
@@ -57,9 +58,10 @@ BattleResult BattleManager::StartBattle(
 			{
 				continue;
 			}
+			ui.PrintStatus(&player); // ysg: 회복/버프 아이템 사용 결과를 즉시 스탯창에 반영
 			break;
 
-		case 0:
+		case 3:
 			if (TryEscape())
 			{
 				ui.PrintLog("도망 성공!!");
@@ -72,7 +74,7 @@ BattleResult BattleManager::StartBattle(
 			break;
 
 		default:
-			ui.PrintLog("0~2 중에서 선택해주세요.");
+			ui.PrintLog("1~3 중에서 선택해주세요.");
 			continue;
 		}
 
@@ -131,6 +133,7 @@ void BattleManager::MonsterAttack(Monster& monster, Player& player, UI& ui)
 		damage = 1;
 	}
 	player.SetHp(player.GetHp() - damage);
+	ui.PrintStatus(&player); // ysg: 몬스터에게 피해를 받은 직후 HP를 전투 중 스탯창에 갱신
 
 	ui.PrintLog(
 		monster.GetName() + "의 공격! " +

@@ -404,7 +404,7 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 	while (dungeonMap[playerLoc[0]][playerLoc[1]] != 2)
 	{
 		ui.DisplayDungeonMap(*this);
-
+		ui.PrintStatus(&player);
 		/*std::cout << "\n이동 가능한 방향: ";
 
 		if (CanMoveTo(0))
@@ -1045,6 +1045,8 @@ void DungeonManager::HandleBattleResult(Player& player,
 	{
 		ui.PrintLog("전투에서 도망쳤습니다.");
 		shouldExitDungeon = true;
+		ui.EraseArt(); // ysg: 도망 후 마을로 돌아갈 때 던전 미니맵 잔상 제거
+		ui.PrintTitle(); // ysg: 마을 화면의 LOSTZEP 타이틀 아트 복원
 	}
 	break;
 
