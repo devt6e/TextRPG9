@@ -2,7 +2,7 @@
 #include <iostream>
 
 Warrior :: Warrior(std::string Name) : Player(Name) {
-        Job = "전사";
+        Job = "코딩 5년차 수강생";
         SetMaxHp(GetMaxHp() + 30); // 최대 체력 상승
         SetHp(GetMaxHp());         // 현재 체력 맞춰주기
     }
