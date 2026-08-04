@@ -504,9 +504,15 @@ int UI::InputSelection(std::string text)
             Offsets[1] + 5); // ysg: 한글 안내문 바로 오른쪽에 입력 커서를 고정
 
         std::string input;
-        if (!std::getline(std::cin >> std::ws, input)) // ysg: 입력 한 줄 전체를 받아 1abc 같은 입력도 차단
+        if (!std::getline(std::cin, input)) // ysg: std::ws를 쓰지 않아 빈 Enter도 현재 입력으로 즉시 검사
         {
             std::cin.clear();
+            continue;
+        }
+
+        if (input.find_first_not_of(" \t\r\n") == std::string::npos)
+        {
+            PrintLog("번호를 입력해주세요."); // ysg: 빈 Enter 입력 시 커서가 다음 줄로 내려가 입력을 기다리지 않게 처리
             continue;
         }
 
