@@ -219,7 +219,7 @@ void DungeonManager::GenerateDungeonMap()
 	bool branchCreated = false;
 	int branchCreatedCount = 0;
 
-	for (int attempt = 0; attempt < 100; attempt++)
+	for (int attempt = 0; attempt < 300; attempt++)
 	{
 		int randomX = xPositionDist(gen);
 		int randomY = yPositionDist(gen);
@@ -280,8 +280,10 @@ void DungeonManager::GenerateDungeonMap()
 					// 오른쪽
 					if (branchX < MapWidth - 1 &&
 						dungeonMap[branchX + 1][branchY] != 0)
-
-					// 위
+					{
+						connectedPathCount++;
+					}
+					// ��
 					if (branchY > 0 &&
 						dungeonMap[branchX][branchY - 1] != 0)
 					{
@@ -291,17 +293,19 @@ void DungeonManager::GenerateDungeonMap()
 					// 아래
 					if (branchY < MapHeight - 1 &&
 						dungeonMap[branchX][branchY + 1] != 0)
-
+					{
+						connectedPathCount++;
+					}
 					if (connectedPathCount == 1)
 					{
 						dungeonMap[branchX][branchY] = 1;
 						branchCreatedCount++;
 						branchCreated = true;
-						if (branchCreatedCount >= 2)
+
+						if (branchCreatedCount >= 6)
 						{
 							break;
 						}
-
 					}
 
 				}
@@ -737,8 +741,8 @@ void DungeonManager::HandleRoom(Player& player,
 	}
 	}
 }
-void DungeonManager::HandleBattleResult(Player& player, 
-	Monster& monster, 
+void DungeonManager::HandleBattleResult(Player& player,
+	Monster& monster,
 	BattleResult result,
 	InventoryManager& inventoryManager)
 {
