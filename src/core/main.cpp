@@ -1,5 +1,5 @@
-//
-//﻿#include <iostream>
+﻿//
+//癤?include <iostream>
 //
 //#include "core/GamaManager.h"
 //
