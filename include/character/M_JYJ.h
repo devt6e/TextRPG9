@@ -1,6 +1,6 @@
 #pragma once
 #include "Monster.h"
-
+#include "core/UIManager.h"
 
 class JYJ : public Monster {
 public:
@@ -12,4 +12,7 @@ public:
 	void SpeakDefeat() const override;
 
 	void Attack() override;
+
+protected:
+	mutable UI um;
 };
