@@ -34,8 +34,8 @@ void CreateCharacter(GameManager* gm, UI& um, Player*& p)
 	//um.PrintMenu({"힘이 센 훈련생", "머리가 좋은 훈련생", "팔이 긴 훈련생", "민첩한 훈련생", "게임종료"});
 	PrintMenu({ "전사", "마법사", "궁수", "도적", "게임종료" }); //임시
 	//p->SetJob(um.InputSelection());
-	std::string selection = um.InputSelection("직업을 선택하세요: ");
-	switch (stoi(selection))
+	int selection = um.InputSelection("직업을 선택하세요: ");
+	switch (selection)
 	{
 	case 1:
 		p = new Warrior(name);
@@ -81,9 +81,8 @@ void GameManager::HandleStore()
 		std::cout << "(Debug)[store]" << std::endl;	//임시
 
 		PrintMenu({ "상품구매", "상품판매", "뒤로가기" });	//임시
-		std::string selection = um.InputSelection("입력: ");
-		int s = stoi(selection);
-		switch (s)
+		int selection = um.InputSelection("입력: ");
+		switch (selection)
 		{
 		case 1:
 		{
@@ -125,24 +124,22 @@ void GameManager::HandleStore()
 
 			PrintItems(items);
 			std::cout << "===============" << std::endl;
-			std::string s = um.InputSelection("몇번? ");
-			int idx = stoi(s);
+			int numberSelection = um.InputSelection("몇번? ");
 
-			if (idx > items.size())
+			if (numberSelection > items.size())
 			{
 				std::cout << "입력이 잘못 되었습니다" << std::endl;
 				break;
 			}
 
-			std::string n = um.InputSelection("몇개? ");
-			int quantity = stoi(n);
-			if (quantity > items[idx - 1].ItemCount)
+			int quantitySelection = um.InputSelection("몇개? ");
+			if (quantitySelection > items[numberSelection - 1].ItemCount)
 			{
 				std::cout << "수량이 부족합니다" << std::endl;
 				break;
 			}
 			//Inventory::ReduceItem(int idx, int quantity) -- vector<Item>의 idx-1 번째 원소의 itemcount를 quantity 만큼 감소
-			int gold = items[idx].Price * quantity;
+			int gold = items[numberSelection].Price * quantitySelection;
 			std::cout << "판매 완료 !" << gold << "zem을 획득했습니다" << std::endl;
 			player->SetGold(player->GetGold() + gold);
 			break;
@@ -210,8 +207,8 @@ void GameManager::Run()
 		currentState = GameState::MainMenu;
 		//um.PrintMenu({"ZEP타워 입장","상점이용","인벤토리","종료"});
 		PrintMenu({ "ZEP타워 입장","상점이용","인벤토리","게임종료" });
-		std::string selection = um.InputSelection("번호를 입력하세요: ");
-		switch (stoi(selection))
+		int selection = um.InputSelection("번호를 입력하세요: ");
+		switch (selection)
 		{
 		case 1:
 			std::cout << "던전 루틴 실행" << std::endl;
