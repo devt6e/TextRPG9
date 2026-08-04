@@ -14,10 +14,27 @@ Monster::Monster(std::string Name, int PlayerLevel) : Name(Name) {
     std::uniform_int_distribution<int> powerDist(PlayerLevel * 5, PlayerLevel * 10);
     Power = powerDist(gen);
 
+
     // 보상 
     std::uniform_int_distribution<int> expDist(1, 10); // 경험치 획득량을 1~10으로 지정
     DropExp = expDist(gen);
 
     std::uniform_int_distribution<int> goldDist(5, 10); // 템 구현은 아직, 5~10의 재화 드랍
     DropGold = goldDist(gen);
+}
+
+
+void Monster::SetHp(int Value)
+{
+    Hp = Value;
+
+    if (Hp > MaxHp)
+    {
+        Hp = MaxHp;
+    }
+
+    if (Hp < 0)
+    {
+        Hp = 0;
+    }
 }
