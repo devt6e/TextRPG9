@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 #include <algorithm>
 #include "item/Shop.h" 
@@ -15,10 +15,12 @@ ShopManager::ShopManager() {
 
 // 2. 아이템 목록 출력
 void ShopManager::PrintShopItems() {
-    cout << "\n[ 구매 목록 ]\n";
-    for (int i = 0; i < shopItems_.size(); i++) {
-        cout << i + 1 << ". " << shopItems_[i].Name << " - " << shopItems_[i].Price << "G\n";
-    }
+    //cout << "\n[ 구매 목록 ]\n";
+    //for (int i = 0; i < shopItems_.size(); i++) {
+    //    cout << i + 1 << ". " << shopItems_[i].Name << " - " << shopItems_[i].Price << "G\n";
+    //}
+    um.PrintMenu()
+
 }
 
 // 3. 구매 기능
@@ -131,4 +133,10 @@ void ShopManager::EnterShop(Player* player, InventoryManager& inventoryManager) 
             cout << "[오류] 잘못된 입력입니다. 다시 선택해주세요.\n";
         }
     }
+}
+
+//6. 상점 아이템 반환 함수
+vector<Item>& ShopManager::GetItems()
+{
+    return this->shopItems_;
 }

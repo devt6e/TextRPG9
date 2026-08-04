@@ -29,6 +29,7 @@ class Inventory {
 private:
     vector<T> items_;
     int capacity_;    // 현재 인벤토리 최대 칸 수
+    UI um;  //UI Manager - 작업자: 김태형
 public:
 
     vector<T>& GetAllItems() {
@@ -41,7 +42,12 @@ public:
 
     void ExpandCapacity() {
         capacity_ += 5; // 한 번에 5칸씩 증가
-        cout << "[System] 인벤토리 가방이 확장되었습니다! (현재 최대 " << capacity_ << "칸)\n";
+        //cout << "[System] 인벤토리 가방이 확장되었습니다! (현재 최대 " << capacity_ << "칸)\n";
+        std::string s = "[System] 인벤토리 가방이 확장되었습니다! (현재 최대 ";
+        s.append(std::to_string(capacity_));
+        s.append("칸");
+
+        um.PrintLog(s);
     }
 
     void AddItem(T newItem) {
