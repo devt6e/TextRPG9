@@ -42,7 +42,7 @@ void CreateCharacter(GameManager* gm, UI& um, Player*& p)
 		p->SetJob("슬랙 이모지 잘 누르는 수강생");
 		break;
 	case 3:
-		p = new Archer(name);
+		p = new Thief(name);
 		p->SetJob("TIL 우수 작성 수강생");
 		break;
 	case 0:
