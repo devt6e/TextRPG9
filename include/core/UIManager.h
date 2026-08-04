@@ -26,9 +26,11 @@ public:
     void PrintStatus(Player* p);//스탯창 출력
     void PrintInventory(std::vector<string> Inv);//인벤토리 출력
     void PrintSelection(std::vector<std::string> menu);//선택지 출력
-    std::string InputSelection(std::string text);//
+    void UI::PrintSelection(std::vector<Item> menu);//
+    std::string InputString(std::string text);// 입력 스트링
+    int InputSelection(std::string text);//입력 정수
     void PrintLog(const std::string&);
-    void UI::PrintArt(std::string s);
+    void UI::PrintArt(std::string_view s);
 
     void PrintDungeonMoveOptions(
         bool canMoveUp,
