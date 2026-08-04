@@ -214,7 +214,10 @@ void GameManager::Run()
 	if (currentState == GameState::Exit)
 	{
 		delete player;
-		std::cout << "게임을 종료합니다!" << std::endl;
+		if (!dm.HasDefeatedFinalBoss())
+		{
+			um.PrintLog("게임을 종료합니다!"); // ysg: 엔딩 출력 뒤 일반 종료 문구가 붙어서 중복 출력되지 않도록 처리
+		}
 		return;
 	}
 }

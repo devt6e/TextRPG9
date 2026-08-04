@@ -26,6 +26,7 @@ public:
 
 private://임시
     void PlayerAttack(Player& player, Monster& monster, UI& ui);//공격
+    bool PlayerSkill(Player& player, Monster& monster, UI& ui);//스킬
     void MonsterAttack(Monster& monster, Player& player, UI& ui);//몬스터 공격
     bool TryEscape();//런 시도
     bool UseItem(Player& player, InventoryManager& inventoryManager);// 템사용

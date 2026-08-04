@@ -41,6 +41,7 @@ BattleResult BattleManager::StartBattle(
 	{
 		ui.PrintSelection({
 			"공격",
+			"스킬",
 			"아이템",
 			"도망"
 			});
@@ -54,6 +55,13 @@ BattleResult BattleManager::StartBattle(
 			break;
 
 		case 2:
+			if (!PlayerSkill(player, monster, ui))
+			{
+				continue;
+			}
+			break;
+
+		case 3:
 			if (!UseItem(player, inventoryManager))
 			{
 				continue;
@@ -61,7 +69,7 @@ BattleResult BattleManager::StartBattle(
 			ui.PrintStatus(&player); // ysg: 회복/버프 아이템 사용 결과를 즉시 스탯창에 반영
 			break;
 
-		case 3:
+		case 4:
 			if (TryEscape())
 			{
 				ui.PrintLog("도망 성공!!");
@@ -74,7 +82,7 @@ BattleResult BattleManager::StartBattle(
 			break;
 
 		default:
-			ui.PrintLog("1~3 중에서 선택해주세요.");
+			ui.PrintLog("1~4 중에서 선택해주세요.");
 			continue;
 		}
 
@@ -123,6 +131,33 @@ void BattleManager::PlayerAttack(Player& player, Monster& monster, UI& ui)
 		monster.GetName() + "의 남은 HP: " +
 		std::to_string(monster.GetHp()) + " / " +
 		std::to_string(monster.GetMaxHp()));
+}
+bool BattleManager::PlayerSkill(Player& player, Monster& monster, UI& ui)
+{
+	constexpr int skillMpCost = 30;
+	if (player.GetMp() < skillMpCost)
+	{
+		ui.PrintLog(
+			"마나가 부족하여 스킬을 사용할 수 없습니다! (현재 MP: " +
+			std::to_string(player.GetMp()) + " / " +
+			std::to_string(player.GetMaxMp()) + ")");
+		return false; // ysg: MP 부족 시 몬스터에게 턴을 넘기지 않고 다시 선택
+	}
+
+	int damage = player.Skill();
+	if (damage <= 0)
+	{
+		return false;
+	}
+
+	monster.SetHp(monster.GetHp() - damage);
+	ui.PrintStatus(&player); // ysg: 스킬 사용 직후 소모된 MP를 스탯창에 반영
+	ui.PrintLog(
+		monster.GetName() + "의 남은 HP: " +
+		std::to_string(monster.GetHp()) + " / " +
+		std::to_string(monster.GetMaxHp()));
+
+	return true;
 }
 void BattleManager::MonsterAttack(Monster& monster, Player& player, UI& ui)
 {
