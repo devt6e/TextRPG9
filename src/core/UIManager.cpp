@@ -217,7 +217,7 @@ void UI::PrintSelection(std::vector<std::string> menu)
     for (int i = 0; i < menu.size(); ++i)
     {
         Gotoxy(81, 27 + i);
-        if (i == menu.size() - 1)
+        if (menu[i] == "종료하기" || menu[i] == "뒤로가기")
         {
             std::cout << "0)." << menu[i] << std::endl;
             break;
@@ -231,7 +231,7 @@ void UI::PrintSelection(std::vector<Item> menu)
     for (int i = 0; i < menu.size(); ++i)
     {
         Gotoxy(81, 27 + i);
-        if (i == menu.size() - 1)
+        if (menu[i].Name == "종료하기" || menu[i].Name == "뒤로가기")
         {
             std::cout << "0)." << menu[i].Name << "(" << menu[i].Price << ")" << std::endl;
             break;

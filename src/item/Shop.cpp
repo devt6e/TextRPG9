@@ -15,7 +15,7 @@ ShopManager::ShopManager() {
 
 // 2. 아이템 목록 출력
 void ShopManager::PrintShopItems() {
-    um.PrintLog("[ 구매 목록 ]");
+    //um.PrintLog("[ 구매 목록 ]");
     um.PrintSelection(shopItems_);
     //for (int i = 0; i < shopItems_.size(); i++) {
     //    cout << i + 1 << ". " << shopItems_[i].Name << " - " << shopItems_[i].Price << "G\n";
@@ -28,9 +28,9 @@ void ShopManager::PrintShopItems() {
 void ShopManager::BuyItem(Player* player, InventoryManager& inventoryManager) {
     PrintShopItems();
 
-    int buyChoice = um.InputSelection("살 아이템 번호 (취소 0): ");
+    int buyChoice = um.InputSelection("구매할 아이템 번호 (취소 0): ");
 
-    if (buyChoice == 0) return;
+    if (buyChoice == 0) return; //todo 수정하기
 
     if (buyChoice < 1 || buyChoice > shopItems_.size()) {
         um.PrintLog("[오류] 잘못된 번호입니다.");
