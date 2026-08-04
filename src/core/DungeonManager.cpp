@@ -728,7 +728,6 @@ void DungeonManager::HandleRoom(Player& player,
 	}
 	case(RoomType::Monster):
 	{
-		ui.PrintLog("몬스터 등장!!");
 		std::random_device rd;
 		std::mt19937 gen(rd());
 		std::uniform_int_distribution<int> monsterDist(0, 2);
@@ -739,6 +738,7 @@ void DungeonManager::HandleRoom(Player& player,
 		case 0:
 		{
 			Slime slime(player.GetLevel());
+			ui.PrintLog(slime.GetName() + " 등장!!");
 			BattleResult battleResult = battleManager.StartBattle(player, slime, ui, inventoryManager);
 			HandleBattleResult(player, slime, battleResult, ui, inventoryManager);
 			break;
@@ -747,6 +747,7 @@ void DungeonManager::HandleRoom(Player& player,
 		case 1:
 		{
 			Goblin goblin(player.GetLevel());
+			ui.PrintLog(goblin.GetName() + " 등장!!");
 			BattleResult battleResult = battleManager.StartBattle(player, goblin, ui, inventoryManager);
 			HandleBattleResult(player, goblin, battleResult, ui, inventoryManager);
 
@@ -756,6 +757,7 @@ void DungeonManager::HandleRoom(Player& player,
 		case 2:
 		{
 			Orc orc(player.GetLevel());
+			ui.PrintLog(orc.GetName() + " 등장!!");
 			BattleResult battleResult = battleManager.StartBattle(player, orc, ui, inventoryManager);
 			HandleBattleResult(player, orc, battleResult, ui, inventoryManager);
 
