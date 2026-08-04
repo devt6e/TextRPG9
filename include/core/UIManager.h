@@ -4,9 +4,10 @@
 #include <cstdlib>
 #include <windows.h>
 #include <vector>
-#include"character/Player.h"
+#include "item/Item.h"
 
 class DungeonManager;//던전
+class Player;
 
 class UI
 {

@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <windows.h>
 #include <vector>
+#include <sstream> // ysg: 숫자 입력 문자열이 올바른 정수인지 검사하기 위해 추가
 #include "core/UIManager.h"
 #include "core/DungeonManager.h"
 #include"character/Player.h"
@@ -130,34 +131,29 @@ void UI::PrintDungeonMoveOptions(
     Gotoxy(Offsets[0], Offsets[1]);
     std::cout << "이동 가능한 방향: ";
 
-    if (canMoveUp)
+    std::vector<std::string> moveOptions; // ysg: 실제 이동 가능한 방향만 모아서 출력하기 위해 추가
+    if (canMoveUp) moveOptions.push_back("W(위)");
+    if (canMoveDown) moveOptions.push_back("S(아래)");
+    if (canMoveLeft) moveOptions.push_back("A(왼쪽)");
+    if (canMoveRight) moveOptions.push_back("D(오른쪽)");
+
+    if (moveOptions.size() == 4) // ysg: 4방향을 한 줄씩 출력하면 선택창을 벗어나므로 두 개씩 배치
     {
         Gotoxy(Offsets[0], ++Offsets[1]);
-
-        std::cout << "W(위) ";
-    }
-
-    if (canMoveDown)
-    {
+        std::cout << moveOptions[0] << "  " << moveOptions[1];
         Gotoxy(Offsets[0], ++Offsets[1]);
-
-        std::cout << "S(아래) ";
+        std::cout << moveOptions[2] << "  " << moveOptions[3];
     }
-
-    if (canMoveLeft)
+    else
     {
-        Gotoxy(Offsets[0], ++Offsets[1]);
-
-        std::cout << "A(왼쪽) ";
+        for (const std::string& option : moveOptions)
+        {
+            Gotoxy(Offsets[0], ++Offsets[1]);
+            std::cout << option;
+        }
     }
 
-    if (canMoveRight)
-    {
-        Gotoxy(Offsets[0], ++Offsets[1]);
-
-        std::cout << "D(오른쪽) ";
-    }
-    Gotoxy(Offsets[0], ++Offsets[1]);
+    Gotoxy(Offsets[0], ++Offsets[1]); // ysg: 마을 복귀 선택지와 실제 입력 칸을 서로 다른 줄에 표시
     std::cout << "Q(마을로 복귀)";
     Gotoxy(Offsets[0], ++Offsets[1]);
     std::cout << "입력: ";
@@ -384,21 +380,40 @@ void UI::PrintArt(std::string_view s)
 
 int UI::InputSelection(std::string text)
 {
-    int a;
-    Offsets = SELECT_POS;   //LOG_POS -> SELECT_POS 변경
-    UI::Gotoxy(Offsets[0], Offsets[1]+5);
-    std::cout << text;
-    //Offsets = SELECT_POS;
-    //UI::Gotoxy(Offsets[0], Offsets[1]);
-    std::cin >> a;
-    return a;
+    while (true) // ysg: 문자를 입력해도 프로그램이 종료되지 않고 다시 입력받도록 반복
+    {
+        Offsets = SELECT_POS;   //LOG_POS -> SELECT_POS 변경
+        UI::Gotoxy(Offsets[0], Offsets[1] + 5);
+        std::cout << text;
+
+        std::string input;
+        if (!std::getline(std::cin >> std::ws, input)) // ysg: 입력 한 줄 전체를 받아 1abc 같은 입력도 차단
+        {
+            std::cin.clear();
+            continue;
+        }
+
+        std::istringstream inputStream(input); // ysg: 입력값이 정수 하나로만 구성됐는지 검사
+        int selection;
+        char extraCharacter;
+
+        if ((inputStream >> selection) && !(inputStream >> extraCharacter))
+        {
+            return selection;
+        }
+
+        PrintLog("숫자만 입력해주세요.");
+    }
 }
 std::string UI::InputString(std::string text)
 {
     std::string s;
-    Offsets = SELECT_POS;   //LOG_POS->SELECT_POS 로 수정
-    UI::Gotoxy(Offsets[0], Offsets[1]);
-    std::cout << text;
+    if (!text.empty()) // ysg: 빈 문자열이면 WASD 메뉴에서 지정한 현재 커서 위치를 유지
+    {
+        Offsets = SELECT_POS;   //LOG_POS->SELECT_POS 로 수정
+        UI::Gotoxy(Offsets[0], Offsets[1]);
+        std::cout << text;
+    }
     //Offsets = SELECT_POS;                 //입력의 자연스러움을 위해 수정
     //UI::Gotoxy(Offsets[0], Offsets[1]);   //입력의 자연스러움을 위해 수정
     std::cin >> s;
