@@ -8,53 +8,53 @@
 
 /*
 * 
-//¼±¾ğ
+//ì„ ì–¸
 void PrintMessage(const std::string&);
 
-//Á¤ÀÇ
+//ì •ì˜
 void UI::PrintMessage(const std::string& str) { std::cout << str; }
 
 */
 
 void CreateCharacter(GameManager* gm, UI& um, Player*& p)
 {
-	//º¸·ù //UIManager::PrintMessage(const std::string& str) 
-	//º¸·ù //um.PrintMessage("ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä: ");
+	//ë³´ë¥˜ //UIManager::PrintMessage(const std::string& str) 
+	//ë³´ë¥˜ //um.PrintMessage("ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš”: ");
 
-	//string UIManager::InputString(const std::string& str) ÇÊ¿ä
+	//string UIManager::InputString(const std::string& str) í•„ìš”
 	std::string name = "";
-	name = um.InputSelection("ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä: ");
-	//um.PrintMessage("Á÷¾÷À» ¼±ÅÃÇÏ¼¼¿ä: ");
-	um.PrintMenu({"Àü»ç", "¸¶¹ı»ç", "±Ã¼ö", "µµÀû", "Á¾·á"});
+	name = um.InputSelection("ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš”: ");
+	//um.PrintMessage("ì§ì—…ì„ ì„ íƒí•˜ì„¸ìš”: ");
+	um.PrintMenu({"ì „ì‚¬", "ë§ˆë²•ì‚¬", "ê¶ìˆ˜", "ë„ì ", "ì¢…ë£Œ"});
 	//p->SetJob(um.InputSelection());
-	std::string selection = um.InputSelection("Á÷¾÷À» ¼±ÅÃÇÏ¼¼¿ä: ");
+	std::string selection = um.InputSelection("ì§ì—…ì„ ì„ íƒí•˜ì„¸ìš”: ");
 	switch (stoi(selection))
 	{
 	case 1:
 		p = new Warrior(name);
-		p->SetJob("Àü»ç"); //todo: Á÷¾÷ ¸íÄª º¯°æ ½Ã ¼öÁ¤ ¿¹Á¤
+		p->SetJob("ì „ì‚¬"); //todo: ì§ì—… ëª…ì¹­ ë³€ê²½ ì‹œ ìˆ˜ì • ì˜ˆì •
 		break;
 	case 2:
 		p = new Magician(name);
-		p->SetJob("¸¶¹ı»ç");
+		p->SetJob("ë§ˆë²•ì‚¬");
 		break;
 	case 3:
 		p = new Archer(name);
-		p->SetJob("±Ã¼ö");
+		p->SetJob("ê¶ìˆ˜");
 		break;
 	case 4:
 		p = new Thief(name);
-		p->SetJob("µµÀû");
+		p->SetJob("ë„ì ");
 		break;
 	case 5:
 		gm->SetCurrentState(GameManager::GameState::Exit);
-		//um.PrintMessage("°ÔÀÓÀ» Á¾·áÇÕ´Ï´Ù!\n");
+		//um.PrintMessage("ê²Œì„ì„ ì¢…ë£Œí•©ë‹ˆë‹¤!\n");
 		break;
 	default:
-		//um.PrintMessage("Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù. ´Ù½Ã ÀÔ·ÂÇÏ¼¼¿ä\n");
+		//um.PrintMessage("ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì…ë ¥í•˜ì„¸ìš”\n");
 		break;
 	}
-	//µğ¹ö±ë ·Î±× 
+	//ë””ë²„ê¹… ë¡œê·¸ 
 	//std::cout << p->GetName() << std::endl;
 	//std::cout << p->GetJob() << std::endl; 
 	//system("pause");
@@ -78,14 +78,14 @@ void GameManager::HandleStatus()
 
 void GameManager::HandleInventory()
 {
-	um.PrintMenu({ "ÀÎº¥Åä¸® È®ÀÎ", });
+	um.PrintMenu({ "ì¸ë²¤í† ë¦¬ í™•ì¸", });
 }
 
 void GameManager::Run()
 {
 	system("mode con:cols=150 lines=40 | title LOSTZEP");
 
-	//um.MainTitle();	//todo: »õ·Î¿î Ãâ·Â ÇÔ¼ö·Î º¯°æ¿¹Á¤
+	//um.MainTitle();	//todo: ìƒˆë¡œìš´ ì¶œë ¥ í•¨ìˆ˜ë¡œ ë³€ê²½ì˜ˆì •
 	um.PrintMain();
 	um.PrintTitle();
 
@@ -95,38 +95,38 @@ void GameManager::Run()
 
 	while (currentState != GameState::Exit)
 	{
-		um.PrintMenu({"´øÀüÀÔÀå","ÀÎº¥Åä¸®","½ºÅÈ°ü¸®", "Á¦ÀÛ¼Ò","Á¾·á"});
-		std::string selection = um.InputSelection("¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä: ");
+		um.PrintMenu({"ë˜ì „ì…ì¥","ì¸ë²¤í† ë¦¬","ìŠ¤íƒ¯ê´€ë¦¬", "ì œì‘ì†Œ","ì¢…ë£Œ"});
+		std::string selection = um.InputSelection("ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”: ");
 		switch (stoi(selection))
 		{
 		case 1:
-			std::cout << "´øÀü ·çÆ¾ ½ÇÇà" << std::endl;
+			std::cout << "ë˜ì „ ë£¨í‹´ ì‹¤í–‰" << std::endl;
 			dm.StartDungeon(*player, um, im);
 			currentState = GameState::Dungeon;
 			system("pause");
 			break;
 		case 2:
-			std::cout << "ÀÎº¥Åä¸® È®ÀÎ ·çÆ¾ ½ÇÇà" << std::endl;
+			std::cout << "ì¸ë²¤í† ë¦¬ í™•ì¸ ë£¨í‹´ ì‹¤í–‰" << std::endl;
 			currentState = GameState::Inventory;
 			system("pause");
 			break;
 		case 3:
-			std::cout << "handle status ·çÆ¾ ½ÇÇà" << std::endl;
+			std::cout << "handle status ë£¨í‹´ ì‹¤í–‰" << std::endl;
 			currentState = GameState::Status;
 			system("pause");
 			break;
 		case 4:
-			std::cout << "handle crafting ·çÆ¾ ½ÇÇà" << std::endl;
+			std::cout << "handle crafting ë£¨í‹´ ì‹¤í–‰" << std::endl;
 			currentState = GameState::Crafting;
 			system("pause");
 			break;
 
 		case 0:
-			std::cout << "°ÔÀÓÀ» Á¾·áÇÕ´Ï´Ù!" << std::endl;
+			std::cout << "ê²Œì„ì„ ì¢…ë£Œí•©ë‹ˆë‹¤!" << std::endl;
 			system("pause");
 			return;
 		default:
-			std::cout << "ÀÔ·ÂÀÌ Àß¸øµÇ¾ú½À´Ï´Ù!" << std::endl;
+			std::cout << "ì…ë ¥ì´ ì˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤!" << std::endl;
 			system("pause");
 			break;
 		}

@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <string>
 #include <random>
 #include <limits>
@@ -10,20 +10,20 @@
 #include "item/Inventory.h"
 //#include "../../include/core/UI/UI2.h"
 
-// ÀÓ½Ã
+// ì„ì‹œ
 // #include "Player.h"
 // #include "Monster.h"
 
 
 /*
-// 1. ·£´ı »ı¼º±â ÁØºñ
+// 1. ëœë¤ ìƒì„±ê¸° ì¤€ë¹„
 std::random_device rd;
 std::mt19937 gen(rd());
 
-// 2. ¹üÀ§ ¼³Á¤: 1ºÎÅÍ 10±îÁö
+// 2. ë²”ìœ„ ì„¤ì •: 1ë¶€í„° 10ê¹Œì§€
 std::uniform_int_distribution<int> dist(1, 10);
 
-// 3. ·£´ı ¼ıÀÚ »Ì±â
+// 3. ëœë¤ ìˆ«ì ë½‘ê¸°
 int number = dist(gen);
 
 std::cout << number << '\n';
@@ -38,17 +38,17 @@ BattleResult BattleManager::StartBattle(
     int choice;
     while (player.GetHp() > 0 && monster.GetHp() > 0)
     {
-        std::cout << "1. °ø°İ\n"
-            << "2. ¾ÆÀÌÅÛ\n"
-            << "3. µµ¸Á\n"
-            << "¼±ÅÃ : \n";
+        std::cout << "1. ê³µê²©\n"
+            << "2. ì•„ì´í…œ\n"
+            << "3. ë„ë§\n"
+            << "ì„ íƒ : \n";
 
         if (!(std::cin >> choice))
         {
             std::cin.clear();
             std::cin.ignore(10000, '\n');
 
-            std::cout << "¼ıÀÚ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.\n";
+            std::cout << "ìˆ«ìë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”.\n";
             continue;
         }
 
@@ -68,17 +68,17 @@ BattleResult BattleManager::StartBattle(
         case 3:
             if (TryEscape())
             {
-                std::cout << "µµ¸Á¼º°ø!!\n";
+                std::cout << "ë„ë§ì„±ê³µ!!\n";
                 return BattleResult::Escaped;
             }
             else
             {
-                std::cout << "µµ¸Á½ÇÆĞ!!\n";
+                std::cout << "ë„ë§ì‹¤íŒ¨!!\n";
             }
             break;
 
         default:
-            std::cout << "1~3 Áß¿¡¼­ ¼±ÅÃÇØÁÖ¼¼¿ä.\n";
+            std::cout << "1~3 ì¤‘ì—ì„œ ì„ íƒí•´ì£¼ì„¸ìš”.\n";
             continue;
         }
 
@@ -107,9 +107,9 @@ void BattleManager::PlayerAttack(Player& player, Monster& monster)
     }
     monster.SetHp(monster.GetHp() - damage);
 
-    std::cout << player.GetName() << "ÀÇ °ø°İ! " << monster.GetName() 
-        << "¿¡°Ô " << damage << "ÀÇ ÇÇÇØ¸¦ ÀÔÇû½À´Ï´Ù\n";
-    std::cout << monster.GetName() << "ÀÇ ³²Àº HP: "
+    std::cout << player.GetName() << "ì˜ ê³µê²©! " << monster.GetName() 
+        << "ì—ê²Œ " << damage << "ì˜ í”¼í•´ë¥¼ ì…í˜”ìŠµë‹ˆë‹¤\n";
+    std::cout << monster.GetName() << "ì˜ ë‚¨ì€ HP: "
         << monster.GetHp() << " / " 
         << monster.GetMaxHp() << std::endl;
 }
@@ -123,9 +123,9 @@ void BattleManager::MonsterAttack(Monster& monster, Player& player)
     }
     player.SetHp(player.GetHp() - damage);
 
-    std::cout << monster.GetName() << "ÀÇ °ø°İ! " << player.GetName()
-        << "¿¡°Ô " << damage << "ÀÇ ÇÇÇØ¸¦ ÀÔÇû½À´Ï´Ù\n";
-    std::cout << player.GetName() << "ÀÇ ³²Àº HP: "
+    std::cout << monster.GetName() << "ì˜ ê³µê²©! " << player.GetName()
+        << "ì—ê²Œ " << damage << "ì˜ í”¼í•´ë¥¼ ì…í˜”ìŠµë‹ˆë‹¤\n";
+    std::cout << player.GetName() << "ì˜ ë‚¨ì€ HP: "
         << player.GetHp() << " / "
         << player.GetMaxHp() << std::endl;
 }
