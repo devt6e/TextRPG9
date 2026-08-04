@@ -213,7 +213,7 @@ bool CookieCat::UseItem(Player*)
 }
 
 ZemPouch::ZemPouch()
-	: Item("ZEM 주머니", 0, 1)
+	: Item("ZEM 주머니", 100, 1)
 {
 	ItemDescription = "ZEM 탈취범에게서 되찾은 주머니입니다.";
 	ItemDropLocation = "ZEM 탈취범";
@@ -225,7 +225,7 @@ bool ZemPouch::UseItem(Player*)
 }
 
 AlarmClock::AlarmClock()
-	: Item("지각생의 알람시계", 0, 1)
+	: Item("지각생의 알람시계", 10, 1)
 {
 	ItemDescription = "만년 지각생이 떨구고 간 알람시계입니다.";
 	ItemDropLocation = "만년 지각생";
@@ -237,7 +237,7 @@ bool AlarmClock::UseItem(Player*)
 }
 
 Microphone::Microphone()
-	: Item("마이크", 0, 1)
+	: Item("마이크", 15, 1)
 {
 	ItemDescription = "모닝콜 수강생이 남기고 간 마이크입니다.";
 	ItemDropLocation = "모닝콜 수강생";

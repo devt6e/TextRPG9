@@ -59,17 +59,42 @@ void GameManager::HandleStore()
 		}
 		case 2:
 		{
-			 um.PrintLog("(Debug)아이템 판매 루틴 실행");
+			um.PrintLog("(Debug)아이템 판매 루틴 실행");
+
+			um.PrintSelection({"소비아이템", "재료아이템", "뒤로가기"});
+			int typeInven = um.InputSelection("판매할 아이템 종류를 선택하세요: ");
+			if (typeInven == 1)
+			{
+				std::vector<Item> items = im.GetConsumableBag().GetAllItems();
+				if (items.size() < 1)
+				{
+					um.PrintLog("판매할 아이템이 없습니다");
+					break;
+				}
+			}
+			else if (typeInven == 2)
+			{
+				std::vector<Item> items = im.GetMaterialBag().GetAllItems();
+				if (items.size() < 1)
+				{
+					um.PrintLog("판매할 아이템이 없습니다");
+					break;
+				}
+			}
+			else
+			{
+
+			}
 
 			std::vector<Item> items = iven.GetAllItems();
-			if (items.size() < 1)
+			if (im.IsEmpty())
 			{
 				um.PrintLog("판매할 아이템이 없습니다");
 				break;
 			}
 
 			um.PrintSelection(items);
-			int numberSelection = um.InputSelection("몇번? ");
+			int numberSelection = um.InputSelection("구매할 아이템의 번호를 입력하세요: ");
 
 			if (numberSelection > items.size())
 			{
