@@ -16,7 +16,7 @@ public:
     void SetIsRescued(bool rescued);
 
     virtual void SpeakEncounter() const = 0; // 조우시
-    virtual void AskQuiz() = 0;              // 퀴즈
+    virtual void AskQuiz() const = 0;              // 퀴즈
     virtual void OnCorrect() = 0;            // 정답
     virtual void OnWrong() const = 0;        // 실패
     virtual void GiveReward() const = 0;     // 보상

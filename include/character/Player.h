@@ -49,9 +49,20 @@ public:
     void SetJob(std::string Value) { Job = Value; } // 직업 명칭 수정?
     void SetGold(int Value) { Gold = Value; }       // 골드량 수정
 
+    // 마나를 소모하는 함수 (마나가 부족하면 false 반환)
+    bool UseMp(int amount) {
+        if (Mp >= amount) {
+            SetMp(Mp - amount); // 기존 SetMp 함수가 0 미만으로 떨어지는 걸 막아줍니다
+            return true;        // 사용 성공
+        }
+        std::cout << "마나가 부족하여 스킬을 사용할 수 없습니다! (현재 마나: " << Mp << "/" << MaxMp << ")\n";
+        return false;           // 사용 실패
+    }
+
     void AddExp(int Amount); // 경험치 획득 함수 추가
 
     virtual void Attack() = 0;
+    virtual int Skill() = 0; // 각 직업별 고유 스킬 함수
     void ResetBuff() { TempAttackBuff = 0; TempDEFBuff = 0; } // 임시 버프 수치를 0으로 초기화
 
 protected: // 초기 스탯
