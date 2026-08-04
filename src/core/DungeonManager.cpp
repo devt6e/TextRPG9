@@ -1,4 +1,4 @@
-﻿#include "core/DungeonManager.h"
+#include "core/DungeonManager.h"
 #include "core/UIManager.h"
 #include "character/Player.h"
 #include "character/M_Slime.h"
@@ -283,7 +283,7 @@ void DungeonManager::GenerateDungeonMap()
 					{
 						connectedPathCount++;
 					}
-					// ��
+					// 위
 					if (branchY > 0 &&
 						dungeonMap[branchX][branchY - 1] != 0)
 					{
@@ -360,7 +360,7 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 	{
 		ui.DisplayDungeonMap(*this);
 
-		/*std::cout << "\n�̵� ������ ����: ";
+		/*std::cout << "\n이동 가능한 방향: ";
 
 		if (CanMoveTo(0))
 		{
@@ -382,8 +382,8 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 			std::cout << "D(오른쪽) ";
 		}
 
-		std::cout << "\nQ(������ ����)\n";
-		std::cout << "�Է�: ";*/
+		std::cout << "\nQ(마을로 복귀)\n";
+		std::cout << "입력: ";*/
 		ui.PrintDungeonMoveOptions(
 			CanMoveTo(0),
 			CanMoveTo(1),
@@ -438,7 +438,7 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 			if (clearedMap[playerLoc[0]][playerLoc[1]] == false)
 			{
 				RoomType decideRoom = DecideRoomType();
-				HandleRoom(player, decideRoom, inventoryManager);
+				HandleRoom(player, decideRoom, ui, inventoryManager);
 				if (shouldExitDungeon)
 				{
 					std::cout << "게임 오버입니다.\n";
@@ -544,9 +544,9 @@ void DungeonManager::MoveRoom(int destination)    // 현재 위치 변경
 		break;
 	}
 	visitedMap[playerLoc[0]][playerLoc[1]] = true;
-	std::cout << "moved player: "
+	/*std::cout << "moved player: "
 		<< playerLoc[0] << ", "
-		<< playerLoc[1] << '\n';
+		<< playerLoc[1] << '\n';*/
 }
 /*void DungeonManager::DisplayDungeonMap() const
 {
@@ -688,8 +688,9 @@ void DungeonManager::MoveRoom(int destination)    // 현재 위치 변경
 	std::cout << "| [.] 탐색 완료   [?] 미확인 방   |\n";
 	std::cout << "+---------------------------------+\n";
 }*/
-void DungeonManager::HandleRoom(Player& player, 
-	RoomType roomType, 
+void DungeonManager::HandleRoom(Player& player,
+	RoomType roomType,
+	UI& ui,
 	InventoryManager& inventoryManager)    // 방에 들어갔을 때
 {
 	switch (roomType)
@@ -739,7 +740,23 @@ void DungeonManager::HandleRoom(Player& player,
 	}
 	case(RoomType::NPC):
 	{
-		std::cout << "NPC ����!!\n";
+		std::cout << "NPC 등장!!\n";
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<int> npcDist(0, 1);
+
+		int npcType = npcDist(gen);
+
+		if (npcType == 0)
+		{
+			ui.NPC_M();
+		}
+		else
+		{
+			ui.NPC_K();
+		}
+
+
 		DropRandomItem(inventoryManager);
 		system("pause");
 		clearedMap[playerLoc[0]][playerLoc[1]] = true;
