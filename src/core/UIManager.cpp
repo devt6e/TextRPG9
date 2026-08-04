@@ -376,14 +376,14 @@ void UI::PrintIntro()
     UI::Gotoxy(2, 24);
     std::cout << "그에 항의하던 매니저님들, 튜터님들을 납치했다!!" << std::endl;
     UI::Gotoxy(2, 25);
-    system("pause");
+    Pause();
     system("cls");
     UI::PrintMain();
     UI::PrintBuilding();
     UI::Gotoxy(2, 22);
     std::cout << "당신은 납치당한 사람들과 포인트를 되찾기 위해 ZEP 빌딩을 오르기로 한다..." << std::endl;
     UI::Gotoxy(2, 23);
-    system("pause");
+    Pause();
     system("cls");
     UI::PrintMain();
     PrintTitle();
@@ -476,5 +476,10 @@ void UI::NPC_K()
 }
 
 
-
+void UI::Pause()
+{
+    Gotoxy(0, 35);
+    system("pause");
+    std::cout << "                                   ";
+}
 

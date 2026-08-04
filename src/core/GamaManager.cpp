@@ -92,7 +92,7 @@ void GameManager::HandleStore()
 			//	im.AddItem(items[idx-1], nBuy);	//InventoryManager::AddItem(Item _item, int cnt) 함수 추가 요청
 			//else
 			//	std::cout << "젬이 부족합니다" << std::endl;
-			system("pause");
+			um.Pause();
 			break;
 		}
 		case 2:
@@ -160,6 +160,8 @@ void GameManager::HandleInventory()	//todo: 인벤토리 형태에 대한 고민
 	//std::cout << std::endl;
 	um.EraseStat();
 	im.PrintAllSummary();
+	um.Gotoxy(0, 35);
+	um.Pause();
 }
 
 void GameManager::Run()
@@ -168,7 +170,7 @@ void GameManager::Run()
 
 	um.PrintMain();
 	um.PrintTitle();
-	system("pause");
+	um.Pause();
 	um.PrintIntro();
 
 	CreateCharacter(this, um, player);

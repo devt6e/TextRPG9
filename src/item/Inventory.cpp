@@ -22,10 +22,10 @@ void InventoryManager::PrintAllSummary() {
 	//std::cout << "\n======== [ 전체 인벤토리 ] ========";
 	//std::cout << "▶ [ 소비 아이템 ]";
 	um.PrintInventory(consumableBag_.GetAllItems(),"[ 소비 아이템 ]", 0);
-	consumableBag_.PrintSummary();
+	//consumableBag_.PrintSummary();
 
 	um.PrintInventory(materialBag_.GetAllItems(), "[ 재료 아이템 ]", 2);
-	materialBag_.PrintSummary();
+	//materialBag_.PrintSummary();
 	//std::cout << "\n▶ [ 재료 아이템 ]";
 	//materialBag_.PrintSummary();
 	//std::cout << "===================================\n";

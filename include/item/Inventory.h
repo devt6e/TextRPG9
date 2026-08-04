@@ -91,8 +91,8 @@ public:
     }
 
     void PrintSummary() {
-        std::string title = "========== [ 인벤토리 (" + std::to_string(items_.size()) + "/" + std::to_string(capacity_) + ") ] ==========";
-        um.PrintLog(title);
+        //std::string title = "========== [ 인벤토리 (" + std::to_string(items_.size()) + "/" + std::to_string(capacity_) + ") ] ==========";
+        //um.PrintLog(title);
 
         if (items_.empty()) {
             um.PrintLog("가방이 텅 비어있습니다.");

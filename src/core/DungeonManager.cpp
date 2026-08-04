@@ -1000,7 +1000,7 @@ void DungeonManager::HandleRoom(Player& player,
 			ui.PrintLog("오답이어서 아이템 보상을 받지 못했습니다.");
 		}
 
-		system("pause");
+		ui.Pause();
 		clearedMap[playerLoc[0]][playerLoc[1]] = true;
 
 		if (rescuedNpcCount == 3 && !midBossDefeated)
@@ -1023,7 +1023,7 @@ void DungeonManager::HandleBattleResult(Player& player,
 	{
 	case(BattleResult::Victory):
 	{
-		system("pause");
+		ui.Pause();
 
 		ui.PrintLog("전투에서 승리했습니다.");
 		clearedMap[playerLoc[0]][playerLoc[1]] = true;
@@ -1031,7 +1031,7 @@ void DungeonManager::HandleBattleResult(Player& player,
 		player.SetGold(player.GetGold() + monster.GetDropGold());
 
 		ui.PrintLog(std::to_string(monster.GetDropGold()) +" 골드를 획득했습니다.");
-		system("pause");
+		ui.Pause();
 
 	}
 	break;

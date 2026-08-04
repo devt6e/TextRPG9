@@ -37,6 +37,7 @@ public:
     int InputSelection(std::string text);//입력 정수
     void PrintLog(const std::string&);
     void UI::PrintArt(std::string_view s);
+    void Pause();
 
     void PrintDungeonMoveOptions(
         bool canMoveUp,
