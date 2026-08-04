@@ -67,6 +67,7 @@ BattleResult BattleManager::StartBattle(
 				continue;
 			}
 			ui.PrintStatus(&player); // ysg: 회복/버프 아이템 사용 결과를 즉시 스탯창에 반영
+			ui.WaitForAnyKey("계속하려면 아무 키나 입력하세요: "); // ysg: 아이템 사용 결과를 확인한 뒤 몬스터 턴 진행
 			break;
 
 		case 4:
