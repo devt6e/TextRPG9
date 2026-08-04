@@ -1045,6 +1045,8 @@ void DungeonManager::HandleBattleResult(Player& player,
 	{
 		ui.PrintLog("전투에서 도망쳤습니다.");
 		shouldExitDungeon = true;
+		ui.EraseArt(); // ysg: 도망 후 마을로 돌아갈 때 던전 미니맵 잔상 제거
+		ui.PrintTitle(); // ysg: 마을 화면의 LOSTZEP 타이틀 아트 복원
 	}
 	break;
 

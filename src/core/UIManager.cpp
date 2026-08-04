@@ -218,6 +218,7 @@ void UI::EraseStat() { Erase({ 81, 22 }, 67, 4); }
 
 void UI::PrintStatus(Player* p)
 {
+    EraseStat(); // ysg: 전투 중 HP 등 스탯 갱신 시 이전 숫자가 뒤에 남지 않도록 영역 초기화
     Offsets = STAT_POS;
     UI::Gotoxy(Offsets[0], Offsets[1]);
     std::cout << u8"이름: " << p->GetName() << u8"  직업: " << p->GetJob() << "  Lv: " << p->GetLevel();
@@ -580,6 +581,7 @@ std::string UI::InputString(std::string text)
 }
 void UI::NPC_M()
 {
+    EraseArt(); // ysg: 던전 맵이나 이전 NPC 그림이 뒤에 잔상으로 남지 않도록 아트 영역 초기화
     UI::Gotoxy(10, 2);  std::cout << "                  ---          " << std::endl;
     UI::Gotoxy(10, 3);  std::cout << "                /     \\        " << std::endl;
     UI::Gotoxy(10, 4);  std::cout << "                ((o_o))        " << std::endl;
@@ -596,6 +598,7 @@ void UI::NPC_M()
 }
 void UI::NPC_K()
 {
+    EraseArt(); // ysg: 던전 맵이나 이전 NPC 그림이 뒤에 잔상으로 남지 않도록 아트 영역 초기화
     UI::Gotoxy(10, 2);  std::cout << "                    /\\" << std::endl;
     UI::Gotoxy(10, 3);  std::cout << "                   /  \\" << std::endl;
     UI::Gotoxy(10, 4);  std::cout << "                  /    \\" << std::endl;
