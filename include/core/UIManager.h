@@ -10,11 +10,13 @@ class DungeonManager;//던전
 
 class UI
 {
-
+private:
+    std::vector<int> Offsets = { 0,0 };
 public:
 
     void DisplayDungeonMap(const DungeonManager& dungeon);//����
     void Gotoxy(int x, int y);//��� ��ǥ
+    void Gotoxy(std::vector<int> coor);
     void PrintTitle(); //LOSTZEP Ÿ��Ʋ
     void PrintMain(); //UI Ʋ
     void PrintBuilding(); //�ʹ� ���丮 
