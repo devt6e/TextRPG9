@@ -360,7 +360,7 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 	{
 		ui.DisplayDungeonMap(*this);
 
-		std::cout << "\n이동 가능한 방향: ";
+		/*std::cout << "\n이동 가능한 방향: ";
 
 		if (CanMoveTo(0))
 		{
@@ -383,7 +383,12 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 		}
 
 		std::cout << "\nQ(마을로 복귀)\n";
-		std::cout << "입력: ";
+		std::cout << "입력: ";*/
+		ui.PrintDungeonMoveOptions(
+			CanMoveTo(0),
+			CanMoveTo(1),
+			CanMoveTo(2),
+			CanMoveTo(3));
 
 		char input;
 		std::cin >> input;
@@ -735,6 +740,7 @@ void DungeonManager::HandleRoom(Player& player,
 	case(RoomType::NPC):
 	{
 		std::cout << "NPC 등장!!\n";
+		DropRandomItem(inventoryManager);
 		system("pause");
 		clearedMap[playerLoc[0]][playerLoc[1]] = true;
 		break;
