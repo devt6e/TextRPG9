@@ -391,7 +391,7 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 			CanMoveTo(3));
 
 		std::string inputString =
-			ui.InputSelection("");
+			ui.InputString("");
 
 		if (inputString.empty())
 		{

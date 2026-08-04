@@ -44,18 +44,7 @@ BattleResult BattleManager::StartBattle(
 			"도망"
 			});
 
-		std::string inputString =
-			ui.InputSelection("선택: ");
-
-		try
-		{
-			choice = std::stoi(inputString);
-		}
-		catch (...)
-		{
-			ui.PrintLog("숫자를 입력해주세요.");
-			continue;
-		}
+		int choice = ui.InputSelection("선택: ");
 
 		switch (choice)
 		{
