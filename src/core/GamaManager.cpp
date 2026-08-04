@@ -152,7 +152,6 @@ void GameManager::HandleStore()
 	}
 	//system("pause");//임시
 	//system("cls"); //임시
-
 }      
 
 void GameManager::HandleInventory()	//todo: 인벤토리 형태에 대한 고민
@@ -209,7 +208,7 @@ void GameManager::Run()
 			break;
 
 		case 3:
-			std::cout << "(Debug)인벤토리 루틴" << std::endl;		//디버그 로그
+			//std::cout << "(Debug)인벤토리 루틴" << std::endl;		//디버그 로그
 			currentState = GameState::Inventory;
 			HandleInventory();
 			break;
@@ -219,7 +218,8 @@ void GameManager::Run()
 			break;
 
 		default:
-			std::cout << "입력이 잘못되었습니다!" << std::endl;
+			//std::cout << "입력이 잘못되었습니다!" << std::endl;
+			um.PrintLog("입력이 잘못되었습니다!");
 			break;
 		}
 	}

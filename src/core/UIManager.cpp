@@ -133,28 +133,24 @@ void UI::PrintDungeonMoveOptions(
     if (canMoveUp)
     {
         Gotoxy(Offsets[0], ++Offsets[1]);
-
         std::cout << "W(위) ";
     }
 
     if (canMoveDown)
     {
         Gotoxy(Offsets[0], ++Offsets[1]);
-
         std::cout << "S(아래) ";
     }
 
     if (canMoveLeft)
     {
         Gotoxy(Offsets[0], ++Offsets[1]);
-
         std::cout << "A(왼쪽) ";
     }
 
     if (canMoveRight)
     {
         Gotoxy(Offsets[0], ++Offsets[1]);
-
         std::cout << "D(오른쪽) ";
     }
     Gotoxy(Offsets[0], ++Offsets[1]);
@@ -211,6 +207,22 @@ void UI::PrintInventory(std::vector<std::string> Inv)
         }
     }
 }
+void UI::PrintInventory(std::vector<Item> Inv, std::string str)
+{
+    Offsets = STAT_POS;
+    UI::Gotoxy(Offsets[0], Offsets[1]++);
+    std::cout << str;
+    UI::Gotoxy(Offsets[0], Offsets[1]++);
+    for (int i = 0; i < Inv.size(); ++i)
+    {
+        std::cout << i + 1 << "). " << Inv[i].Name << "(" << Inv[i].Price <<")";
+        if ((i + 1) % 3 == 0)
+        {
+            Gotoxy(Offsets[0], ++Offsets[1]);
+        }
+    }
+}
+
 void UI::PrintSelection(std::vector<std::string> menu)
 {
     EraseSelection();
@@ -397,7 +409,7 @@ std::string UI::InputString(std::string text)
 {
     std::string s;
     Offsets = SELECT_POS;   //LOG_POS->SELECT_POS 로 수정
-    UI::Gotoxy(Offsets[0], Offsets[1]);
+    UI::Gotoxy(Offsets[0], Offsets[1]+5);
     std::cout << text;
     //Offsets = SELECT_POS;                 //입력의 자연스러움을 위해 수정
     //UI::Gotoxy(Offsets[0], Offsets[1]);   //입력의 자연스러움을 위해 수정

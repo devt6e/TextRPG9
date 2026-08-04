@@ -194,7 +194,7 @@ class InventoryManager {
 private:
     Inventory<Item> consumableBag_;
     Inventory<Item> materialBag_;
-
+    UI um;  //UI Manager - 작업자: 김태형
 public:
 
     Inventory<Item>& GetConsumableBag();

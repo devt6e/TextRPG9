@@ -19,11 +19,12 @@ void InventoryManager::AddMaterial(Item item) {
 }
 
 void InventoryManager::PrintAllSummary() {
-	std::cout << "\n======== [ 전체 인벤토리 ] ========";
-	std::cout << "\n\n▶ [ 소비 아이템 ]";
+	//std::cout << "\n======== [ 전체 인벤토리 ] ========";
+	//std::cout << "▶ [ 소비 아이템 ]";
+	um.PrintInventory(consumableBag_.GetAllItems(),"[ 소비 아이템 ]");
 	consumableBag_.PrintSummary();
 
-	std::cout << "\n▶ [ 재료 아이템 ]";
-	materialBag_.PrintSummary();
-	std::cout << "===================================\n";
+	//std::cout << "\n▶ [ 재료 아이템 ]";
+	//materialBag_.PrintSummary();
+	//std::cout << "===================================\n";
 }
