@@ -255,7 +255,7 @@ void UI::PrintInventory(std::vector<Item> Inv, std::string str, int offset)
     UI::Gotoxy(Offsets[0], Offsets[1]++);
     for (int i = 0; i < Inv.size(); ++i)
     {
-        std::cout << i + 1 << ". " << Inv[i].Name << "(" << Inv[i].Price <<") ";
+        std::cout << i + 1 << ". " << Inv[i].Name << "(" << Inv[i].Price <<" zem, " << Inv[i].ItemCount << "ea) ";
         if ((i + 1) % 3 == 0)
         {
             Gotoxy(Offsets[0], ++Offsets[1]);

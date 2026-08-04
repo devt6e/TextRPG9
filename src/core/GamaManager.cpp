@@ -60,12 +60,15 @@ void GameManager::HandleStore()
 		case 2:
 		{
 			um.PrintLog("(Debug)아이템 판매 루틴 실행");
+			um.EraseStat();
+			im.PrintAllSummary();
+			std::vector<Item> items;
 
 			um.PrintSelection({"소비아이템", "재료아이템", "뒤로가기"});
 			int typeInven = um.InputSelection("판매할 아이템 종류를 선택하세요: ");
 			if (typeInven == 1)
 			{
-				std::vector<Item> items = im.GetConsumableBag().GetAllItems();
+				items = im.GetConsumableBag().GetAllItems();
 				if (items.size() < 1)
 				{
 					um.PrintLog("판매할 아이템이 없습니다");
@@ -74,7 +77,7 @@ void GameManager::HandleStore()
 			}
 			else if (typeInven == 2)
 			{
-				std::vector<Item> items = im.GetMaterialBag().GetAllItems();
+				items = im.GetMaterialBag().GetAllItems();
 				if (items.size() < 1)
 				{
 					um.PrintLog("판매할 아이템이 없습니다");
@@ -83,43 +86,39 @@ void GameManager::HandleStore()
 			}
 			else
 			{
-
-			}
-
-			std::vector<Item> items = iven.GetAllItems();
-			if (im.IsEmpty())
-			{
-				um.PrintLog("판매할 아이템이 없습니다");
+				um.PrintLog("돌아갑니다");
 				break;
+				um.Pause();
 			}
 
 			um.PrintSelection(items);
-			int numberSelection = um.InputSelection("구매할 아이템의 번호를 입력하세요: ");
+			int numberSelection = um.InputSelection("판매할 아이템의 번호를 입력하세요: ");
 
-			if (numberSelection > items.size())
+			while(numberSelection > items.size())
 			{
-				//std::cout << "입력이 잘못 되었습니다" << std::endl;
 				um.PrintLog("입력이 잘못 되었습니다");
-				break;
+				numberSelection = um.InputSelection("판매할 아이템의 번호를 입력하세요: ");
 			}
 
-			int quantitySelection = um.InputSelection("몇개? ");
-			if (quantitySelection > items[numberSelection - 1].ItemCount)
+			int quantitySelection = um.InputSelection("판매할 아이템의 개수를 입력하세요: ");
+			while(quantitySelection > items[numberSelection - 1].ItemCount)
 			{
-				//std::cout << "수량이 부족합니다" << std::endl;
 				um.PrintLog("수량이 부족합니다");
-				break;
+				quantitySelection = um.InputSelection("판매할 아이템의 개수를 입력하세요: ");
 			}
-			//Inventory::ReduceItem(int idx, int quantity) -- vector<Item>의 idx-1 번째 원소의 itemcount를 quantity 만큼 감소
 			int gold = items[numberSelection - 1].Price * quantitySelection;
-			//std::cout << "판매 완료 !" << gold << "zem을 획득했습니다" << std::endl;
 			std::string s = "판매 완료 !" + std::to_string(gold) + "zem을 획득했습니다!";
+			//items[numberSelection].ItemCount -= quantitySelection;
+			if (typeInven == 1)
+				im.GetConsumableBag().RemoveItem(numberSelection, quantitySelection);
+			else
+				im.GetMaterialBag().RemoveItem(numberSelection, quantitySelection);
+			
 			um.PrintLog(s);
 			player->SetGold(player->GetGold() + gold);
 			break;
 		}
 		case 0:
-			//std::cout << "메인 메뉴로 돌아갑니다" << std::endl;
 			um.PrintLog("메인 메뉴로 돌아갑니다");
 			//system("pause");//임시
 			//system("cls"); //임시

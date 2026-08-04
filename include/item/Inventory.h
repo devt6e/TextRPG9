@@ -209,4 +209,6 @@ public:
     bool IsEmpty() {
         return consumableBag_.GetAllItems().size() == 0 && materialBag_.GetAllItems().size() == 0;
     }
+
+    void SubItemCount(Inventory<Item>& iven, int idx, int quant) { iven.GetAllItems()[idx].ItemCount -= quant; }
 };
