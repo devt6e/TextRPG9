@@ -35,6 +35,7 @@ public:
     void UI::PrintSelection(std::vector<Item> menu);//
     std::string InputString(std::string text);// 입력 스트링
     int InputSelection(std::string text);//입력 정수
+    void WaitForAnyKey(const std::string& text);//키 하나 입력 대기
     void PrintLog(const std::string&);
     void UI::PrintArt(std::string_view s);
     void Pause();

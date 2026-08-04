@@ -833,7 +833,7 @@ void DungeonManager::HandleRoom(Player& player,
 				ui.PrintLog("문제는 모두 틀렸지만 NPC들과 함께 ZEP 타워를 탈출했습니다.");
 			}
 
-			ui.InputString("게임을 종료하려면 아무 키나 입력하세요: ");
+			ui.WaitForAnyKey("게임을 종료하려면 아무 키나 입력하세요: ");
 		}
 
 		break;
@@ -1000,7 +1000,7 @@ void DungeonManager::HandleRoom(Player& player,
 			ui.PrintLog("오답이어서 아이템 보상을 받지 못했습니다.");
 		}
 
-		ui.Pause();
+		ui.WaitForAnyKey("계속하려면 아무 키나 입력하세요: "); // ysg: Enter를 포함한 키 하나로 진행하고 이전 선택지는 제거
 		clearedMap[playerLoc[0]][playerLoc[1]] = true;
 
 		if (rescuedNpcCount == 3 && !midBossDefeated)
@@ -1023,7 +1023,7 @@ void DungeonManager::HandleBattleResult(Player& player,
 	{
 	case(BattleResult::Victory):
 	{
-		ui.Pause();
+		ui.WaitForAnyKey("계속하려면 아무 키나 입력하세요: "); // ysg: Enter를 포함한 키 하나로 진행하고 이전 선택지는 제거
 
 		ui.PrintLog("전투에서 승리했습니다.");
 		clearedMap[playerLoc[0]][playerLoc[1]] = true;
@@ -1031,7 +1031,7 @@ void DungeonManager::HandleBattleResult(Player& player,
 		player.SetGold(player.GetGold() + monster.GetDropGold());
 
 		ui.PrintLog(std::to_string(monster.GetDropGold()) +" 골드를 획득했습니다.");
-		ui.Pause();
+		ui.WaitForAnyKey("계속하려면 아무 키나 입력하세요: "); // ysg: Enter를 포함한 키 하나로 진행하고 이전 선택지는 제거
 
 	}
 	break;

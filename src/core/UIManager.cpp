@@ -2,6 +2,7 @@
 #include <string>
 #include <cstdlib>
 #include <windows.h>
+#include <conio.h>
 #include <vector>
 #include <sstream> // ysg: 숫자 입력 문자열이 올바른 정수인지 검사하기 위해 추가
 #include "core/UIManager.h"
@@ -15,6 +16,36 @@
 #define LOG_MAX_Y 32
 #define STAT_MAX_Y 25
 #define SELECTION_MAX_Y 32
+
+namespace
+{
+    int GetUtf8DisplayWidth(const std::string& text)
+    {
+        int width = 0;
+
+        for (size_t i = 0; i < text.size();)
+        {
+            unsigned char firstByte = static_cast<unsigned char>(text[i]);
+            size_t characterLength = 1;
+
+            if ((firstByte & 0x80) != 0)
+            {
+                width += 2;
+                if ((firstByte & 0xE0) == 0xC0) characterLength = 2;
+                else if ((firstByte & 0xF0) == 0xE0) characterLength = 3;
+                else if ((firstByte & 0xF8) == 0xF0) characterLength = 4;
+            }
+            else
+            {
+                ++width;
+            }
+
+            i += characterLength;
+        }
+
+        return width;
+    }
+}
 //art x: 1~146, y: 2~19 u.Erase({ 1, 2 }, 147, 19);
 //log x: 1~78, y: 22~32 u.Erase({ 1, 22 }, 79, 11);
 //stat x: 81~146, y: 22~25 u.Erase({ 81, 22 }, 67, 4);
@@ -256,15 +287,81 @@ void UI::PrintLog(const std::string& str)
 {
     static int n = 0;
     Offsets = LOG_POS;
-    if (Offsets[1] + n >= LOG_MAX_Y)
+
+    // ysg: 긴 NPC 대사가 로그 영역을 벗어나지 않도록 UTF-8 글자 단위로 자동 줄바꿈
+    constexpr int LOG_MAX_WIDTH = 76;
+    std::vector<std::string> wrappedLines(1);
+    int currentWidth = 0;
+
+    for (size_t i = 0; i < str.size();)
+    {
+        unsigned char firstByte = static_cast<unsigned char>(str[i]);
+
+        if (str[i] == '\r')
+        {
+            ++i;
+            continue;
+        }
+
+        if (str[i] == '\n')
+        {
+            wrappedLines.emplace_back();
+            currentWidth = 0;
+            ++i;
+            continue;
+        }
+
+        size_t characterLength = 1;
+        int characterWidth = 1;
+
+        if ((firstByte & 0x80) != 0)
+        {
+            characterWidth = 2;
+            if ((firstByte & 0xE0) == 0xC0) characterLength = 2;
+            else if ((firstByte & 0xF0) == 0xE0) characterLength = 3;
+            else if ((firstByte & 0xF8) == 0xF0) characterLength = 4;
+        }
+
+        size_t remainingLength = str.size() - i;
+        if (characterLength > remainingLength)
+        {
+            characterLength = remainingLength;
+        }
+
+        if (currentWidth + characterWidth > LOG_MAX_WIDTH &&
+            !wrappedLines.back().empty())
+        {
+            wrappedLines.emplace_back();
+            currentWidth = 0;
+        }
+
+        wrappedLines.back().append(str, i, characterLength);
+        currentWidth += characterWidth;
+        i += characterLength;
+    }
+
+    const int maxLogLineCount = LOG_MAX_Y - Offsets[1];
+
+    // ysg: 퀴즈처럼 여러 줄인 로그가 출력 도중 지워져 선택지 일부만 남는 현상 방지
+    if (static_cast<int>(wrappedLines.size()) <= maxLogLineCount &&
+        n + static_cast<int>(wrappedLines.size()) > maxLogLineCount)
     {
         n = 0;
-        //UI::Erase(LOG_POS, 78, 11);
         EraseLog();
     }
-    UI::Gotoxy(Offsets[0], Offsets[1] + n);
-    n++;
-    std::cout << str << "  ";
+
+    for (const std::string& line : wrappedLines)
+    {
+        if (Offsets[1] + n >= LOG_MAX_Y)
+        {
+            n = 0;
+            EraseLog();
+        }
+
+        UI::Gotoxy(Offsets[0], Offsets[1] + n);
+        std::cout << line;
+        ++n;
+    }
 }
 void UI::PrintBuilding()
 {
@@ -401,7 +498,10 @@ int UI::InputSelection(std::string text)
     {
         Offsets = SELECT_POS;   //LOG_POS -> SELECT_POS 변경
         UI::Gotoxy(Offsets[0], Offsets[1] + 5);
-        std::cout << text;
+        std::cout << text << std::flush;
+        UI::Gotoxy(
+            Offsets[0] + GetUtf8DisplayWidth(text),
+            Offsets[1] + 5); // ysg: 한글 안내문 바로 오른쪽에 입력 커서를 고정
 
         std::string input;
         if (!std::getline(std::cin >> std::ws, input)) // ysg: 입력 한 줄 전체를 받아 1abc 같은 입력도 차단
@@ -422,20 +522,55 @@ int UI::InputSelection(std::string text)
         PrintLog("숫자만 입력해주세요.");
     }
 }
+void UI::WaitForAnyKey(const std::string& text)
+{
+    EraseSelection(); // ysg: 전투 선택지가 대기 문구 아래에 남지 않도록 먼저 정리
+    Offsets = SELECT_POS;
+    UI::Gotoxy(Offsets[0], Offsets[1]);
+    std::cout << text << std::flush;
+    _getch(); // ysg: Enter를 포함한 키 하나만 눌러도 바로 진행
+    EraseSelection();
+}
 std::string UI::InputString(std::string text)
 {
-    std::string s;
-    if (!text.empty()) // ysg: 빈 문자열이면 WASD 메뉴에서 지정한 현재 커서 위치를 유지
+    while (true)
     {
-        Offsets = SELECT_POS;   //LOG_POS->SELECT_POS 로 수정
-        UI::Gotoxy(Offsets[0], Offsets[1]);
-        std::cout << text;
-    }
-    //Offsets = SELECT_POS;                 //입력의 자연스러움을 위해 수정
-    //UI::Gotoxy(Offsets[0], Offsets[1]);   //입력의 자연스러움을 위해 수정
-    std::cin >> s;
-    return s;
+        std::string input;
 
+        if (!text.empty()) // ysg: 빈 문자열이면 WASD 메뉴에서 지정한 현재 커서 위치를 유지
+        {
+            EraseSelection();
+            Offsets = SELECT_POS;   //LOG_POS->SELECT_POS 로 수정
+            UI::Gotoxy(Offsets[0], Offsets[1]);
+            std::cout << text << std::flush;
+            UI::Gotoxy(
+                Offsets[0] + GetUtf8DisplayWidth(text),
+                Offsets[1]); // ysg: 이름 입력이 왼쪽 영역에 표시되지 않도록 커서 위치를 명시
+        }
+
+        if (!std::getline(std::cin, input))
+        {
+            std::cin.clear();
+            continue;
+        }
+
+        // WASD 입력은 빈 Enter를 DungeonManager에서 다시 처리하도록 그대로 반환
+        if (text.empty())
+        {
+            return input;
+        }
+
+        size_t firstCharacter = input.find_first_not_of(" \t\r\n");
+        if (firstCharacter != std::string::npos)
+        {
+            size_t lastCharacter = input.find_last_not_of(" \t\r\n");
+            return input.substr(
+                firstCharacter,
+                lastCharacter - firstCharacter + 1);
+        }
+
+        PrintLog("아무것도 입력되지 않았습니다. 이름을 입력해주세요."); // ysg: 빈 이름 입력 방지
+    }
 }
 void UI::NPC_M()
 {
