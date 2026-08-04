@@ -6,5 +6,6 @@ public:
     Warrior(std::string Name);
 
     void Attack() override;
+    int Skill() override;
 };
 

@@ -72,3 +72,5 @@ void Manager4::GiveReward() const {
     }
     else {
         std::cout << "퀴즈를 틀려서 보상을 받지 못했습니다...\n";
+    }
+}
