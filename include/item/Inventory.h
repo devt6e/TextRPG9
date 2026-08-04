@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include <iostream>
+
 #include <vector>
 #include <string>
 #include <algorithm>
@@ -160,7 +160,7 @@ public:
             return false;
         }
 
-        if (items_[RealIndex].ItemCount < amount) { 
+        if (items_[RealIndex].ItemCount < amount) {
             cout << "[오류] 가진 갯수보다 많이 팔 수 없습니다!\n";
             return false;
         }

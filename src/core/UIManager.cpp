@@ -111,6 +111,40 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
     //std::cout << std::string(displayWidth, 'â•') << '\n';
     UI::Gotoxy(startX, currentY++);
 }
+
+void UI::PrintDungeonMoveOptions(
+    bool canMoveUp,
+    bool canMoveDown,
+    bool canMoveLeft,
+    bool canMoveRight)
+{
+    std::cout << "\nÀÌµ¿ °¡´ÉÇÑ ¹æÇâ: ";
+
+    if (canMoveUp)
+    {
+        std::cout << "W(À§) ";
+    }
+
+    if (canMoveDown)
+    {
+        std::cout << "S(¾Æ·¡) ";
+    }
+
+    if (canMoveLeft)
+    {
+        std::cout << "A(¿ÞÂÊ) ";
+    }
+
+    if (canMoveRight)
+    {
+        std::cout << "D(¿À¸¥ÂÊ) ";
+    }
+
+    std::cout << "\nQ(¸¶À»·Î º¹±Í)\n";
+    std::cout << "ÀÔ·Â: ";
+}
+
+
 void UI::Gotoxy(int x, int y)
 {
     COORD pos = { (SHORT)x, (SHORT)y };
