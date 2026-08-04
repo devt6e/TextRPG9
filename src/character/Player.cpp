@@ -1,6 +1,6 @@
 ﻿#include "character/Player.h"
 #include <iostream>
-#include <string> // std::to_string을 사용하기 위해 필요합니다.
+#include <string>
 
 // 최대 체력을 넘거나 0 미만으로 떨어지지 않게 하는 함수
 void Player::SetHp(int Value) {

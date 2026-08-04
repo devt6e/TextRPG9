@@ -3,7 +3,6 @@
 Zep::Zep(int PlayerLevel) : Monster("일 안하는 ZEP 본사 직원", PlayerLevel) {}
 
 void Zep::SpeakEncounter() const {
-    // 특정 이름이 맨 앞에 오지 않는 문장이므로 전체를 문자열에 담습니다.
     std::string s = "\n 아바타만 세워두고 도망간 '일 안하는 ZEP 본사 직원'이 나타났습니다!";
     um.PrintLog(s);
 }
