@@ -52,3 +52,31 @@ class InventoryManager;
 bool UseConsumableItem(Player* player, InventoryManager& invManager, size_t index);
 bool UseRandomConsumableItem(Player* player, InventoryManager& invManager);
 bool SelectAndUseConsumableItem(Player* player, InventoryManager& invManager);
+
+// 1. 쿠키
+class CookieCat : public Item {
+public:
+	CookieCat();
+	bool UseItem(Player* player) override;
+};
+
+// 2. 젬 주머니
+class ZemPouch : public Item {
+public:
+	ZemPouch();
+	bool UseItem(Player* player) override;
+};
+
+// 3. 지각생의 알람시계
+class AlarmClock : public Item {
+public:
+	AlarmClock();
+	bool UseItem(Player* player) override;
+};
+
+// 4. 마이크
+class Microphone : public Item {
+public:
+	Microphone();
+	bool UseItem(Player* player) override;
+};
