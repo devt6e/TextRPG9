@@ -9,21 +9,24 @@ Inventory<Item>& InventoryManager::GetMaterialBag() {
 }
 
 void InventoryManager::AddConsumable(Item item) {
-	std::cout << "[소비 가방] ";
+	//std::cout << "[소비 가방] ";
 	consumableBag_.AddItem(item);
 }
 
 void InventoryManager::AddMaterial(Item item) {
-	std::cout << "[재료 가방] ";
+	//std::cout << "[재료 가방] ";
 	materialBag_.AddItem(item);
 }
 
 void InventoryManager::PrintAllSummary() {
-	std::cout << "\n======== [ 전체 인벤토리 ] ========";
-	std::cout << "\n\n▶ [ 소비 아이템 ]";
-	consumableBag_.PrintSummary();
+	//std::cout << "\n======== [ 전체 인벤토리 ] ========";
+	//std::cout << "▶ [ 소비 아이템 ]";
+	um.PrintInventory(consumableBag_.GetAllItems(),"[ 소비 아이템 ]", 0);
+	//consumableBag_.PrintSummary();
 
-	std::cout << "\n▶ [ 재료 아이템 ]";
-	materialBag_.PrintSummary();
-	std::cout << "===================================\n";
+	um.PrintInventory(materialBag_.GetAllItems(), "[ 재료 아이템 ]", 2);
+	//materialBag_.PrintSummary();
+	//std::cout << "\n▶ [ 재료 아이템 ]";
+	//materialBag_.PrintSummary();
+	//std::cout << "===================================\n";
 }

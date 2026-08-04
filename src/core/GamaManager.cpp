@@ -1,26 +1,26 @@
 ﻿#include "core/GamaManager.h"
 
 
-//임시 메뉴 출력 함수. todo: UIManager::PrintMenu() 수정
-void PrintMenu(std::vector<std::string> v)
-{
-	for (int i = 0; i < v.size(); i++)
-	{
-		if (v[i] == "게임종료" || v[i] == "뒤로가기")
-			std::cout << "0. " << v[i] << std::endl;
-		else
-			std::cout << i + 1 << ". " << v[i] << std::endl;
-	}
-}
+////임시 메뉴 출력 함수. todo: UIManager::PrintMenu() 수정
+//void PrintMenu(std::vector<std::string> v)
+//{
+//	for (int i = 0; i < v.size(); i++)
+//	{
+//		if (v[i] == "게임종료" || v[i] == "뒤로가기")
+//			std::cout << "0. " << v[i] << std::endl;
+//		else
+//			std::cout << i + 1 << ". " << v[i] << std::endl;
+//	}
+//}
 
-//임시 아이템 출력 함수. todo: UIManager로 이식
-void PrintItems(std::vector<Item> items)
-{
-	for (int i = 0; i < items.size(); i++)
-	{
-		printf("%d. %s(%d zem)\n", i + 1, items[i].Name.c_str(), items[i].Price);
-	}
-}
+////임시 아이템 출력 함수. todo: UIManager로 이식
+//void PrintItems(std::vector<Item> items)
+//{
+//	for (int i = 0; i < items.size(); i++)
+//	{
+//		printf("%d. %s(%d zem)\n", i + 1, items[i].Name.c_str(), items[i].Price);
+//	}
+//}
 
 void CreateCharacter(GameManager* gm, UI& um, Player*& p)
 {
@@ -92,7 +92,7 @@ void GameManager::HandleStore()
 			//	im.AddItem(items[idx-1], nBuy);	//InventoryManager::AddItem(Item _item, int cnt) 함수 추가 요청
 			//else
 			//	std::cout << "젬이 부족합니다" << std::endl;
-			system("pause");
+			um.Pause();
 			break;
 		}
 		case 2:
@@ -109,20 +109,23 @@ void GameManager::HandleStore()
 				break;
 			}
 
-			PrintItems(items);
-			std::cout << "===============" << std::endl;
+			//PrintItems(items);
+			//std::cout << "===============" << std::endl;
+			um.PrintSelection(items);
 			int numberSelection = um.InputSelection("몇번? ");
 
 			if (numberSelection > items.size())
 			{
-				std::cout << "입력이 잘못 되었습니다" << std::endl;
+				//std::cout << "입력이 잘못 되었습니다" << std::endl;
+				um.PrintLog("입력이 잘못 되었습니다");
 				break;
 			}
 
 			int quantitySelection = um.InputSelection("몇개? ");
 			if (quantitySelection > items[numberSelection - 1].ItemCount)
 			{
-				std::cout << "수량이 부족합니다" << std::endl;
+				//std::cout << "수량이 부족합니다" << std::endl;
+				um.PrintLog("수량이 부족합니다");
 				break;
 			}
 			//Inventory::ReduceItem(int idx, int quantity) -- vector<Item>의 idx-1 번째 원소의 itemcount를 quantity 만큼 감소
@@ -149,14 +152,16 @@ void GameManager::HandleStore()
 	}
 	//system("pause");//임시
 	//system("cls"); //임시
-
 }      
 
 void GameManager::HandleInventory()	//todo: 인벤토리 형태에 대한 고민
 {
-	um.PrintStatus(player);
+	//um.PrintStatus(player);
 	//std::cout << std::endl;
+	um.EraseStat();
 	im.PrintAllSummary();
+	um.Gotoxy(0, 35);
+	um.Pause();
 }
 
 void GameManager::Run()
@@ -165,7 +170,7 @@ void GameManager::Run()
 
 	um.PrintMain();
 	um.PrintTitle();
-	system("pause");
+	um.Pause();
 	um.PrintIntro();
 
 	CreateCharacter(this, um, player);
@@ -178,8 +183,9 @@ void GameManager::Run()
 
 	while (currentState != GameState::Exit)
 	{
-		currentState = GameState::MainMenu;
-		um.PrintSelection({"ZEP타워 입장","상점이용","인벤토리","종료"});
+		currentState = GameState::MainMenu; 
+		um.PrintStatus(player);
+		um.PrintSelection({"ZEP타워 입장","상점이용","인벤토리","종료하기"});
 		int selection = um.InputSelection("번호를 입력하세요: ");
 		switch (selection)
 		{
@@ -206,9 +212,10 @@ void GameManager::Run()
 			break;
 
 		case 3:
-			std::cout << "(Debug)인벤토리 루틴" << std::endl;		//디버그 로그
+			//std::cout << "(Debug)인벤토리 루틴" << std::endl;		//디버그 로그
 			currentState = GameState::Inventory;
 			HandleInventory();
+			um.EraseStat();
 			break;
 
 		case 0:
@@ -216,7 +223,8 @@ void GameManager::Run()
 			break;
 
 		default:
-			std::cout << "입력이 잘못되었습니다!" << std::endl;
+			//std::cout << "입력이 잘못되었습니다!" << std::endl;
+			um.PrintLog("입력이 잘못되었습니다!");
 			break;
 		}
 	}

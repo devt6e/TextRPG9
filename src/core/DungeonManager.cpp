@@ -477,6 +477,8 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 
 			ui.PrintLog(
 				"체크포인트를 저장하고 마을로 돌아갑니다.");
+			ui.EraseArt();
+			ui.PrintTitle();
 			return;
 
 		default:

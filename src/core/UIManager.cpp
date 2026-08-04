@@ -7,7 +7,7 @@
 #include <sstream> // ysg: 숫자 입력 문자열이 올바른 정수인지 검사하기 위해 추가
 #include "core/UIManager.h"
 #include "core/DungeonManager.h"
-#include"character/Player.h"
+#include "character/Player.h"
 #define ART_POS {2,2}
 #define LOG_POS {2,22}
 #define STAT_POS {81,22}
@@ -238,13 +238,30 @@ void UI::PrintInventory(std::vector<std::string> Inv)
         }
     }
 }
+void UI::PrintInventory(std::vector<Item> Inv, std::string str, int offset)
+{
+    Offsets = STAT_POS;
+    Offsets[1] += offset;
+    UI::Gotoxy(Offsets[0], Offsets[1]++);
+    std::cout << str;
+    UI::Gotoxy(Offsets[0], Offsets[1]++);
+    for (int i = 0; i < Inv.size(); ++i)
+    {
+        std::cout << i + 1 << "). " << Inv[i].Name << "(" << Inv[i].Price <<")";
+        if ((i + 1) % 3 == 0)
+        {
+            Gotoxy(Offsets[0], ++Offsets[1]);
+        }
+    }
+}
+
 void UI::PrintSelection(std::vector<std::string> menu)
 {
     EraseSelection();
     for (int i = 0; i < menu.size(); ++i)
     {
         Gotoxy(81, 27 + i);
-        if (i == menu.size() - 1)
+        if (menu[i] == "종료하기" || menu[i] == "뒤로가기")
         {
             std::cout << "0)." << menu[i] << std::endl;
             break;
@@ -258,7 +275,7 @@ void UI::PrintSelection(std::vector<Item> menu)
     for (int i = 0; i < menu.size(); ++i)
     {
         Gotoxy(81, 27 + i);
-        if (i == menu.size() - 1)
+        if (menu[i].Name == "종료하기" || menu[i].Name == "뒤로가기")
         {
             std::cout << "0)." << menu[i].Name << "(" << menu[i].Price << ")" << std::endl;
             break;
@@ -456,14 +473,14 @@ void UI::PrintIntro()
     UI::Gotoxy(2, 24);
     std::cout << "그에 항의하던 매니저님들, 튜터님들을 납치했다!!" << std::endl;
     UI::Gotoxy(2, 25);
-    system("pause");
+    Pause();
     system("cls");
     UI::PrintMain();
     UI::PrintBuilding();
     UI::Gotoxy(2, 22);
     std::cout << "당신은 납치당한 사람들과 포인트를 되찾기 위해 ZEP 빌딩을 오르기로 한다..." << std::endl;
     UI::Gotoxy(2, 23);
-    system("pause");
+    Pause();
     system("cls");
     UI::PrintMain();
     PrintTitle();
@@ -594,5 +611,10 @@ void UI::NPC_K()
 }
 
 
-
+void UI::Pause()
+{
+    Gotoxy(0, 35);
+    system("pause");
+    std::cout << "                                   ";
+}
 
