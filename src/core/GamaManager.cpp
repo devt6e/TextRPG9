@@ -70,7 +70,7 @@ void CreateCharacter(GameManager* gm, UI& um, Player*& p)
 void GameManager::HandleDungeon()
 {
 	//dm.StartDungeon();	//legacy
-	dm.StartDungeon(*player, um);
+	dm.StartDungeon(*player, um, im);
 }
 
 void GameManager::HandleStore()
@@ -88,6 +88,7 @@ void GameManager::HandleStore()
 		case 1:
 		{
 			std::cout << "(Debug)아이템 구매 루틴" << std::endl; //디버그용
+
 			//vector<Item> ShopManager::GetItems() 함수 추가 요청
 			//아이템 목록 출력
 			//void UIManager::PrintItem(vector<Item> itmes) 함수 추가 요청
@@ -99,9 +100,10 @@ void GameManager::HandleStore()
 			}
 			*/
 			sm.PrintShopItems();	//임시
-			std::cout << "===============" << std::endl;
-			std::string idx = um.InputSelection("몇번? ");
-			std::string nBuy = um.InputSelection("몇개? ");
+			sm.BuyItem(player, im);
+			//std::cout << "===============" << std::endl;
+			//std::string idx = um.InputSelection("몇번? ");
+			//std::string nBuy = um.InputSelection("몇개? ");
 			//if(player->GetGold() > items[idx-1].Price*nBuy)
 			//	im.AddItem(items[idx-1], nBuy);	//InventoryManager::AddItem(Item _item, int cnt) 함수 추가 요청
 			//else
@@ -147,13 +149,18 @@ void GameManager::HandleStore()
 		}
 		case 0:
 			std::cout << "메인 메뉴로 돌아갑니다" << std::endl;
+			system("pause");//임시
+			system("cls"); //임시
 			return;
 
 		default:
 			std::cout << "입력이 잘못되었습니다" << std::endl;
 			break;
 		}
+		system("cls");
 	}
+	system("pause");//임시
+	system("cls"); //임시
 
 }      
 
@@ -170,8 +177,11 @@ void GameManager::HandleInventory()	//todo: 인벤토리 형태에 대한 고민
 	//	im.PrintAllSummary();
 	//	break;
 	//}
-		
-
+	um.PrintStatus(player);
+	std::cout << std::endl;
+	im.PrintAllSummary();
+	system("pause");//임시
+	system("cls"); //임시
 }
 
 void GameManager::Run()
@@ -179,20 +189,18 @@ void GameManager::Run()
 	system("mode con:cols=150 lines=40 | title LOSTZEP");
 
 	//um.MainTitle();	//todo: 새로운 출력 함수로 변경예정
-	//um.PrintMain();
-	//um.PrintTitle();
+	um.PrintMain();
+	um.PrintTitle();
 	//um.PrintIntro();
 
+	system("pause");//임시
 	system("cls"); //임시
 	CreateCharacter(this, um, player);
 
 	system("pause");//임시
 	system("cls"); //임시
-
-	sm.PrintShopItems();
 	
-	system("pause");//임시
-	system("cls"); //임시
+	player->SetGold(10000);
 
 	//UI::PrintStory();
 	
@@ -231,8 +239,6 @@ void GameManager::Run()
 			std::cout << "입력이 잘못되었습니다!" << std::endl;
 			break;
 		}
-		if (currentState != GameState::Exit)
-			system("pause");
 	}
 
 	if (currentState == GameState::Exit)

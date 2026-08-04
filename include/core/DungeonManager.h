@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 #include <iostream>
 #include <string>
 
 #include "BattleManager.h"
 #include "core/UIManager.h"
 
-//ÀÓ½Ã
+//ì„ì‹œ
 class Player;
 class Monster;
 class UI;
@@ -25,7 +25,7 @@ private:
 
     int currentFloor;
     int currentRoom;
-    //static const int MapSize = 5; //¹æ »çÀÌÁî 5*5 6ÀÌ¸é 6*6ÀÓ
+    //static const int MapSize = 5; //ë°© ì‚¬ì´ì¦ˆ 5*5 6ì´ë©´ 6*6ì„
     static const int MapHeight = 5;
     static const int MapWidth = 8;
     int dungeonMap[MapWidth][MapHeight];
@@ -34,8 +34,8 @@ private:
     bool hasCheckpoint;
     int checkpointLoc[2];
     bool visitedMap[MapWidth][MapHeight];
-    bool hasNpcAppeared;//NPC ´øÀü¿¡ ³ª¿È?
-    bool clearedMap[MapWidth][MapHeight];//¸ÊÅ¬¸®¾îÇÔ?
+    bool hasNpcAppeared;//NPC ë˜ì „ì— ë‚˜ì˜´?
+    bool clearedMap[MapWidth][MapHeight];//ë§µí´ë¦¬ì–´í•¨?
     bool shouldExitDungeon;
 
 public:
@@ -52,17 +52,17 @@ public:
 
 
 private:
-    //´øÀü »ı¼º±â
+    //ë˜ì „ ìƒì„±ê¸°
     void GenerateDungeonMap();
-    // ¸ñÀûÁö·Î ÀÌµ¿ °¡´É?
+    // ëª©ì ì§€ë¡œ ì´ë™ ê°€ëŠ¥?
     bool CanMoveTo(int destination) const;
-    // ÇöÀç À§Ä¡ º¯°æ
+    // í˜„ì¬ ìœ„ì¹˜ ë³€ê²½
     void MoveRoom(int destination);
-    // ¹æÀÇ Á¾·ù
+    // ë°©ì˜ ì¢…ë¥˜
     RoomType DecideRoomType();
-    // ¹æ¿¡ µé¾î°¬À» ¶§
+    // ë°©ì— ë“¤ì–´ê°”ì„ ë•Œ
     void HandleRoom(Player& player, RoomType roomType, InventoryManager& inventoryManager);
-    // ÀüÅõ °á°ú
+    // ì „íˆ¬ ê²°ê³¼
     void HandleBattleResult(Player& player, 
         Monster& monster,
         BattleResult result, 

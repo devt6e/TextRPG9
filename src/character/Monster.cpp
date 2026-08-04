@@ -21,3 +21,10 @@ Monster::Monster(std::string Name, int PlayerLevel) : Name(Name) {
     std::uniform_int_distribution<int> goldDist(5, 10); // 템 구현은 아직, 5~10의 재화 드랍
     DropGold = goldDist(gen);
 }
+
+
+//임시
+void Monster::SetHp(int Value)
+{
+    this->Hp = Value;
+}
