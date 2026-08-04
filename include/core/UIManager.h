@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <string>
 #include <cstdlib>
@@ -6,7 +6,7 @@
 #include <vector>
 #include"character/Player.h"
 
-class DungeonManager;//´øÀü
+class DungeonManager;//던전
 
 class UI
 {
@@ -35,7 +35,7 @@ public:
         bool canMoveRight);
 
 
-    //NPC ¾Æ½ºÅ°¾ÆÆ®
+    //NPC 아스키아트
     void NPC_M();
     void NPC_K();
 

@@ -61,11 +61,11 @@ private:
     // 방의 종류
     RoomType DecideRoomType();
     // 방에 들어갔을 때
-    void HandleRoom(Player& player, RoomType roomType, InventoryManager& inventoryManager);
+    void HandleRoom(Player& player, RoomType roomType, UI& ui, InventoryManager& inventoryManager);
     // 전투 결과
-    void HandleBattleResult(Player& player, 
+    void HandleBattleResult(Player& player,
         Monster& monster,
-        BattleResult result, 
+        BattleResult result,
         InventoryManager& inventoryManager);
 
     void DropRandomItem(InventoryManager& inventoryManager);

@@ -1,4 +1,4 @@
-#include "core/GamaManager.h"
+﻿#include "core/GamaManager.h"
 
 //todo: 
 //void GameManager::HandleMainMenu()
@@ -102,6 +102,11 @@ void GameManager::Run()
 		case 1:
 			std::cout << "던전 루틴 실행" << std::endl;
 			dm.StartDungeon(*player, um, im);
+			if (player->GetHp() <= 0)
+			{
+				std::cout << "게임을 종료합니다.\n";
+				return;
+			}
 			currentState = GameState::Dungeon;
 			system("pause");
 			break;

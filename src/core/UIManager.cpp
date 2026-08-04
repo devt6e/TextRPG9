@@ -118,30 +118,30 @@ void UI::PrintDungeonMoveOptions(
     bool canMoveLeft,
     bool canMoveRight)
 {
-    std::cout << "\nÀÌµ¿ °¡´ÉÇÑ ¹æÇâ: ";
+    std::cout << "\nì´ë™ ê°€ëŠ¥í•œ ë°©í–¥: ";
 
     if (canMoveUp)
     {
-        std::cout << "W(À§) ";
+        std::cout << "W(ìœ„) ";
     }
 
     if (canMoveDown)
     {
-        std::cout << "S(¾Æ·¡) ";
+        std::cout << "S(ì•„ëž˜) ";
     }
 
     if (canMoveLeft)
     {
-        std::cout << "A(¿ÞÂÊ) ";
+        std::cout << "A(ì™¼ìª½) ";
     }
 
     if (canMoveRight)
     {
-        std::cout << "D(¿À¸¥ÂÊ) ";
+        std::cout << "D(ì˜¤ë¥¸ìª½) ";
     }
 
-    std::cout << "\nQ(¸¶À»·Î º¹±Í)\n";
-    std::cout << "ÀÔ·Â: ";
+    std::cout << "\nQ(ë§ˆì„ë¡œ ë³µê·€)\n";
+    std::cout << "ìž…ë ¥: ";
 }
 
 
