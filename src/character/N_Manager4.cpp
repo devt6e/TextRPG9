@@ -1,51 +1,49 @@
-#include "character/N_Manager4.h"
+ï»¿#include "character/N_Manager4.h"
 #include <iostream>
 #include <vector>
 #include <cstdlib>
-#include <ctime>
+#include <random>
 
 struct QuizData {
     std::string question;
     int correctAnswer;
 };
 
-// Á¤Àû µ¥ÀÌÅÍ·Î ÄûÁî ¸ñ·Ï Á¤ÀÇ
+// ì •ì  ë°ì´í„°ë¡œ í€´ì¦ˆ ëª©ë¡ ì •ì˜
 static const std::vector<QuizData> manager4Quizzes = {
-    {"[QUIZ 1] ±Ç¿¹¸² ¸Å´ÏÀú´ÔÀÇ ÃÖ¾Ö µ¿¹°Àº ¹«¾ùÀÏ±î¿ä?\n1. »ç½¿\n2. Åä³¢\n3. ³Ê±¸¸®\n4. ¶óÄï", 4},
-    {"[QUIZ 2] ±Ç¿¹¸² ¸Å´ÏÀú´ÔÀÌ ÃÖ±Ù¿¡ °¡Àå Àç¹Õ°Ô ÇÃ·¹ÀÌÇÑ °ÔÀÓÀº ¹«¾ùÀÏ±î¿ä?\n1. ¼¼ÇÇ¸®¾Æ\n2. PÀÇ °ÅÁş\n3. Á»º¸ÀÌµå\n4. ÆÓ¿ùµå", 2}
+    {"[QUIZ 1] ê¶Œì˜ˆë¦¼ ë§¤ë‹ˆì €ë‹˜ì˜ ìµœì•  ë™ë¬¼ì€ ë¬´ì—‡ì¼ê¹Œìš”?\n1. ì‚¬ìŠ´\n2. í† ë¼\n3. ë„ˆêµ¬ë¦¬\n4. ë¼ì¿¤", 4},
+    {"[QUIZ 2] ê¶Œì˜ˆë¦¼ ë§¤ë‹ˆì €ë‹˜ì´ ìµœê·¼ì— ê°€ì¥ ì¬ë°Œê²Œ í”Œë ˆì´í•œ ê²Œì„ì€ ë¬´ì—‡ì¼ê¹Œìš”?\n1. ì„¸í”¼ë¦¬ì•„\n2. Pì˜ ê±°ì§“\n3. ì¢€ë³´ì´ë“œ\n4. íŒ°ì›”ë“œ", 2}
 };
 
-Manager4::Manager4() : NPC("±Ç¿¹¸² ¸Å´ÏÀú´Ô"), currentQuizIndex(-1) {}
+Manager4::Manager4() : NPC("ê¶Œì˜ˆë¦¼ ë§¤ë‹ˆì €ë‹˜"), currentQuizIndex(-1) {}
 
 void Manager4::SpeakEncounter() const {
     if (!isRescued) {
-        std::cout << "\n ¾îµò°¡¿¡ ²Ç²Ç ¹­¿© °ï¶õÇØÇÏ°í °è½Å " << name << "À»(¸¦) ¹ß°ßÇß½À´Ï´Ù!\n";
-        std::cout << name << ": \"¾îÈŞ, »¡¸® ¿©±â¼­ Å»ÃâÇÒ ¼ö ÀÖ°Ô Á¦ ÄûÁî¸¦ ¸ÂÇô¼­ ¹®À» ¿­¾îÁÖ¼¼¿ä! (Æ²¸®¸é ±âÈ¸´Â ³¡ÀÌ¿¡¿ä!)\"\n";
+        std::cout << "\n ì–´ë”˜ê°€ì— ê½ê½ ë¬¶ì—¬ ê³¤ë€í•´í•˜ê³  ê³„ì‹  " << name << "ì„(ë¥¼) ë°œê²¬í–ˆìŠµë‹ˆë‹¤!\n";
+        std::cout << name << ": \"ì–´íœ´, ë¹¨ë¦¬ ì—¬ê¸°ì„œ íƒˆì¶œí•  ìˆ˜ ìˆê²Œ ì œ í€´ì¦ˆë¥¼ ë§í˜€ì„œ ë¬¸ì„ ì—´ì–´ì£¼ì„¸ìš”! (í‹€ë¦¬ë©´ ê¸°íšŒëŠ” ëì´ì—ìš”!)\"\n";
     }
     else {
-        std::cout << "\n ÀÌ¹Ì ±¸ÃâµÈ " << name << "ÀÌ(°¡) ¹àÀº ¹Ì¼Ò·Î ¹İ°ÜÁİ´Ï´Ù.\n";
-        std::cout << name << ": \"´Ù½Ã ÇÑ¹ø °í¸¶¿ö¿ä!\"\n";
+        std::cout << "\n ì´ë¯¸ êµ¬ì¶œëœ " << name << "ì´(ê°€) ë°ì€ ë¯¸ì†Œë¡œ ë°˜ê²¨ì¤ë‹ˆë‹¤.\n";
+        std::cout << name << ": \"ë‹¤ì‹œ í•œë²ˆ ê³ ë§ˆì›Œìš”!\"\n";
     }
 }
 
-void Manager4::AskQuiz() const {
+void Manager4::AskQuiz() {
     if (isRescued) {
-        std::cout << name << ": \"ÀÌ¹Ì Àú¸¦ ±¸ÃâÇØÁÖ¼ÌÀİ¾Æ¿ä!\"\n";
+        std::cout << name << ": \"ì´ë¯¸ ì €ë¥¼ êµ¬ì¶œí•´ì£¼ì…¨ì–ì•„ìš”!\"\n";
         return;
     }
 
-    std::cout << "\n[±Ç¿¹¸² ¸Å´ÏÀú´ÔÀÇ ÄûÁî°¡ ÃâÁ¦µË´Ï´Ù!]\n";
+    static std::mt19937 gen(std::random_device{}());
+    std::uniform_int_distribution<int> quizDist(0, static_cast<int>(manager4Quizzes.size()) - 1);
+    currentQuizIndex = quizDist(gen);
+    std::cout << "\n[ê¶Œì˜ˆë¦¼ ë§¤ë‹ˆì €ë‹˜ì˜ í€´ì¦ˆê°€ ì¶œì œë©ë‹ˆë‹¤!]\n";
+    std::cout << manager4Quizzes[currentQuizIndex].question << "\n";
 }
 
-// ÇÃ·¹ÀÌ¾î°¡ ÀÔ·ÂÇÑ Á¤´äÀ» ¹Ş¾Æ ÆÇº°ÇÏ´Â ÇÔ¼ö
+// í”Œë ˆì´ì–´ê°€ ì…ë ¥í•œ ì •ë‹µì„ ë°›ì•„ íŒë³„í•˜ëŠ” í•¨ìˆ˜
 bool Manager4::CheckAnswer(int playerAnswer) {
-    if (isRescued || currentQuizIndex == -1) {
-        std::srand(static_cast<unsigned int>(std::time(nullptr)));
-        currentQuizIndex = std::rand() % manager4Quizzes.size();
-    }
-
-    std::cout << manager4Quizzes[currentQuizIndex].question << "\n";
-    std::cout << "ÇÃ·¹ÀÌ¾î ÀÔ·Â Á¤´ä: " << playerAnswer << "\n";
+    if (isRescued || currentQuizIndex == -1) return false;
 
     if (playerAnswer == manager4Quizzes[currentQuizIndex].correctAnswer) {
         OnCorrect();
@@ -59,16 +57,18 @@ bool Manager4::CheckAnswer(int playerAnswer) {
 
 void Manager4::OnCorrect() {
     isRescued = true;
-    std::cout << name << ": \"Á¤´äÀÌ¿¡¿ä! µåµğ¾î ¿©±â¼­ Å»ÃâÇÒ ¼ö ÀÖ°Ô µÇ¾ú³×¿ä. Á¤¸» °í¸¶¿ö¿ä!\"\n";
+    std::cout << name << ": \"ì •ë‹µì´ì—ìš”! ë“œë””ì–´ ì—¬ê¸°ì„œ íƒˆì¶œí•  ìˆ˜ ìˆê²Œ ë˜ì—ˆë„¤ìš”. ì •ë§ ê³ ë§ˆì›Œìš”!\"\n";
 }
 
 void Manager4::OnWrong() const {
-    std::cout << name << ": \"¾Æ´Ï¿¡¿ä, ±×°Ç Æ²·È¾î¿ä... ´õ ÀÌ»ó ±âÈ¸´Â ¾ø³×¿ä. Àú´Â ¿©±â¿¡ °¤ÇôÀÖÀ»°Ô¿ä...\"\n";
+    std::cout << name << ": \"ì•„ë‹ˆì—ìš”, ê·¸ê±´ í‹€ë ¸ì–´ìš”... ë” ì´ìƒ ê¸°íšŒëŠ” ì—†ë„¤ìš”. ì €ëŠ” ì—¬ê¸°ì— ê°‡í˜€ìˆì„ê²Œìš”...\"\n";
 }
 
 void Manager4::GiveReward() const {
     if (isRescued) {
-        std::cout << "±¸Ãâ ¼º°ø º¸»óÀ¸·Î [" << name << "ÀÇ º¸»ó]À»(¸¦) È¹µæÇß½À´Ï´Ù!\n";
+        std::cout << "êµ¬ì¶œ ì„±ê³µ ë³´ìƒìœ¼ë¡œ [" << name << "ì˜ ë³´ìƒ]ì„(ë¥¼) íšë“í–ˆìŠµë‹ˆë‹¤!\n";
     }
     else {
-        std::cout << "ÄûÁî¸¦ Æ²·Á¼­ º¸»óÀ» ¹ŞÁö ¸øÇß½À´Ï´Ù...\n";
+        std::cout << "í€´ì¦ˆë¥¼ í‹€ë ¤ì„œ ë³´ìƒì„ ë°›ì§€ ëª»í–ˆìŠµë‹ˆë‹¤...\n";
+    }
+}
