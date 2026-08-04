@@ -57,13 +57,15 @@ public:
                 if (SpaceLeft > 0) {
                     if (SpaceLeft >= newItem.ItemCount) {
                         items_[i].ItemCount += newItem.ItemCount;
-                        std::cout << "-> " << newItem.Name << " " << newItem.ItemCount << "개를 기존 슬롯에 합쳤습니다.\n";
+                        std::string msg = "-> " + newItem.Name + " " + std::to_string(newItem.ItemCount) + "개를 기존 슬롯에 합쳤습니다.";
+                        um.PrintLog(msg);
                         return;
                     }
                     else {
                         items_[i].ItemCount += SpaceLeft;
                         newItem.ItemCount -= SpaceLeft;
-                        std::cout << "-> " << newItem.Name << " " << SpaceLeft << "개를 합치고 나머지는 새 슬롯에 넣습니다.\n";
+                        std::string msg = "-> " + newItem.Name + " " + std::to_string(SpaceLeft) + "개를 합치고 나머지는 새 슬롯에 넣습니다.";
+                        um.PrintLog(msg);
                     }
                 }
             }
@@ -74,63 +76,71 @@ public:
         }
 
         items_.push_back(newItem);
-        std::cout << "-> " << newItem.Name << " " << newItem.ItemCount << "개를 새 슬롯에 획득했습니다!\n";
+        std::string msg = "-> " + newItem.Name + " " + std::to_string(newItem.ItemCount) + "개를 새 슬롯에 획득했습니다!";
+        um.PrintLog(msg);
     }
 
     void SortByName() {
         sort(items_.begin(), items_.end(), CompareByName<T>);
-        std::cout << "[System] 아이템을 이름순으로 정렬했습니다.\n";
+        um.PrintLog("[System] 아이템을 이름순으로 정렬했습니다.");
     }
 
     void SortByPrice() {
         sort(items_.begin(), items_.end(), CompareByPrice<T>);
-        std::cout << "[System] 아이템을 금액순으로 정렬했습니다.\n";
+        um.PrintLog("[System] 아이템을 금액순으로 정렬했습니다.");
     }
 
     void PrintSummary() {
-        std::cout << "\n========== [ 인벤토리 (" << items_.size() << "/" << capacity_ << ") ] ==========\n";
+        std::string title = "========== [ 인벤토리 (" + std::to_string(items_.size()) + "/" + std::to_string(capacity_) + ") ] ==========";
+        um.PrintLog(title);
+
         if (items_.empty()) {
-            std::cout << "가방이 텅 비어있습니다.\n";
+            um.PrintLog("가방이 텅 비어있습니다.");
         }
         else {
             for (int i = 0; i < items_.size(); i++) {
-                std::cout << i + 1 << ". " << items_[i].Name
-                    << " (x" << items_[i].ItemCount << ") - "
-                    << items_[i].Price << "G\n";
+                std::string itemInfo = std::to_string(i + 1) + ". "
+                    + items_[i].Name
+                    + " (x" + std::to_string(items_[i].ItemCount) + ") - "
+                    + std::to_string(items_[i].Price) + "G";
+
+                um.PrintLog(itemInfo);
             }
         }
-        std::cout << "==============================================\n";
+        um.PrintLog("==============================================");
     }
 
     void PrintItemDetail(int index) {
         int realIndex = index - 1;
 
         if (realIndex < 0 || realIndex >= items_.size()) {
-            std::cout << "[오류] 잘못된 번호입니다.\n";
+            um.PrintLog("[오류] 잘못된 번호입니다.");
             return;
         }
 
         const T& item = items_[realIndex];
-        std::cout << "\n--- < " << item.Name << " > 상세 정보 ---\n";
-        std::cout << "* 가격: " << item.Price << "G\n";
-        std::cout << "* 설명: " << item.ItemDescription << "\n";
-        std::cout << "* 획득: " << item.ItemDropLocation << "\n";
-        std::cout << "------------------------------\n";
+
+        um.PrintLog("--- < " + item.Name + " > 상세 정보 ---");
+        um.PrintLog("* 가격: " + std::to_string(item.Price) + "G");
+        um.PrintLog("* 설명: " + item.ItemDescription);
+        um.PrintLog("* 획득: " + item.ItemDropLocation);
+        um.PrintLog("------------------------------");
     }
 
     bool ConsumeItem(int index) {
         int realIndex = index - 1;
 
         if (realIndex < 0 || realIndex >= items_.size()) {
-            cout << "[오류] 사용할 수 없는 슬롯입니다.\n";
+            um.PrintLog("[오류] 사용할 수 없는 슬롯입니다.");
             return false;
         }
 
         items_[realIndex].ItemCount--;
-        std::cout << "-> " << items_[realIndex].Name << "을(를) 사용했습니다! (남은 갯수: " << items_[realIndex].ItemCount << ")\n";
-
+        std::string msg = "-> " + items_[realIndex].Name + "을(를) 사용했습니다! (남은 갯수: " + std::to_string(items_[realIndex].ItemCount) + ")";
+        um.PrintLog(msg);
         if (items_[realIndex].ItemCount <= 0) {
-            std::cout << "[System] " << items_[realIndex].Name << "을(를) 모두 소모하여 인벤토리에서 비웁니다.\n";
+            std::string msg = "[System] " + items_[realIndex].Name + "을(를) 모두 소모하여 인벤토리에서 비웁니다.";
+            um.PrintLog(msg);
             items_.erase(items_.begin() + realIndex);
         }
 
@@ -161,12 +171,12 @@ public:
         int RealIndex = index - 1;
 
         if (RealIndex < 0 || RealIndex >= items_.size()) {
-            std::cout << "[오류] 잘못된 슬롯입니다.\n";
+            um.PrintLog("[오류] 잘못된 슬롯입니다.");
             return false;
         }
 
         if (items_[RealIndex].ItemCount < amount) {
-            std::cout << "[오류] 가진 갯수보다 많이 팔 수 없습니다!\n";
+            um.PrintLog("[오류] 가진 갯수보다 많이 팔 수 없습니다!");
             return false;
         }
 

@@ -21,7 +21,7 @@
 //int main()
 //{
 //	std::string s = "안녕하세요";
-//	std::vector<string> inventory = { "hp포션","mp포션","쿠키","젬" };
+//	//std::vector<string> inventory = { "hp포션","mp포션","쿠키","젬" };
 //	DungeonManager dungeonManager;
 //	InventoryManager inventoryManager;
 //	Player* p = new Warrior("test");
