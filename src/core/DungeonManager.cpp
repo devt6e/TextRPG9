@@ -1,5 +1,11 @@
 #include "core/DungeonManager.h"
 #include "core/UIManager.h"
+#include "character/Player.h"
+#include "character/M_Slime.h"
+#include "character/M_Goblin.h"
+#include "character/M_Orc.h"
+#include "item/Item.h"
+#include "item/Inventory.h"
 
 #include <iostream>
 #include <string>
@@ -17,28 +23,6 @@ std::uniform_int_distribution<int> dist(0, 4);
 int number = dist(gen);
 
 std::cout << number << '\n';*/
-//-----------------------게임매니저용 임시--------------------------------------
-/* cpp용
-			case 1:
-			std::cout << "던전 루틴 실행" << std::endl;
-			dm.StartDungeon(player, um);
-			currentState = GameState::MainMenu;
-			//currentState = GameState::Dungeon;
-			//system("pause");
-			break;
-}
-*/
-/* 헤더용
-
-private:
-	BattleManager bm;
-	DungeonManager dm;
-
-	UI um;
-	//Player player;
-	Player player;*/
-
-	//-----------------------게임매니저용 임시--------------------------------------
 
 
 DungeonManager::DungeonManager()
@@ -50,18 +34,24 @@ DungeonManager::DungeonManager()
 	hasCheckpoint(false),
 	checkpointLoc{},
 	visitedMap{},
-	hasNpcAppeared(false)
+	hasNpcAppeared(false),
+	clearedMap{},
+	shouldExitDungeon(false)
 {
 	GenerateDungeonMap();
 }
 //ui매니저용
 
 
-int DungeonManager::GetMapSize() const
+int DungeonManager::GetMapWidth() const
 {
-	return MapSize;
+	return MapWidth;
 }
 
+int DungeonManager::GetMapHeight() const
+{
+	return MapHeight;
+}
 /*
 맵 밖 좌표 → 방 없음
 dungeonMap 값이 0 → 방 없음
@@ -70,8 +60,8 @@ dungeonMap 값이 0 → 방 없음
 
 bool DungeonManager::HasRoom(int x, int y) const
 {
-	if (x < 0 || x >= MapSize ||
-		y < 0 || y >= MapSize)
+	if (x < 0 || x >= MapWidth ||
+		y < 0 || y >= MapHeight)
 	{
 		return false;
 	}
@@ -123,20 +113,25 @@ void DungeonManager::GenerateDungeonMap()
 	std::mt19937 gen(rd());
 
 	std::uniform_int_distribution<int> edgeDist(0, 3);
-	std::uniform_int_distribution<int> positionDist(0, MapSize - 1);
+	std::uniform_int_distribution<int> xPositionDist(0, MapWidth - 1);
+	std::uniform_int_distribution<int> yPositionDist(0, MapHeight - 1);
+
 	int edge = edgeDist(gen);
-	int position = positionDist(gen);
-	int bossPosition = positionDist(gen);
-	// 랜덤최신 버전?이라고함 ran()은 구버전이라고함 무튼 이게 더 좋은거같음
+
+	int playerXPosition = xPositionDist(gen);
+	int playerYPosition = yPositionDist(gen);
+
+	int bossXPosition = xPositionDist(gen);
+	int bossYPosition = yPositionDist(gen);
 
 
 
 	//i= 가로, j=세로
-	for (int i = 0; i < MapSize; i++)
+	for (int x = 0; x < MapWidth; x++)
 	{
-		for (int j = 0;j < MapSize; j++)
+		for (int y = 0; y < MapHeight; y++)
 		{
-			dungeonMap[i][j] = 0;
+			dungeonMap[x][y] = 0;
 		}
 	}
 
@@ -150,37 +145,36 @@ void DungeonManager::GenerateDungeonMap()
 
 	switch (edge)
 	{
-	case 0:
-		playerLoc[0] = position;
+	case 0: // 플레이어 위쪽, 보스 아래쪽
+		playerLoc[0] = playerXPosition;
 		playerLoc[1] = 0;
 
-		bossLoc[0] = bossPosition;
-		bossLoc[1] = MapSize - 1;
-
+		bossLoc[0] = bossXPosition;
+		bossLoc[1] = MapHeight - 1;
 		break;
 
-	case 1:
-		playerLoc[0] = position;
-		playerLoc[1] = MapSize - 1;
+	case 1: // 플레이어 아래쪽, 보스 위쪽
+		playerLoc[0] = playerXPosition;
+		playerLoc[1] = MapHeight - 1;
 
-		bossLoc[0] = bossPosition;
+		bossLoc[0] = bossXPosition;
 		bossLoc[1] = 0;
 		break;
 
-	case 2:
+	case 2: // 플레이어 왼쪽, 보스 오른쪽
 		playerLoc[0] = 0;
-		playerLoc[1] = position;
+		playerLoc[1] = playerYPosition;
 
-		bossLoc[0] = MapSize - 1;
-		bossLoc[1] = bossPosition;
+		bossLoc[0] = MapWidth - 1;
+		bossLoc[1] = bossYPosition;
 		break;
 
-	case 3:
-		playerLoc[0] = MapSize - 1;
-		playerLoc[1] = position;
+	case 3: // 플레이어 오른쪽, 보스 왼쪽
+		playerLoc[0] = MapWidth - 1;
+		playerLoc[1] = playerYPosition;
 
 		bossLoc[0] = 0;
-		bossLoc[1] = bossPosition;
+		bossLoc[1] = bossYPosition;
 		break;
 	}
 	int pathX = playerLoc[0];
@@ -215,6 +209,7 @@ void DungeonManager::GenerateDungeonMap()
 	// 좌표 모두 결정 맵에 표시
 	dungeonMap[playerLoc[0]][playerLoc[1]] = 1;
 	visitedMap[playerLoc[0]][playerLoc[1]] = true;
+	clearedMap[playerLoc[0]][playerLoc[1]] = true;
 	dungeonMap[bossLoc[0]][bossLoc[1]] = 2;
 
 
@@ -224,10 +219,10 @@ void DungeonManager::GenerateDungeonMap()
 	bool branchCreated = false;
 	int branchCreatedCount = 0;
 
-	for (int attempt = 0; attempt < 100; attempt++)
+	for (int attempt = 0; attempt < 300; attempt++)
 	{
-		int randomX = positionDist(gen);
-		int randomY = positionDist(gen);
+		int randomX = xPositionDist(gen);
+		int randomY = yPositionDist(gen);
 
 		if (dungeonMap[randomX][randomY] != 1)
 		{
@@ -268,9 +263,9 @@ void DungeonManager::GenerateDungeonMap()
 				break;
 			}
 			if (branchX >= 0 &&
-				branchX < MapSize &&
+				branchX < MapWidth &&
 				branchY >= 0 &&
-				branchY < MapSize)
+				branchY < MapHeight)
 			{
 				//std::cout << "맵안\n";
 				if (dungeonMap[branchX][branchY] == 0)
@@ -283,12 +278,11 @@ void DungeonManager::GenerateDungeonMap()
 					}
 
 					// 오른쪽
-					if (branchX < MapSize - 1 &&
+					if (branchX < MapWidth - 1 &&
 						dungeonMap[branchX + 1][branchY] != 0)
 					{
 						connectedPathCount++;
 					}
-
 					// 위
 					if (branchY > 0 &&
 						dungeonMap[branchX][branchY - 1] != 0)
@@ -297,7 +291,7 @@ void DungeonManager::GenerateDungeonMap()
 					}
 
 					// 아래
-					if (branchY < MapSize - 1 &&
+					if (branchY < MapHeight - 1 &&
 						dungeonMap[branchX][branchY + 1] != 0)
 					{
 						connectedPathCount++;
@@ -307,11 +301,11 @@ void DungeonManager::GenerateDungeonMap()
 						dungeonMap[branchX][branchY] = 1;
 						branchCreatedCount++;
 						branchCreated = true;
-						if (branchCreatedCount >= 2)
+
+						if (branchCreatedCount >= 6)
 						{
 							break;
 						}
-
 					}
 
 				}
@@ -351,8 +345,9 @@ void DungeonManager::GenerateDungeonMap()
 
 }
 
-void DungeonManager::StartDungeon(Player& player, UI& ui)
+void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inventoryManager)
 {
+	shouldExitDungeon = false;
 	// 체크포인트가 있으면 저장된 위치에서 다시 시작
 	if (hasCheckpoint)
 	{
@@ -435,6 +430,17 @@ void DungeonManager::StartDungeon(Player& player, UI& ui)
 		if (CanMoveTo(direction))
 		{
 			MoveRoom(direction);
+			if (clearedMap[playerLoc[0]][playerLoc[1]] == false)
+			{
+				RoomType decideRoom = DecideRoomType();
+				HandleRoom(player, decideRoom, inventoryManager);
+				if (shouldExitDungeon)
+				{
+					std::cout << "게임 오버입니다.\n";
+					return;
+				}
+			}
+
 		}
 		else
 		{
@@ -444,6 +450,34 @@ void DungeonManager::StartDungeon(Player& player, UI& ui)
 
 	ui.DisplayDungeonMap(*this);
 	std::cout << "보스방에 도착했습니다.\n";
+}
+
+RoomType DungeonManager::DecideRoomType()
+{
+	std::random_device rd;
+	std::mt19937 gen(rd());
+
+	std::uniform_int_distribution<int> ranNPC(0, 99);
+	int npcAppeare = ranNPC(gen);
+
+	int distanceToBoss =
+		std::abs(playerLoc[0] - bossLoc[0]) +
+		std::abs(playerLoc[1] - bossLoc[1]);
+
+	if (playerLoc[0] == bossLoc[0] && playerLoc[1] == bossLoc[1])
+	{
+		return RoomType::Boss;
+	}
+	else if (hasNpcAppeared == false && (npcAppeare < 20 || distanceToBoss == 1))
+	{
+		hasNpcAppeared = true;
+		return RoomType::NPC;
+	}
+	else
+	{
+		return RoomType::Monster;
+	}
+
 }
 
 bool DungeonManager::CanMoveTo(int destination) const    // 목적지로 이동 가능?
@@ -472,9 +506,9 @@ bool DungeonManager::CanMoveTo(int destination) const    // 목적지로 이동 가능?
 		return false;
 	}
 	if (nextX < 0 ||
-		nextX >= MapSize ||
+		nextX >= MapWidth ||
 		nextY < 0 ||
-		nextY >= MapSize)
+		nextY >= MapHeight)
 	{
 		return false;
 	}
@@ -514,8 +548,8 @@ void DungeonManager::MoveRoom(int destination)    // 현재 위치 변경
 	system("cls");
 	auto IsVisible = [&](int x, int y)
 		{
-			if (x < 0 || x >= MapSize ||
-				y < 0 || y >= MapSize)
+			if (x < 0 || x >= MapWidth ||
+				 y < 0 || y >= MapHeight)
 			{
 				return false;
 			}
@@ -649,12 +683,138 @@ void DungeonManager::MoveRoom(int destination)    // 현재 위치 변경
 	std::cout << "| [.] 탐색 완료   [?] 미확인 방   |\n";
 	std::cout << "+---------------------------------+\n";
 }*/
-void DungeonManager::HandleRoom(Player& player, RoomType roomType)    // 방에 들어갔을 때
+void DungeonManager::HandleRoom(Player& player,
+	RoomType roomType,
+	InventoryManager& inventoryManager)    // 방에 들어갔을 때
 {
+	switch (roomType)
+	{
+	case(RoomType::Boss):
+	{
+		std::cout << "보스방 입장!!\n";
+		break;
+	}
+	case(RoomType::Monster):
+	{
+		std::cout << "몬스터 등장!!\n";
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<int> monsterDist(0, 2);
+		int monsterType = monsterDist(gen);
 
+		switch (monsterType)
+		{
+		case 0:
+		{
+			Slime slime(player.GetLevel());
+			BattleResult battleResult = battleManager.StartBattle(player, slime, inventoryManager);
+			HandleBattleResult(player, slime, battleResult, inventoryManager);
+			break;
+		}
+
+		case 1:
+		{
+			Goblin goblin(player.GetLevel());
+			BattleResult battleResult = battleManager.StartBattle(player, goblin, inventoryManager);
+			HandleBattleResult(player, goblin, battleResult, inventoryManager);
+
+			break;
+		}
+
+		case 2:
+		{
+			Orc orc(player.GetLevel());
+			BattleResult battleResult = battleManager.StartBattle(player, orc, inventoryManager);
+			HandleBattleResult(player, orc, battleResult, inventoryManager);
+
+			break;
+		}
+		}
+		break;
+	}
+	case(RoomType::NPC):
+	{
+		std::cout << "NPC 등장!!\n";
+		system("pause");
+		clearedMap[playerLoc[0]][playerLoc[1]] = true;
+		break;
+	}
+	}
 }
-void DungeonManager::HandleBattleResult(BattleResult result)    // 전투 결과
+void DungeonManager::HandleBattleResult(Player& player,
+	Monster& monster,
+	BattleResult result,
+	InventoryManager& inventoryManager)
 {
+	switch (result)
+	{
+	case(BattleResult::Victory):
+	{
+		system("pause");
 
+		std::cout << "전투에서 승리했습니다.\n";
+		clearedMap[playerLoc[0]][playerLoc[1]] = true;
+		player.AddExp(monster.GetDropExp());
+		player.SetGold(player.GetGold() + monster.GetDropGold());
+		DropRandomItem(inventoryManager);
+
+		std::cout << monster.GetDropGold() << " 골드를 획득했습니다.\n";
+		system("pause");
+
+	}
+	break;
+	case(BattleResult::Defeat):
+	{
+		std::cout << "전투에서 패배했습니다.\n";
+		shouldExitDungeon = true;
+	}
+	break;
+	case(BattleResult::Escaped):
+	{
+		std::cout << "전투에서 도망쳤습니다.\n";
+
+	}
+	break;
+
+	}
 }
 
+void DungeonManager::DropRandomItem(
+	InventoryManager& inventoryManager)
+{
+	std::random_device rd;
+	std::mt19937 gen(rd());
+
+	// 랜덤 확률로 아이템 획득 
+	// 100퍼 나오게 할꺼면 밑에 테두리안에 내용 없애거나 if (dropChance > 30) 30을 100으로
+	//-------------------------------------------
+	std::uniform_int_distribution<int> dropChanceDist(1, 100);
+	int dropChance = dropChanceDist(gen);
+
+	if (dropChance > 30)// 이거 30 -> 60으로하면 60퍼 확률로 드랍임
+	{
+		return;
+	}
+	//----------------------------------------------
+	std::uniform_int_distribution<int> itemDist(0, 3);
+	int itemType = itemDist(gen);
+
+	switch (itemType)
+	{
+	case 0:
+		inventoryManager.AddConsumable(HpPotion());
+		break;
+
+	case 1:
+		inventoryManager.AddConsumable(MpPotion());
+		break;
+
+	case 2:
+		inventoryManager.AddConsumable(TempABPotion());
+		break;
+
+	case 3:
+		inventoryManager.AddConsumable(TempDEFPotion());
+		break;
+	}
+}

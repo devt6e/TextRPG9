@@ -1,15 +1,21 @@
-cmake_minimum_required(VERSION 3.20)
+ï»¿cmake_minimum_required(VERSION 3.20)
 project(TextRPG9 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# src Æú´õ ¾Æ·¡ ¸ğµç .cpp ÆÄÀÏÀ» ÀÚµ¿À¸·Î ¼öÁı
+# src í´ë” ì•„ë˜ ëª¨ë“  .cpp íŒŒì¼ì„ ìë™ìœ¼ë¡œ ìˆ˜ì§‘
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp")
-# include Æú´õ ¾Æ·¡ ¸ğµç .h ÆÄÀÏÀ» ÀÚµ¿À¸·Î ¼öÁı
+# include í´ë” ì•„ë˜ ëª¨ë“  .h íŒŒì¼ì„ ìë™ìœ¼ë¡œ ìˆ˜ì§‘
 file(GLOB_RECURSE HEADERS CONFIGURE_DEPENDS "include/*.h")
 
 add_executable(TextRPG9 ${SOURCES} ${HEADERS})
 
-# include Æú´õ¸¦ Çì´õ °Ë»ö °æ·Î·Î Ãß°¡
+
+# include í´ë”ë¥¼ í—¤ë” ê²€ìƒ‰ ê²½ë¡œë¡œ ì¶”ê°€
 target_include_directories(TextRPG9 PRIVATE include)
+
+if(MSVC)
+    target_compile_options(TextRPG9 PRIVATE /utf-8)
+
+endif()

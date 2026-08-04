@@ -1,8 +1,13 @@
 #include <iostream>
 #include <string>
 #include <random>
+#include <limits>
 
 #include "core/BattleManager.h"
+#include "character/Player.h"
+#include "character/Monster.h"
+#include "item/Item.h"
+#include "item/Inventory.h"
 //#include "../../include/core/UI/UI2.h"
 
 // 임시
@@ -27,9 +32,123 @@ std::cout << number << '\n';
 
 BattleResult BattleManager::StartBattle(
     Player& player,
-    Monster& monster)
+    Monster& monster,
+    InventoryManager& inventoryManager)
 {
-    // 임시
+    int choice;
+    while (player.GetHp() > 0 && monster.GetHp() > 0)
+    {
+        std::cout << "1. 공격\n"
+            << "2. 아이템\n"
+            << "3. 도망\n"
+            << "선택 : \n";
+
+        if (!(std::cin >> choice))
+        {
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+
+            std::cout << "숫자를 입력해주세요.\n";
+            continue;
+        }
+
+        switch (choice)
+        {
+        case 1:
+            PlayerAttack(player, monster);
+            break;
+
+        case 2:
+            if (!UseItem(player, inventoryManager))
+            {
+                continue;
+            }
+            break;
+
+        case 3:
+            if (TryEscape())
+            {
+                std::cout << "도망성공!!\n";
+                return BattleResult::Escaped;
+            }
+            else
+            {
+                std::cout << "도망실패!!\n";
+            }
+            break;
+
+        default:
+            std::cout << "1~3 중에서 선택해주세요.\n";
+            continue;
+        }
+
+        if (monster.GetHp() <= 0)
+            break;
+        MonsterAttack(monster, player);
+        if (player.GetHp() <= 0)
+            break;
+
+    }
+    if (player.GetHp() <= 0)
+    {
+        return BattleResult::Defeat;
+    }
+
     return BattleResult::Victory;
 }
 
+void BattleManager::PlayerAttack(Player& player, Monster& monster)
+{
+    player.Attack();
+    int damage = player.GetTotalPower() - monster.GetDefence();
+    if (damage < 1)
+    {
+        damage = 1;
+    }
+    monster.SetHp(monster.GetHp() - damage);
+
+    std::cout << player.GetName() << "의 공격! " << monster.GetName() 
+        << "에게 " << damage << "의 피해를 입혔습니다\n";
+    std::cout << monster.GetName() << "의 남은 HP: "
+        << monster.GetHp() << " / " 
+        << monster.GetMaxHp() << std::endl;
+}
+void BattleManager::MonsterAttack(Monster& monster, Player& player)
+{
+    monster.Attack();
+    int damage = monster.GetPower() - player.GetDefence();
+    if (damage < 1)
+    {
+        damage = 1;
+    }
+    player.SetHp(player.GetHp() - damage);
+
+    std::cout << monster.GetName() << "의 공격! " << player.GetName()
+        << "에게 " << damage << "의 피해를 입혔습니다\n";
+    std::cout << player.GetName() << "의 남은 HP: "
+        << player.GetHp() << " / "
+        << player.GetMaxHp() << std::endl;
+}
+bool BattleManager::TryEscape()
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dist(0, 99);
+    int number = dist(gen);
+    bool isEscape=false;
+    if (number < 50)
+    {
+        isEscape = true;
+    }
+    else
+    {
+        isEscape = false;
+    }
+    return isEscape;
+}
+bool BattleManager::UseItem(
+    Player& player,
+    InventoryManager& inventoryManager)
+{
+    return SelectAndUseConsumableItem(&player, inventoryManager);
+}

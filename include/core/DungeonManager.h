@@ -9,6 +9,7 @@
 class Player;
 class Monster;
 class UI;
+class InventoryManager;
 
 enum class RoomType
 {   //
@@ -24,25 +25,31 @@ private:
 
     int currentFloor;
     int currentRoom;
-    static const int MapSize = 5; //방 사이즈 5*5 6이면 6*6임
-    int dungeonMap[MapSize][MapSize];
+    //static const int MapSize = 5; //방 사이즈 5*5 6이면 6*6임
+    static const int MapHeight = 5;
+    static const int MapWidth = 8;
+    int dungeonMap[MapWidth][MapHeight];
     int playerLoc[2];
     int bossLoc[2];
     bool hasCheckpoint;
     int checkpointLoc[2];
-    bool visitedMap[MapSize][MapSize];
+    bool visitedMap[MapWidth][MapHeight];
     bool hasNpcAppeared;//NPC 던전에 나옴?
+    bool clearedMap[MapWidth][MapHeight];//맵클리어함?
+    bool shouldExitDungeon;
 
 public:
     DungeonManager();
 
-    void StartDungeon(Player& player, UI& ui);
-    int GetMapSize() const;
+    void StartDungeon(Player& player, UI& ui, InventoryManager& inventoryManager);
+    int GetMapWidth() const;
+    int GetMapHeight() const;
     bool HasRoom(int x, int y) const;
     bool IsRoomVisited(int x, int y) const;
     bool IsPlayerAt(int x, int y) const;
     bool IsBossAt(int x, int y) const;
     bool IsRoomVisible(int x, int y) const;
+
 
 private:
     //던전 생성기
@@ -54,9 +61,14 @@ private:
     // 방의 종류
     RoomType DecideRoomType();
     // 방에 들어갔을 때
-    void HandleRoom(Player& player, RoomType roomType);
+    void HandleRoom(Player& player, RoomType roomType, InventoryManager& inventoryManager);
     // 전투 결과
-    void HandleBattleResult(BattleResult result);
+    void HandleBattleResult(Player& player, 
+        Monster& monster,
+        BattleResult result, 
+        InventoryManager& inventoryManager);
+
+    void DropRandomItem(InventoryManager& inventoryManager);
 
     //void DisplayDungeonMap() const;
 
