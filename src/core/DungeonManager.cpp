@@ -219,7 +219,7 @@ void DungeonManager::GenerateDungeonMap()
 	bool branchCreated = false;
 	int branchCreatedCount = 0;
 
-	for (int attempt = 0; attempt < 100; attempt++)
+	for (int attempt = 0; attempt < 300; attempt++)
 	{
 		int randomX = xPositionDist(gen);
 		int randomY = yPositionDist(gen);
@@ -280,7 +280,9 @@ void DungeonManager::GenerateDungeonMap()
 					// 오른쪽
 					if (branchX < MapWidth - 1 &&
 						dungeonMap[branchX + 1][branchY] != 0)
-
+					{
+						connectedPathCount++;
+					}
 					// 위
 					if (branchY > 0 &&
 						dungeonMap[branchX][branchY - 1] != 0)
@@ -291,17 +293,19 @@ void DungeonManager::GenerateDungeonMap()
 					// 아래
 					if (branchY < MapHeight - 1 &&
 						dungeonMap[branchX][branchY + 1] != 0)
-
+					{
+						connectedPathCount++;
+					}
 					if (connectedPathCount == 1)
 					{
 						dungeonMap[branchX][branchY] = 1;
 						branchCreatedCount++;
 						branchCreated = true;
-						if (branchCreatedCount >= 2)
+
+						if (branchCreatedCount >= 6)
 						{
 							break;
 						}
-
 					}
 
 				}
@@ -679,8 +683,8 @@ void DungeonManager::MoveRoom(int destination)    // 현재 위치 변경
 	std::cout << "| [.] 탐색 완료   [?] 미확인 방   |\n";
 	std::cout << "+---------------------------------+\n";
 }*/
-void DungeonManager::HandleRoom(Player& player, 
-	RoomType roomType, 
+void DungeonManager::HandleRoom(Player& player,
+	RoomType roomType,
 	InventoryManager& inventoryManager)    // 방에 들어갔을 때
 {
 	switch (roomType)
@@ -737,8 +741,8 @@ void DungeonManager::HandleRoom(Player& player,
 	}
 	}
 }
-void DungeonManager::HandleBattleResult(Player& player, 
-	Monster& monster, 
+void DungeonManager::HandleBattleResult(Player& player,
+	Monster& monster,
 	BattleResult result,
 	InventoryManager& inventoryManager)
 {
