@@ -7,6 +7,7 @@
 #include "character/M_JYJ.h"
 #include "character/M_husband.h"
 #include "character/N_Manager1.h"
+#include "character/N_Manager2.h"
 #include "character/N_Manager3.h"
 #include "character/N_Manager4.h"
 #include "item/Item.h"
@@ -16,6 +17,8 @@
 #include <string>
 #include <random>
 #include <cstdlib>
+#include <algorithm>
+#include <vector>
 //
 /*// 1. 랜덤 생성기 준비
 std::random_device rd;
@@ -39,10 +42,13 @@ DungeonManager::DungeonManager()
 	hasCheckpoint(false),
 	checkpointLoc{},
 	visitedMap{},
+	npcRoomMap{},
 	npcEncountered{},
 	rescuedNpcCount(0),
+	correctNpcQuizCount(0),
 	midBossPending(false),
 	midBossDefeated(false),
+	finalBossDefeated(false),
 	clearedMap{},
 	shouldExitDungeon(false)
 {
@@ -59,6 +65,11 @@ int DungeonManager::GetMapWidth() const
 int DungeonManager::GetMapHeight() const
 {
 	return MapHeight;
+}
+
+bool DungeonManager::HasDefeatedFinalBoss() const
+{
+	return finalBossDefeated;
 }
 /*
 맵 밖 좌표 → 방 없음
@@ -140,6 +151,7 @@ void DungeonManager::GenerateDungeonMap()
 		for (int y = 0; y < MapHeight; y++)
 		{
 			dungeonMap[x][y] = 0;
+			npcRoomMap[x][y] = -1;
 		}
 	}
 
@@ -322,6 +334,31 @@ void DungeonManager::GenerateDungeonMap()
 
 		}
 	}
+
+	// 시작점과 보스방을 제외한 이동 가능한 방 중 세 곳에
+	// Manager 1, 3, 4를 무작위로 하나씩 배치한다.
+	std::vector<std::pair<int, int>> npcCandidates;
+	for (int x = 0; x < MapWidth; ++x)
+	{
+		for (int y = 0; y < MapHeight; ++y)
+		{
+			if (dungeonMap[x][y] == 1 &&
+				!(x == playerLoc[0] && y == playerLoc[1]))
+			{
+				npcCandidates.push_back({ x, y });
+			}
+		}
+	}
+
+	std::shuffle(npcCandidates.begin(), npcCandidates.end(), gen);
+	for (int npcIndex = 0;
+		npcIndex < 3 && npcIndex < static_cast<int>(npcCandidates.size());
+		++npcIndex)
+	{
+		int npcX = npcCandidates[npcIndex].first;
+		int npcY = npcCandidates[npcIndex].second;
+		npcRoomMap[npcX][npcY] = npcIndex;
+	}
 	/*std::cout << "branch count: "
 		<< branchCreatedCount << '\n';
 	std::cout << "branch created: "
@@ -468,7 +505,14 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 		}
 		else
 		{
-			ui.PrintLog("이동할 수 없는 방향입니다.");
+			if (IsBossDirection(direction) && rescuedNpcCount < 3)
+			{
+				ui.PrintLog("NPC 3명을 모두 구출해야 보스방에 들어갈 수 있습니다.");
+			}
+			else
+			{
+				ui.PrintLog("이동할 수 없는 방향입니다.");
+			}
 		}
 	}
 
@@ -477,16 +521,6 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 
 RoomType DungeonManager::DecideRoomType()
 {
-	std::random_device rd;
-	std::mt19937 gen(rd());
-
-	std::uniform_int_distribution<int> ranNPC(0, 99);
-	int npcAppeare = ranNPC(gen);
-
-	int distanceToBoss =
-		std::abs(playerLoc[0] - bossLoc[0]) +
-		std::abs(playerLoc[1] - bossLoc[1]);
-
 	if (midBossPending && !midBossDefeated)
 	{
 		return RoomType::MidBoss;
@@ -496,17 +530,8 @@ RoomType DungeonManager::DecideRoomType()
 		return RoomType::Boss;
 	}
 
-	bool hasRemainingNpc = false;
-	for (bool encountered : npcEncountered)
-	{
-		if (!encountered)
-		{
-			hasRemainingNpc = true;
-			break;
-		}
-	}
-
-	if (hasRemainingNpc && (npcAppeare < 50 || distanceToBoss == 1))
+	int npcIndex = npcRoomMap[playerLoc[0]][playerLoc[1]];
+	if (npcIndex >= 0 && npcIndex < 3 && !npcEncountered[npcIndex])
 	{
 		return RoomType::NPC;
 	}
@@ -549,7 +574,39 @@ bool DungeonManager::CanMoveTo(int destination) const    // 목적지로 이동 
 	{
 		return false;
 	}
+
+	if (IsBossAt(nextX, nextY) && rescuedNpcCount < 3)
+	{
+		return false;
+	}
+
 	return dungeonMap[nextX][nextY] != 0;
+}
+
+bool DungeonManager::IsBossDirection(int destination) const
+{
+	int nextX = playerLoc[0];
+	int nextY = playerLoc[1];
+
+	switch (destination)
+	{
+	case 0:
+		--nextY;
+		break;
+	case 1:
+		++nextY;
+		break;
+	case 2:
+		--nextX;
+		break;
+	case 3:
+		++nextX;
+		break;
+	default:
+		return false;
+	}
+
+	return IsBossAt(nextX, nextY);
 }
 void DungeonManager::MoveRoom(int destination)    // 현재 위치 변경
 {
@@ -746,6 +803,32 @@ void DungeonManager::HandleRoom(Player& player,
 			ui,
 			inventoryManager);
 
+		if (battleResult == BattleResult::Victory)
+		{
+			finalBossDefeated = true;
+			ui.PrintLog("최종 보스를 처치했습니다!");
+
+			if (correctNpcQuizCount == 3)
+			{
+				ui.PrintLog("[ENDING] 모든 문제 정답");
+				ui.PrintLog("모든 NPC의 문제를 맞히고 함께 ZEP 타워를 탈출했습니다.");
+			}
+			else if (correctNpcQuizCount > 0)
+			{
+				ui.PrintLog("[ENDING] 일부 문제 정답");
+				ui.PrintLog(
+					std::to_string(correctNpcQuizCount) +
+					"개의 문제를 맞히고 NPC들과 ZEP 타워를 탈출했습니다.");
+			}
+			else
+			{
+				ui.PrintLog("[ENDING] 모든 문제 오답");
+				ui.PrintLog("문제는 모두 틀렸지만 NPC들과 함께 ZEP 타워를 탈출했습니다.");
+			}
+
+			ui.InputString("게임을 종료하려면 아무 키나 입력하세요: ");
+		}
+
 		break;
 	}
 	case(RoomType::Monster):
@@ -812,6 +895,25 @@ void DungeonManager::HandleRoom(Player& player,
 			midBossDefeated = true;
 			ui.PrintLog("중간보스를 처치했습니다.");
 
+			ui.NPC_M();
+			Manager2 manager2;
+			ui.PrintLog(manager2.GetName() + "이(가) 뿱하고 등장했습니다!!");
+			manager2.SpeakEncounter();
+			manager2.AskQuiz();
+
+			int answer = ui.InputSelection("정답: ");
+			bool isCorrect = manager2.CheckAnswer(answer);
+			manager2.GiveReward();
+
+			if (isCorrect)
+			{
+				DropRandomItem(ui, inventoryManager);
+			}
+			else
+			{
+				ui.PrintLog("오답이어서 아이템 보상을 받지 못했습니다.");
+			}
+
 			if (IsBossAt(playerLoc[0], playerLoc[1]))
 			{
 				HandleRoom(player, RoomType::Boss, ui, inventoryManager);
@@ -821,29 +923,16 @@ void DungeonManager::HandleRoom(Player& player,
 	}
 	case(RoomType::NPC):
 	{
-		std::vector<int> remainingNpcIndices;
-		for (int i = 0; i < 3; ++i)
-		{
-			if (!npcEncountered[i])
-			{
-				remainingNpcIndices.push_back(i);
-			}
-		}
-
-		if (remainingNpcIndices.empty())
+		int npcIndex = npcRoomMap[playerLoc[0]][playerLoc[1]];
+		if (npcIndex < 0 || npcIndex >= 3 || npcEncountered[npcIndex])
 		{
 			clearedMap[playerLoc[0]][playerLoc[1]] = true;
 			break;
 		}
 
+		npcEncountered[npcIndex] = true;
 		std::random_device rd;
 		std::mt19937 gen(rd());
-		std::uniform_int_distribution<int> npcDist(
-			0,
-			static_cast<int>(remainingNpcIndices.size()) - 1);
-		int npcIndex = remainingNpcIndices[npcDist(gen)];
-		npcEncountered[npcIndex] = true;
-
 		std::uniform_int_distribution<int> artDist(0, 1);
 		if (artDist(gen) == 0)
 		{
@@ -888,13 +977,19 @@ void DungeonManager::HandleRoom(Player& player,
 		}
 		}
 
+		++rescuedNpcCount;
+		ui.PrintLog(
+			"NPC 구출 완료: " +
+			std::to_string(rescuedNpcCount) + " / 3");
+
 		if (rescued)
 		{
-			++rescuedNpcCount;
-			ui.PrintLog(
-				"NPC 구출 완료: " +
-				std::to_string(rescuedNpcCount) + " / 3");
+			++correctNpcQuizCount;
 			DropRandomItem(ui, inventoryManager);
+		}
+		else
+		{
+			ui.PrintLog("오답이어서 아이템 보상을 받지 못했습니다.");
 		}
 
 		system("pause");

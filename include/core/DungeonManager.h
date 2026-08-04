@@ -35,10 +35,13 @@ private:
     bool hasCheckpoint;
     int checkpointLoc[2];
     bool visitedMap[MapWidth][MapHeight];
+    int npcRoomMap[MapWidth][MapHeight];
     bool npcEncountered[3];
     int rescuedNpcCount;
+    int correctNpcQuizCount;
     bool midBossPending;
     bool midBossDefeated;
+    bool finalBossDefeated;
     bool clearedMap[MapWidth][MapHeight];//맵클리어함?
     bool shouldExitDungeon;
 
@@ -53,6 +56,7 @@ public:
     bool IsPlayerAt(int x, int y) const;
     bool IsBossAt(int x, int y) const;
     bool IsRoomVisible(int x, int y) const;
+    bool HasDefeatedFinalBoss() const;
 
 
 private:
@@ -60,6 +64,7 @@ private:
     void GenerateDungeonMap();
     // 목적지로 이동 가능?
     bool CanMoveTo(int destination) const;
+    bool IsBossDirection(int destination) const;
     // 현재 위치 변경
     void MoveRoom(int destination);
     // 방의 종류
