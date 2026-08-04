@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <iostream>
 
 class NPC {
 protected:
     std::string name;
-    bool isRescued; // °¨±İ »óÅÂ ¿©ºÎ (false: °¨±İµÊ, true: ±¸ÃâµÊ)
+    bool isRescued; // ê°ê¸ˆ ìƒíƒœ ì—¬ë¶€ (false: ê°ê¸ˆë¨, true: êµ¬ì¶œë¨)
 
 public:
     NPC(const std::string& npcName);
@@ -15,9 +15,9 @@ public:
     bool GetIsRescued() const;
     void SetIsRescued(bool rescued);
 
-    virtual void SpeakEncounter() const = 0; // Á¶¿ì½Ã
-    virtual void AskQuiz() const = 0;        // ÄûÁî
-    virtual void OnCorrect() const = 0;      // Á¤´ä
-    virtual void OnWrong() const = 0;        // ½ÇÆĞ
-    virtual void GiveReward() const = 0;     // º¸»ó
+    virtual void SpeakEncounter() const = 0; // ì¡°ìš°ì‹œ
+    virtual void AskQuiz() = 0;              // í€´ì¦ˆ
+    virtual void OnCorrect() = 0;            // ì •ë‹µ
+    virtual void OnWrong() const = 0;        // ì‹¤íŒ¨
+    virtual void GiveReward() const = 0;     // ë³´ìƒ
 };

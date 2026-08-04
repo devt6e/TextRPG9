@@ -4,6 +4,11 @@
 #include "character/M_Slime.h"
 #include "character/M_Goblin.h"
 #include "character/M_Orc.h"
+#include "character/M_JYJ.h"
+#include "character/M_husband.h"
+#include "character/N_Manager1.h"
+#include "character/N_Manager3.h"
+#include "character/N_Manager4.h"
 #include "item/Item.h"
 #include "item/Inventory.h"
 
@@ -34,7 +39,10 @@ DungeonManager::DungeonManager()
 	hasCheckpoint(false),
 	checkpointLoc{},
 	visitedMap{},
-	hasNpcAppeared(false),
+	npcEncountered{},
+	rescuedNpcCount(0),
+	midBossPending(false),
+	midBossDefeated(false),
 	clearedMap{},
 	shouldExitDungeon(false)
 {
@@ -479,13 +487,27 @@ RoomType DungeonManager::DecideRoomType()
 		std::abs(playerLoc[0] - bossLoc[0]) +
 		std::abs(playerLoc[1] - bossLoc[1]);
 
-	if (playerLoc[0] == bossLoc[0] && playerLoc[1] == bossLoc[1])
+	if (midBossPending && !midBossDefeated)
+	{
+		return RoomType::MidBoss;
+	}
+	else if (playerLoc[0] == bossLoc[0] && playerLoc[1] == bossLoc[1])
 	{
 		return RoomType::Boss;
 	}
-	else if (hasNpcAppeared == false && (npcAppeare < 20 || distanceToBoss == 1))
+
+	bool hasRemainingNpc = false;
+	for (bool encountered : npcEncountered)
 	{
-		hasNpcAppeared = true;
+		if (!encountered)
+		{
+			hasRemainingNpc = true;
+			break;
+		}
+	}
+
+	if (hasRemainingNpc && (npcAppeare < 50 || distanceToBoss == 1))
+	{
 		return RoomType::NPC;
 	}
 	else
@@ -708,7 +730,7 @@ void DungeonManager::HandleRoom(Player& player,
 	case(RoomType::Boss):
 	{
 		ui.PrintLog("보스방 입장!!");
-		Orc boss(player.GetLevel());
+		JYJ boss(player.GetLevel());
 
 		BattleResult battleResult =
 			battleManager.StartBattle(
@@ -766,16 +788,64 @@ void DungeonManager::HandleRoom(Player& player,
 		}
 		break;
 	}
+	case(RoomType::MidBoss):
+	{
+		ui.PrintLog("중간보스 매니저님 남편 꿈나무가 등장했습니다!!");
+		husband midBoss(player.GetLevel());
+
+		BattleResult battleResult = battleManager.StartBattle(
+			player,
+			midBoss,
+			ui,
+			inventoryManager);
+
+		HandleBattleResult(
+			player,
+			midBoss,
+			battleResult,
+			ui,
+			inventoryManager);
+
+		if (battleResult == BattleResult::Victory)
+		{
+			midBossPending = false;
+			midBossDefeated = true;
+			ui.PrintLog("중간보스를 처치했습니다.");
+
+			if (IsBossAt(playerLoc[0], playerLoc[1]))
+			{
+				HandleRoom(player, RoomType::Boss, ui, inventoryManager);
+			}
+		}
+		break;
+	}
 	case(RoomType::NPC):
 	{
-		ui.PrintLog("NPC 등장!!");
+		std::vector<int> remainingNpcIndices;
+		for (int i = 0; i < 3; ++i)
+		{
+			if (!npcEncountered[i])
+			{
+				remainingNpcIndices.push_back(i);
+			}
+		}
+
+		if (remainingNpcIndices.empty())
+		{
+			clearedMap[playerLoc[0]][playerLoc[1]] = true;
+			break;
+		}
+
 		std::random_device rd;
 		std::mt19937 gen(rd());
-		std::uniform_int_distribution<int> npcDist(0, 1);
+		std::uniform_int_distribution<int> npcDist(
+			0,
+			static_cast<int>(remainingNpcIndices.size()) - 1);
+		int npcIndex = remainingNpcIndices[npcDist(gen)];
+		npcEncountered[npcIndex] = true;
 
-		int npcType = npcDist(gen);
-
-		if (npcType == 0)
+		std::uniform_int_distribution<int> artDist(0, 1);
+		if (artDist(gen) == 0)
 		{
 			ui.NPC_M();
 		}
@@ -784,10 +854,58 @@ void DungeonManager::HandleRoom(Player& player,
 			ui.NPC_K();
 		}
 
+		auto runNpcQuiz = [&](auto& npc)
+		{
+			ui.PrintLog(npc.GetName() + " 등장!!");
+			npc.SpeakEncounter();
+			npc.AskQuiz();
+			int answer = ui.InputSelection("정답: ");
+			bool rescued = npc.CheckAnswer(answer);
+			npc.GiveReward();
+			return rescued;
+		};
 
-		DropRandomItem(ui, inventoryManager);
+		bool rescued = false;
+		switch (npcIndex)
+		{
+		case 0:
+		{
+			Manager1 manager;
+			rescued = runNpcQuiz(manager);
+			break;
+		}
+		case 1:
+		{
+			Manager3 manager;
+			rescued = runNpcQuiz(manager);
+			break;
+		}
+		case 2:
+		{
+			Manager4 manager;
+			rescued = runNpcQuiz(manager);
+			break;
+		}
+		}
+
+		if (rescued)
+		{
+			++rescuedNpcCount;
+			ui.PrintLog(
+				"NPC 구출 완료: " +
+				std::to_string(rescuedNpcCount) + " / 3");
+			DropRandomItem(ui, inventoryManager);
+		}
+
 		system("pause");
 		clearedMap[playerLoc[0]][playerLoc[1]] = true;
+
+		if (rescuedNpcCount == 3 && !midBossDefeated)
+		{
+			midBossPending = true;
+			clearedMap[playerLoc[0]][playerLoc[1]] = false;
+			HandleRoom(player, RoomType::MidBoss, ui, inventoryManager);
+		}
 		break;
 	}
 	}
