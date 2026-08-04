@@ -404,7 +404,7 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 	while (dungeonMap[playerLoc[0]][playerLoc[1]] != 2)
 	{
 		ui.DisplayDungeonMap(*this);
-
+		ui.PrintStatus(&player);
 		/*std::cout << "\n이동 가능한 방향: ";
 
 		if (CanMoveTo(0))
