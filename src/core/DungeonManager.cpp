@@ -1,4 +1,4 @@
-#include "core/DungeonManager.h"
+ï»¿#include "core/DungeonManager.h"
 #include "core/UIManager.h"
 #include "character/Player.h"
 #include "character/M_Slime.h"
@@ -12,14 +12,14 @@
 #include <random>
 #include <cstdlib>
 //
-/*// 1. ·£´ı »ı¼º±â ÁØºñ
+/*// 1. ëœë¤ ìƒì„±ê¸° ì¤€ë¹„
 std::random_device rd;
 std::mt19937 gen(rd());
 
-// 2. ¹üÀ§ ¼³Á¤: 1ºÎÅÍ 10±îÁö
+// 2. ë²”ìœ„ ì„¤ì •: 1ë¶€í„° 10ê¹Œì§€
 std::uniform_int_distribution<int> dist(0, 4);
 
-// 3. ·£´ı ¼ıÀÚ »Ì±â
+// 3. ëœë¤ ìˆ«ì ë½‘ê¸°
 int number = dist(gen);
 
 std::cout << number << '\n';*/
@@ -40,7 +40,7 @@ DungeonManager::DungeonManager()
 {
 	GenerateDungeonMap();
 }
-//ui¸Å´ÏÀú¿ë
+//uië§¤ë‹ˆì €ìš©
 
 
 int DungeonManager::GetMapWidth() const
@@ -53,9 +53,9 @@ int DungeonManager::GetMapHeight() const
 	return MapHeight;
 }
 /*
-¸Ê ¹Û ÁÂÇ¥ ¡æ ¹æ ¾øÀ½
-dungeonMap °ªÀÌ 0 ¡æ ¹æ ¾øÀ½
-1 ¶Ç´Â 2 ¡æ ¹æ ÀÖÀ½
+ë§µ ë°– ì¢Œí‘œ â†’ ë°© ì—†ìŒ
+dungeonMap ê°’ì´ 0 â†’ ë°© ì—†ìŒ
+1 ë˜ëŠ” 2 â†’ ë°© ìˆìŒ
 */
 
 bool DungeonManager::HasRoom(int x, int y) const
@@ -126,7 +126,7 @@ void DungeonManager::GenerateDungeonMap()
 
 
 
-	//i= °¡·Î, j=¼¼·Î
+	//i= ê°€ë¡œ, j=ì„¸ë¡œ
 	for (int x = 0; x < MapWidth; x++)
 	{
 		for (int y = 0; y < MapHeight; y++)
@@ -136,16 +136,16 @@ void DungeonManager::GenerateDungeonMap()
 	}
 
 	/*
-	edge 0 ¡æ player : ·£´ı, 0
-	edge 1 ¡æ player : ·£´ı, 4
-	edge 2 ¡æ player : 0, ·£´ı
-	edge 3 ¡æ player : 4, ·£´ı
+	edge 0 â†’ player : ëœë¤, 0
+	edge 1 â†’ player : ëœë¤, 4
+	edge 2 â†’ player : 0, ëœë¤
+	edge 3 â†’ player : 4, ëœë¤
 	 */
-	 // ÇÃ·¹ÀÌ¾î¿Í º¸½º ÁÂÇ¥ °áÁ¤
+	 // í”Œë ˆì´ì–´ì™€ ë³´ìŠ¤ ì¢Œí‘œ ê²°ì •
 
 	switch (edge)
 	{
-	case 0: // ÇÃ·¹ÀÌ¾î À§ÂÊ, º¸½º ¾Æ·¡ÂÊ
+	case 0: // í”Œë ˆì´ì–´ ìœ„ìª½, ë³´ìŠ¤ ì•„ë˜ìª½
 		playerLoc[0] = playerXPosition;
 		playerLoc[1] = 0;
 
@@ -153,7 +153,7 @@ void DungeonManager::GenerateDungeonMap()
 		bossLoc[1] = MapHeight - 1;
 		break;
 
-	case 1: // ÇÃ·¹ÀÌ¾î ¾Æ·¡ÂÊ, º¸½º À§ÂÊ
+	case 1: // í”Œë ˆì´ì–´ ì•„ë˜ìª½, ë³´ìŠ¤ ìœ„ìª½
 		playerLoc[0] = playerXPosition;
 		playerLoc[1] = MapHeight - 1;
 
@@ -161,7 +161,7 @@ void DungeonManager::GenerateDungeonMap()
 		bossLoc[1] = 0;
 		break;
 
-	case 2: // ÇÃ·¹ÀÌ¾î ¿ŞÂÊ, º¸½º ¿À¸¥ÂÊ
+	case 2: // í”Œë ˆì´ì–´ ì™¼ìª½, ë³´ìŠ¤ ì˜¤ë¥¸ìª½
 		playerLoc[0] = 0;
 		playerLoc[1] = playerYPosition;
 
@@ -169,7 +169,7 @@ void DungeonManager::GenerateDungeonMap()
 		bossLoc[1] = bossYPosition;
 		break;
 
-	case 3: // ÇÃ·¹ÀÌ¾î ¿À¸¥ÂÊ, º¸½º ¿ŞÂÊ
+	case 3: // í”Œë ˆì´ì–´ ì˜¤ë¥¸ìª½, ë³´ìŠ¤ ì™¼ìª½
 		playerLoc[0] = MapWidth - 1;
 		playerLoc[1] = playerYPosition;
 
@@ -206,14 +206,14 @@ void DungeonManager::GenerateDungeonMap()
 			pathY--;
 		}
 	}
-	// ÁÂÇ¥ ¸ğµÎ °áÁ¤ ¸Ê¿¡ Ç¥½Ã
+	// ì¢Œí‘œ ëª¨ë‘ ê²°ì • ë§µì— í‘œì‹œ
 	dungeonMap[playerLoc[0]][playerLoc[1]] = 1;
 	visitedMap[playerLoc[0]][playerLoc[1]] = true;
 	clearedMap[playerLoc[0]][playerLoc[1]] = true;
 	dungeonMap[bossLoc[0]][bossLoc[1]] = 2;
 
 
-	// ===== ¸·´Ù¸¥ ¹æ »ı¼º ½ÃÀÛ =====
+	// ===== ë§‰ë‹¤ë¥¸ ë°© ìƒì„± ì‹œì‘ =====
 	int branchStartX = -1;
 	int branchStartY = -1;
 	bool branchCreated = false;
@@ -234,9 +234,9 @@ void DungeonManager::GenerateDungeonMap()
 
 		int direction = edgeDist(gen);
 		/*
-		0 = ÀÌµ¿ ºÒ°¡
-		1 = ÀÌµ¿ °¡´ÉÇÑ ±æ
-		2 = º¸½º¹æ
+		0 = ì´ë™ ë¶ˆê°€
+		1 = ì´ë™ ê°€ëŠ¥í•œ ê¸¸
+		2 = ë³´ìŠ¤ë°©
 		*/
 		if (branchStartX != -1)
 		{
@@ -246,19 +246,19 @@ void DungeonManager::GenerateDungeonMap()
 
 			switch (direction)
 			{
-			case 0: // À§
+			case 0: // ìœ„
 				branchY--;
 				break;
 
-			case 1: // ¾Æ·¡
+			case 1: // ì•„ë˜
 				branchY++;
 				break;
 
-			case 2: // ¿ŞÂÊ
+			case 2: // ì™¼ìª½
 				branchX--;
 				break;
 
-			case 3: // ¿À¸¥ÂÊ
+			case 3: // ì˜¤ë¥¸ìª½
 				branchX++;
 				break;
 			}
@@ -267,30 +267,30 @@ void DungeonManager::GenerateDungeonMap()
 				branchY >= 0 &&
 				branchY < MapHeight)
 			{
-				//std::cout << "¸Ê¾È\n";
+				//std::cout << "ë§µì•ˆ\n";
 				if (dungeonMap[branchX][branchY] == 0)
 				{
-					//std::cout << "º®Ä­.\n";
+					//std::cout << "ë²½ì¹¸.\n";
 					int connectedPathCount = 0;
 					if (branchX > 0 && dungeonMap[branchX - 1][branchY] != 0)
 					{
 						connectedPathCount++;
 					}
 
-					// ¿À¸¥ÂÊ
+					// ì˜¤ë¥¸ìª½
 					if (branchX < MapWidth - 1 &&
 						dungeonMap[branchX + 1][branchY] != 0)
 					{
 						connectedPathCount++;
 					}
-					// À§
+					// ìœ„
 					if (branchY > 0 &&
 						dungeonMap[branchX][branchY - 1] != 0)
 					{
 						connectedPathCount++;
 					}
 
-					// ¾Æ·¡
+					// ì•„ë˜
 					if (branchY < MapHeight - 1 &&
 						dungeonMap[branchX][branchY + 1] != 0)
 					{
@@ -319,7 +319,7 @@ void DungeonManager::GenerateDungeonMap()
 	std::cout << "branch created: "
 		<< branchCreated << '\n';*/
 
-		// ===== ¸·´Ù¸¥ ¹æ »ı¼º ³¡ =====
+		// ===== ë§‰ë‹¤ë¥¸ ë°© ìƒì„± ë =====
 		/*for (int j = 0; j < MapSize; j++)
 		{
 			for (int i = 0; i < MapSize; i++)
@@ -348,42 +348,42 @@ void DungeonManager::GenerateDungeonMap()
 void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inventoryManager)
 {
 	shouldExitDungeon = false;
-	// Ã¼Å©Æ÷ÀÎÆ®°¡ ÀÖÀ¸¸é ÀúÀåµÈ À§Ä¡¿¡¼­ ´Ù½Ã ½ÃÀÛ
+	// ì²´í¬í¬ì¸íŠ¸ê°€ ìˆìœ¼ë©´ ì €ì¥ëœ ìœ„ì¹˜ì—ì„œ ë‹¤ì‹œ ì‹œì‘
 	if (hasCheckpoint)
 	{
 		playerLoc[0] = checkpointLoc[0];
 		playerLoc[1] = checkpointLoc[1];
 	}
 
-	// ÇöÀç À§Ä¡°¡ º¸½º¹æÀÌ ¾Æ´Ò µ¿¾È ¹İº¹
+	// í˜„ì¬ ìœ„ì¹˜ê°€ ë³´ìŠ¤ë°©ì´ ì•„ë‹ ë™ì•ˆ ë°˜ë³µ
 	while (dungeonMap[playerLoc[0]][playerLoc[1]] != 2)
 	{
 		ui.DisplayDungeonMap(*this);
 
-		std::cout << "\nÀÌµ¿ °¡´ÉÇÑ ¹æÇâ: ";
+		std::cout << "\nì´ë™ ê°€ëŠ¥í•œ ë°©í–¥: ";
 
 		if (CanMoveTo(0))
 		{
-			std::cout << "W(À§) ";
+			std::cout << "W(ìœ„) ";
 		}
 
 		if (CanMoveTo(1))
 		{
-			std::cout << "S(¾Æ·¡) ";
+			std::cout << "S(ì•„ë˜) ";
 		}
 
 		if (CanMoveTo(2))
 		{
-			std::cout << "A(¿ŞÂÊ) ";
+			std::cout << "A(ì™¼ìª½) ";
 		}
 
 		if (CanMoveTo(3))
 		{
-			std::cout << "D(¿À¸¥ÂÊ) ";
+			std::cout << "D(ì˜¤ë¥¸ìª½) ";
 		}
 
-		std::cout << "\nQ(¸¶À»·Î º¹±Í)\n";
-		std::cout << "ÀÔ·Â: ";
+		std::cout << "\nQ(ë§ˆì„ë¡œ ë³µê·€)\n";
+		std::cout << "ì…ë ¥: ";
 
 		char input;
 		std::cin >> input;
@@ -419,11 +419,11 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 			hasCheckpoint = true;
 
 			std::cout
-				<< "Ã¼Å©Æ÷ÀÎÆ®¸¦ ÀúÀåÇÏ°í ¸¶À»·Î µ¹¾Æ°©´Ï´Ù.\n";
+				<< "ì²´í¬í¬ì¸íŠ¸ë¥¼ ì €ì¥í•˜ê³  ë§ˆì„ë¡œ ëŒì•„ê°‘ë‹ˆë‹¤.\n";
 			return;
 
 		default:
-			std::cout << "Àß¸øµÈ ÀÔ·ÂÀÔ´Ï´Ù.\n";
+			std::cout << "ì˜ëª»ëœ ì…ë ¥ì…ë‹ˆë‹¤.\n";
 			continue;
 		}
 
@@ -436,7 +436,7 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 				HandleRoom(player, decideRoom, inventoryManager);
 				if (shouldExitDungeon)
 				{
-					std::cout << "°ÔÀÓ ¿À¹öÀÔ´Ï´Ù.\n";
+					std::cout << "ê²Œì„ ì˜¤ë²„ì…ë‹ˆë‹¤.\n";
 					return;
 				}
 			}
@@ -444,12 +444,12 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 		}
 		else
 		{
-			std::cout << "ÀÌµ¿ÇÒ ¼ö ¾ø´Â ¹æÇâÀÔ´Ï´Ù.\n";
+			std::cout << "ì´ë™í•  ìˆ˜ ì—†ëŠ” ë°©í–¥ì…ë‹ˆë‹¤.\n";
 		}
 	}
 
 	ui.DisplayDungeonMap(*this);
-	std::cout << "º¸½º¹æ¿¡ µµÂøÇß½À´Ï´Ù.\n";
+	std::cout << "ë³´ìŠ¤ë°©ì— ë„ì°©í–ˆìŠµë‹ˆë‹¤.\n";
 }
 
 RoomType DungeonManager::DecideRoomType()
@@ -480,25 +480,25 @@ RoomType DungeonManager::DecideRoomType()
 
 }
 
-bool DungeonManager::CanMoveTo(int destination) const    // ¸ñÀûÁö·Î ÀÌµ¿ °¡´É?
+bool DungeonManager::CanMoveTo(int destination) const    // ëª©ì ì§€ë¡œ ì´ë™ ê°€ëŠ¥?
 {
 	int nextX = playerLoc[0];
 	int nextY = playerLoc[1];
 	switch (destination)
 	{
-	case 0: //À§
+	case 0: //ìœ„
 		nextY--;
 		break;
 
-	case 1: //¾Æ·¡
+	case 1: //ì•„ë˜
 		nextY++;
 		break;
 
-	case 2: //¿ŞÂÊ
+	case 2: //ì™¼ìª½
 		nextX--;
 		break;
 
-	case 3: //¿À¸¥
+	case 3: //ì˜¤ë¥¸
 		nextX++;
 		break;
 
@@ -514,7 +514,7 @@ bool DungeonManager::CanMoveTo(int destination) const    // ¸ñÀûÁö·Î ÀÌµ¿ °¡´É?
 	}
 	return dungeonMap[nextX][nextY] != 0;
 }
-void DungeonManager::MoveRoom(int destination)    // ÇöÀç À§Ä¡ º¯°æ
+void DungeonManager::MoveRoom(int destination)    // í˜„ì¬ ìœ„ì¹˜ ë³€ê²½
 {
 	if (!CanMoveTo(destination))
 	{
@@ -522,19 +522,19 @@ void DungeonManager::MoveRoom(int destination)    // ÇöÀç À§Ä¡ º¯°æ
 	}
 	switch (destination)
 	{
-	case 0: // À§
+	case 0: // ìœ„
 		playerLoc[1]--;
 		break;
 
-	case 1: // ¾Æ·¡
+	case 1: // ì•„ë˜
 		playerLoc[1]++;
 		break;
 
-	case 2: // ¿ŞÂÊ
+	case 2: // ì™¼ìª½
 		playerLoc[0]--;
 		break;
 
-	case 3: // ¿À¸¥ÂÊ
+	case 3: // ì˜¤ë¥¸ìª½
 		playerLoc[0]++;
 		break;
 	}
@@ -554,33 +554,33 @@ void DungeonManager::MoveRoom(int destination)    // ÇöÀç À§Ä¡ º¯°æ
 				return false;
 			}
 
-			// ¹æ ÀÚÃ¼°¡ Á¸ÀçÇÏÁö ¾ÊÀ½
+			// ë°© ìì²´ê°€ ì¡´ì¬í•˜ì§€ ì•ŠìŒ
 			if (dungeonMap[x][y] == 0)
 			{
 				return false;
 			}
 
-			// ÇÃ·¹ÀÌ¾î À§Ä¡
+			// í”Œë ˆì´ì–´ ìœ„ì¹˜
 			if (x == playerLoc[0] &&
 				y == playerLoc[1])
 			{
 				return true;
 			}
 
-			// º¸½º À§Ä¡´Â Ç×»ó Ç¥½Ã
+			// ë³´ìŠ¤ ìœ„ì¹˜ëŠ” í•­ìƒ í‘œì‹œ
 			if (x == bossLoc[0] &&
 				y == bossLoc[1])
 			{
 				return true;
 			}
 
-			// ÀÌ¹Ì ¹æ¹®ÇÑ ¹æ
+			// ì´ë¯¸ ë°©ë¬¸í•œ ë°©
 			if (visitedMap[x][y])
 			{
 				return true;
 			}
 
-			// ÇÃ·¹ÀÌ¾î¿Í ÀÎÁ¢ÇÑ ¹æ
+			// í”Œë ˆì´ì–´ì™€ ì¸ì ‘í•œ ë°©
 			int distance =
 				std::abs(x - playerLoc[0]) +
 				std::abs(y - playerLoc[1]);
@@ -597,7 +597,7 @@ void DungeonManager::MoveRoom(int destination)    // ÇöÀç À§Ä¡ º¯°æ
 	{
 		std::cout << "|  ";
 
-		// ¹æ Ãâ·Â
+		// ë°© ì¶œë ¥
 		for (int x = 0; x < MapSize; x++)
 		{
 			std::string symbol = "   ";
@@ -623,7 +623,7 @@ void DungeonManager::MoveRoom(int destination)    // ÇöÀç À§Ä¡ º¯°æ
 
 			std::cout << symbol;
 
-			// ¿À¸¥ÂÊ ¹æ°ú ¿¬°áµÇ¾î ÀÖÀ¸¸é °¡·Î Åë·Î Ãâ·Â
+			// ì˜¤ë¥¸ìª½ ë°©ê³¼ ì—°ê²°ë˜ì–´ ìˆìœ¼ë©´ ê°€ë¡œ í†µë¡œ ì¶œë ¥
 			if (x < MapSize - 1)
 			{
 				bool connected =
@@ -645,7 +645,7 @@ void DungeonManager::MoveRoom(int destination)    // ÇöÀç À§Ä¡ º¯°æ
 
 		std::cout << "  |\n";
 
-		// ¾Æ·¡ÂÊ ¹æ°ú ¿¬°áµÇ´Â ¼¼·Î Åë·Î Ãâ·Â
+		// ì•„ë˜ìª½ ë°©ê³¼ ì—°ê²°ë˜ëŠ” ì„¸ë¡œ í†µë¡œ ì¶œë ¥
 		if (y < MapSize - 1)
 		{
 			std::cout << "|  ";
@@ -679,24 +679,24 @@ void DungeonManager::MoveRoom(int destination)    // ÇöÀç À§Ä¡ º¯°æ
 
 	std::cout << "|\n";
 	std::cout << "+---------------------------------+\n";
-	std::cout << "| [P] ÇöÀç À§Ä¡   [B] º¸½º        |\n";
-	std::cout << "| [.] Å½»ö ¿Ï·á   [?] ¹ÌÈ®ÀÎ ¹æ   |\n";
+	std::cout << "| [P] í˜„ì¬ ìœ„ì¹˜   [B] ë³´ìŠ¤        |\n";
+	std::cout << "| [.] íƒìƒ‰ ì™„ë£Œ   [?] ë¯¸í™•ì¸ ë°©   |\n";
 	std::cout << "+---------------------------------+\n";
 }*/
 void DungeonManager::HandleRoom(Player& player,
 	RoomType roomType,
-	InventoryManager& inventoryManager)    // ¹æ¿¡ µé¾î°¬À» ¶§
+	InventoryManager& inventoryManager)    // ë°©ì— ë“¤ì–´ê°”ì„ ë•Œ
 {
 	switch (roomType)
 	{
 	case(RoomType::Boss):
 	{
-		std::cout << "º¸½º¹æ ÀÔÀå!!\n";
+		std::cout << "ë³´ìŠ¤ë°© ì…ì¥!!\n";
 		break;
 	}
 	case(RoomType::Monster):
 	{
-		std::cout << "¸ó½ºÅÍ µîÀå!!\n";
+		std::cout << "ëª¬ìŠ¤í„° ë“±ì¥!!\n";
 		std::random_device rd;
 		std::mt19937 gen(rd());
 		std::uniform_int_distribution<int> monsterDist(0, 2);
@@ -734,7 +734,7 @@ void DungeonManager::HandleRoom(Player& player,
 	}
 	case(RoomType::NPC):
 	{
-		std::cout << "NPC µîÀå!!\n";
+		std::cout << "NPC ë“±ì¥!!\n";
 		system("pause");
 		clearedMap[playerLoc[0]][playerLoc[1]] = true;
 		break;
@@ -752,26 +752,26 @@ void DungeonManager::HandleBattleResult(Player& player,
 	{
 		system("pause");
 
-		std::cout << "ÀüÅõ¿¡¼­ ½Â¸®Çß½À´Ï´Ù.\n";
+		std::cout << "ì „íˆ¬ì—ì„œ ìŠ¹ë¦¬í–ˆìŠµë‹ˆë‹¤.\n";
 		clearedMap[playerLoc[0]][playerLoc[1]] = true;
 		player.AddExp(monster.GetDropExp());
 		player.SetGold(player.GetGold() + monster.GetDropGold());
 		DropRandomItem(inventoryManager);
 
-		std::cout << monster.GetDropGold() << " °ñµå¸¦ È¹µæÇß½À´Ï´Ù.\n";
+		std::cout << monster.GetDropGold() << " ê³¨ë“œë¥¼ íšë“í–ˆìŠµë‹ˆë‹¤.\n";
 		system("pause");
 
 	}
 	break;
 	case(BattleResult::Defeat):
 	{
-		std::cout << "ÀüÅõ¿¡¼­ ÆĞ¹èÇß½À´Ï´Ù.\n";
+		std::cout << "ì „íˆ¬ì—ì„œ íŒ¨ë°°í–ˆìŠµë‹ˆë‹¤.\n";
 		shouldExitDungeon = true;
 	}
 	break;
 	case(BattleResult::Escaped):
 	{
-		std::cout << "ÀüÅõ¿¡¼­ µµ¸ÁÃÆ½À´Ï´Ù.\n";
+		std::cout << "ì „íˆ¬ì—ì„œ ë„ë§ì³¤ìŠµë‹ˆë‹¤.\n";
 
 	}
 	break;
@@ -785,13 +785,13 @@ void DungeonManager::DropRandomItem(
 	std::random_device rd;
 	std::mt19937 gen(rd());
 
-	// ·£´ı È®·ü·Î ¾ÆÀÌÅÛ È¹µæ 
-	// 100ÆÛ ³ª¿À°Ô ÇÒ²¨¸é ¹Ø¿¡ Å×µÎ¸®¾È¿¡ ³»¿ë ¾ø¾Ö°Å³ª if (dropChance > 30) 30À» 100À¸·Î
+	// ëœë¤ í™•ë¥ ë¡œ ì•„ì´í…œ íšë“ 
+	// 100í¼ ë‚˜ì˜¤ê²Œ í• êº¼ë©´ ë°‘ì— í…Œë‘ë¦¬ì•ˆì— ë‚´ìš© ì—†ì• ê±°ë‚˜ if (dropChance > 30) 30ì„ 100ìœ¼ë¡œ
 	//-------------------------------------------
 	std::uniform_int_distribution<int> dropChanceDist(1, 100);
 	int dropChance = dropChanceDist(gen);
 
-	if (dropChance > 30)// ÀÌ°Å 30 -> 60À¸·ÎÇÏ¸é 60ÆÛ È®·ü·Î µå¶øÀÓ
+	if (dropChance > 30)// ì´ê±° 30 -> 60ìœ¼ë¡œí•˜ë©´ 60í¼ í™•ë¥ ë¡œ ë“œëì„
 	{
 		return;
 	}

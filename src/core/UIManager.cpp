@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 #include <cstdlib>
 #include <windows.h>
@@ -6,7 +6,7 @@
 #include "core/UIManager.h"
 #include "core/DungeonManager.h"
 #include"character/Player.h"
-//? ? ? ? ? ? ? ? ? ? ?
+//╔ ╗ ╚ ╝ ╠ ╣ ╦ ╩ ╬ ═ ║
 
 void UI::DisplayDungeonMap(const DungeonManager& dungeon)
 {
@@ -15,15 +15,15 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
     int mapWidth = dungeon.GetMapWidth();
     int mapHeight = dungeon.GetMapHeight();
     int displayWidth = mapWidth * 6 - 3;
-    int startX = 2;  // X�� ���� ��ġ (�ʿ信 ���� ����)
-    int startY = 2;  // Y�� ���� ��ġ (�ʿ信 ���� ����)
+    int startX = 2;  // X축 시작 위치 (필요에 따라 조절)
+    int startY = 2;  // Y축 시작 위치 (필요에 따라 조절)
     int currentY = startY;
     Gotoxy(startX, currentY++);
-    std::cout << std::string(displayWidth, '=');
+    //std::cout << std::string(displayWidth, '═');
     Gotoxy(startX, currentY++);
     std::cout << "ZEP TOWER - 1F";
     Gotoxy(startX, currentY++);
-    std::cout << std::string(displayWidth, '=');
+    //std::cout << std::string(displayWidth, '═');
     for (int y = 0; y < mapHeight; y++)
     {
         Gotoxy(startX, currentY++);
@@ -98,13 +98,13 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
         }
     }
     Gotoxy(startX, currentY++);
-    std::cout << std::string(displayWidth, '=');
+    //std::cout << std::string(displayWidth, '═');
     Gotoxy(startX, currentY++);
-    std::cout << "[P] ���� ��ġ  [B] ����";
+    std::cout << "[P] 현재 위치  [B] 보스";
     Gotoxy(startX, currentY++);
-    std::cout << "[.] Ž�� �Ϸ�  [?] ��Ȯ�� ��";
+    std::cout << "[.] 탐색 완료  [?] 미확인 방";
     Gotoxy(startX, currentY++);
-    std::cout << std::string(displayWidth, '=') << '\n';
+    //std::cout << std::string(displayWidth, '═') << '\n';
     Gotoxy(startX, currentY++);
 }
 void UI::Gotoxy(int x, int y)
@@ -115,11 +115,19 @@ void UI::Gotoxy(int x, int y)
 void UI::PrintStatus(Player* p)
 {
     Gotoxy(81, 22);
-    std::cout << u8"�̸�: " << p->GetName() << u8"  ����: " << p->GetJob() << "  Lv: " << p->GetLevel();
+    std::cout << u8"이름: " << p->GetName() << u8"  직업: " << p->GetJob() << "  Lv: " << p->GetLevel();
 
     Gotoxy(81, 23);
-    std::cout << "HP: " << p->GetHp() << "/" << p->GetMaxHp() << "  MP: " << p->GetMp() << "/" << p->GetMaxMp() << u8"  ���ݷ�: " << p->GetPower() << u8"  ����: " << p->GetDefence() << std::endl;
+    std::cout << "HP: " << p->GetHp() << "/" << p->GetMaxHp() << "  MP: " << p->GetMp() << "/" << p->GetMaxMp() << u8"  공격력: " << p->GetPower() << u8"  방어력: " << p->GetDefence() << std::endl;
     Gotoxy(1, 24);
+}
+void UI::PrintDungeonFrame()
+{
+    Gotoxy(2, 2);
+   std::cout<< R"(
+                  ╔════════════════
+
+    )";
 }
 void UI::PrintMenu(std::vector<std::string> menu)
 {
@@ -136,6 +144,7 @@ void UI::PrintMenu(std::vector<std::string> menu)
 }
 void UI::PrintMessage(const std::string& str) 
 { 
+    Gotoxy(2, 22);
     std::cout << str; 
 }
 void UI::PrintBuilding()
@@ -180,39 +189,39 @@ void UI::PrintMain()
     system("mode con:cols=150 lines=40 | title LOSTZEP");
     Gotoxy(0, 0);
     std::cout << u8R"(
-?????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?                                                                                                                                                   ?
-?????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
-?                                                                               ?                                                                   ?
-?                                                                               ?                                                                   ?
-?                                                                               ?                                                                   ?
-?                                                                               ?                                                                   ?
-?                                                                               ?????????????????????????????????????????????????????????????????????
-?                                                                               ?                                                                   ?
-?                                                                               ?                                                                   ?
-?                                                                               ?                                                                   ?
-?                                                                               ?                                                                   ?
-?                                                                               ?                                                                   ?
-?                                                                               ?                                                                   ?
-?????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????                                                                                                                                                                               
+╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+║                                                                                                                                                   ║
+╠═══════════════════════════════════════════════════════════════════════════════╦═══════════════════════════════════════════════════════════════════╣
+║                                                                               ║                                                                   ║
+║                                                                               ║                                                                   ║
+║                                                                               ║                                                                   ║
+║                                                                               ║                                                                   ║
+║                                                                               ╠═══════════════════════════════════════════════════════════════════╣
+║                                                                               ║                                                                   ║
+║                                                                               ║                                                                   ║
+║                                                                               ║                                                                   ║
+║                                                                               ║                                                                   ║
+║                                                                               ║                                                                   ║
+║                                                                               ║                                                                   ║
+╚═══════════════════════════════════════════════════════════════════════════════╩═══════════════════════════════════════════════════════════════════╝                                                                                                                                                                               
  )";
 }
 void UI::PrintTitle()
@@ -241,18 +250,18 @@ void UI::PrintIntro()
     UI::PrintMain();
     UI::PrintTown();
     UI::Gotoxy(2, 22);
-    std::cout << u8"��ȭ�ο� ���Ϲ��ķ�� ����..." << std::endl;
+    std::cout << u8"평화로운 내일배움캠프 마을..." << std::endl;
     UI::Gotoxy(2, 23);
-    std::cout << u8"��� �� ZEP ���翡�� ����Ʈ ������ �����ϰ�..." << std::endl;
+    std::cout << u8"어느 날 ZEP 본사에서 포인트 제도를 폐지하고..." << std::endl;
     UI::Gotoxy(2, 24);
-    std:cout << u8"�׿� �ݹ��ϴ� �Ŵ����Ե�, Ʃ�ʹԵ��� ��ġ�ߴ�!!" << std::endl;
+    std:cout << u8"그에 반발하던 매니저님들, 튜터님들을 납치했다!!" << std::endl;
     UI::Gotoxy(2, 25);
     system("pause");
     system("cls");
     UI::PrintMain();
     UI::PrintBuilding();
     UI::Gotoxy(2, 22);
-    std::cout << u8"����� ��ġ���� ������ ����Ʈ�� ��ã�� ���� ZEP ������ ������� �Ѵ�..." << std::endl;
+    std::cout << u8"당신은 납치당한 사람들과 포인트를 되찾기 위해 ZEP 빌딩을 오르기로 한다..." << std::endl;
     UI::Gotoxy(2, 23);
 }
 

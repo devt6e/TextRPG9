@@ -13,7 +13,7 @@ class UI
 
 public:
 
-
+    void PrintDungeonFrame();
     void DisplayDungeonMap(const DungeonManager& dungeon);//����
     void Gotoxy(int x, int y);//��� ��ǥ
     void PrintTitle(); //LOSTZEP Ÿ��Ʋ
