@@ -107,10 +107,10 @@ void BattleManager::PlayerAttack(Player& player, Monster& monster)
     }
     monster.SetHp(monster.GetHp() - damage);
 
-    std::cout << player.GetName() << "의 공격! " << monster.GetName() 
+    std::cout << player.GetName() << "의 공격! " << monster.GetName()
         << "에게 " << damage << "의 피해를 입혔습니다\n";
     std::cout << monster.GetName() << "의 남은 HP: "
-        << monster.GetHp() << " / " 
+        << monster.GetHp() << " / "
         << monster.GetMaxHp() << std::endl;
 }
 void BattleManager::MonsterAttack(Monster& monster, Player& player)
@@ -135,7 +135,7 @@ bool BattleManager::TryEscape()
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dist(0, 99);
     int number = dist(gen);
-    bool isEscape=false;
+    bool isEscape = false;
     if (number < 50)
     {
         isEscape = true;

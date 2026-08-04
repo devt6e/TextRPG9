@@ -1,4 +1,4 @@
-﻿#include "core/DungeonManager.h"
+#include "core/DungeonManager.h"
 #include "core/UIManager.h"
 #include "character/Player.h"
 #include "character/M_Slime.h"
@@ -689,7 +689,7 @@ void DungeonManager::MoveRoom(int destination)    // 현재 위치 변경
 	std::cout << "+---------------------------------+\n";
 }*/
 void DungeonManager::HandleRoom(Player& player,
-	RoomType roomType, 
+	RoomType roomType,
 	UI& ui,
 	InventoryManager& inventoryManager)    // 방에 들어갔을 때
 {

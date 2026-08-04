@@ -9,7 +9,7 @@
 // *테스트 내용은 남겨주세요!
 
 //--------------------------이거 몬스터 cpp 밑에 적당한 위치에 넣어야함--------------------------------
-/*// 전투 테스트용 임시 구현 
+/*// 전투 테스트용 임시 구현
 void Monster::SetHp(int Value)
 {
     if (Value < 0)
@@ -47,33 +47,33 @@ void Monster::SetHp(int Value)
 */
 
 
+/*
+#include "core/UIManager.h"
+#include "core/DungeonManager.h"
+#include "core/BattleManager.h"
+#include "character/P_Warrior.h"
+#include "character/M_Slime.h"
+#include "character/M_Goblin.h"
+#include "character/M_Orc.h"
+#include "core/GamaManager.h"
+#include "item/Inventory.h"
+#include "item/Item.h"
 
-//#include "core/UIManager.h"
-//#include "core/DungeonManager.h"
-//#include "core/BattleManager.h"
-//#include "character/P_Warrior.h"
-//#include "character/M_Slime.h"
-//#include "character/M_Goblin.h"
-//#include "character/M_Orc.h"
-//#include "core/GamaManager.h"
-//#include "item/Inventory.h"
-//#include "item/Item.h"
-//
-//int main()
-//{
-//    SetConsoleOutputCP(CP_UTF8);
-//
-//	Warrior player("Test Warrior");
-//    //player.SetHp(1);
-//	//Slime slime(player.GetLevel());
-//	//BattleManager battleManager;
-//	//battleManager.StartBattle(player, slime);
-//
-//	DungeonManager dungeonManager;
-//	UI ui;
-//    InventoryManager inventoryManager;
-//    inventoryManager.AddConsumable(HpPotion());
-//	dungeonManager.StartDungeon(player, ui, inventoryManager);
-//    //GameManager().Run();
-//
-//}
+int main()
+{
+    SetConsoleOutputCP(CP_UTF8);
+
+    Warrior player("Test Warrior");
+    //player.SetHp(1);
+    //Slime slime(player.GetLevel());
+    //BattleManager battleManager;
+    //battleManager.StartBattle(player, slime);
+
+    DungeonManager dungeonManager;
+    UI ui;
+    InventoryManager inventoryManager;
+    inventoryManager.AddConsumable(HpPotion());
+    dungeonManager.StartDungeon(player, ui, inventoryManager);
+    //GameManager().Run();
+
+}*/
