@@ -9,6 +9,7 @@ class Player;
 // 아이템 부모 클래스
 class Item {
 public:
+	Item() {}
 	std::string Name, ItemDescription, ItemDropLocation;
 	int Price = 0, ItemCount = 1, ItemMaxStack = 99, HealAmount = 0, BuffAmount = 0, MpAmount = 0, DEFBuffAmount = 0;
 

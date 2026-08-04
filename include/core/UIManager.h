@@ -18,6 +18,10 @@ public:
     void Gotoxy(int x, int y);//좌표 설정
     void Gotoxy(std::vector<int> coor);
     void Erase(std::vector<int> coord, int rangeX, int rangeY);
+    void EraseArt();
+    void EraseLog();
+    void EraseSelection();
+    void EraseStat();
     void PrintTitle(); //LOSTZEP 타이틀
     void PrintMain(); //UI 뼈대
     void PrintBuilding(); //초반 스토리 

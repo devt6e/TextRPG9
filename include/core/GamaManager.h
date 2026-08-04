@@ -10,7 +10,6 @@
 #include "item/Shop.h"
 #include "character/Player.h"
 #include "character/P_Warrior.h"
-#include "character/P_Archer.h"
 #include "character/P_Magician.h"
 #include "character/P_Thief.h"
 

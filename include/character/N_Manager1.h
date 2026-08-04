@@ -9,7 +9,7 @@ public:
     Manager1();
 
     void SpeakEncounter() const override;
-    void AskQuiz() const override;
+    void AskQuiz() override;
     bool CheckAnswer(int playerAnswer); // 정답 판별 함수
     void OnCorrect() override;
     void OnWrong() const override;
