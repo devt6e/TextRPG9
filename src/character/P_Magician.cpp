@@ -4,7 +4,7 @@
 
 Magician::Magician(std::string Name) : Player(Name) {
     Job = "TIL 우수 작성 수강생";
-    SetDefence(GetDefence() + 30); // 특화 스탯: 방어력 +30
+    SetDefence(GetDefence() + 2); // 특화 스탯: 방어력 +2
 }
 
 void Magician::Attack() {

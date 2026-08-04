@@ -15,13 +15,13 @@ void Goblin::SpeakBattleStart() const {
 
 void Goblin::SpeakVictory() const {
     std::string s = Name;
-    s.append(": \"크윽... 이렇게 쿠키를 다시 잃다니...!\"");
+    s.append(": \"하하하! 고양이 한 마리도 못 구하는 실력으로 뭘 하겠나!\"");
     um.PrintLog(s);
 }
 
 void Goblin::SpeakDefeat() const {
     std::string s = Name;
-    s.append(": \"하하하! 고양이 한 마리도 못 구하는 실력으로 뭘 하겠나!\"");
+    s.append(": \"크윽... 이렇게 쿠키를 다시 잃다니...!\""); 
     um.PrintLog(s);
 }
 

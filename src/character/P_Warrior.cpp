@@ -4,7 +4,7 @@
 
 Warrior::Warrior(std::string Name) : Player(Name) {
     Job = "열정 가득 수강생";
-    SetMaxHp(GetMaxHp() + 30); // 최대 체력 상승
+    SetMaxHp(GetMaxHp() + 5); // 특화 스탯: +5
     SetHp(GetMaxHp());         // 현재 체력 맞춰주기
 }
 

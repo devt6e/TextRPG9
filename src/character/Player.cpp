@@ -21,7 +21,11 @@ void Player::AddExp(int Amount) {
 
     // 1. 경험치 획득 메시지 (숫자를 문자로 변환)
     std::string s1 = std::to_string(Amount);
-    s1.append("의 경험치를 획득했습니다!");
+    s1.append("의 경험치를 획득했습니다! (현재 경험치: ");
+    s1.append(std::to_string(Exp));
+    s1.append("/");
+    s1.append(std::to_string(MaxExp));
+    s1.append(")");
     um.PrintLog(s1);
 
     while (Exp >= MaxExp) { // 레벨업 조건 
@@ -29,9 +33,10 @@ void Player::AddExp(int Amount) {
         Exp -= MaxExp; // 남은 경험치 보존
 
         // 레벨업 보상: 능력치 상승
-        MaxHp += 20;
-        Hp = MaxHp;
-        Power += 5;
+        MaxHp += 5;
+        //Hp = MaxHp;
+        Power += 2;
+       
 
         // 2. 레벨 업 상세 메시지 (여러 숫자 변수들을 이어 붙이기)
         std::string s2 = "레벨 업! ";

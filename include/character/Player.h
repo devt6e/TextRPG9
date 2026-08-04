@@ -74,12 +74,12 @@ protected: // 초기 스탯
     std::string Name;   // 이름
     std::string Job = "초보자";        // 직업 (기본값: 초보자?)
     int Level = 1 ;         // 레벨 (초기값: 1)
-    int Hp = 200;             // 체력 (초기값: 200)
-    int MaxHp = 200;
+    int Hp = 100;             // 체력 (초기값: 200)
+    int MaxHp = 100;
     int Mp = 100;             // 마나
     int MaxMp = 100;
     int Power = 30;          // 공격력 (초기값: 30)
-    int Defence = 20;        // 방어력
+    int Defence = 5;        // 방어력
     int Exp = 0;            // 현재 경험치 (초기값: 0)
     int MaxExp = 100;         // 레벨업에 필요 경험치 (기본값: 100)
     int Gold = 0; 
