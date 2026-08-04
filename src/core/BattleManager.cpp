@@ -1,24 +1,29 @@
-ï»¿#include <iostream>
+#include <iostream>
 #include <string>
 #include <random>
+#include <limits>
 
 #include "core/BattleManager.h"
+#include "character/Player.h"
+#include "character/Monster.h"
+#include "item/Item.h"
+#include "item/Inventory.h"
 //#include "../../include/core/UI/UI2.h"
 
-// ì„ì‹œ
+// ÀÓ½Ã
 // #include "Player.h"
 // #include "Monster.h"
 
 
 /*
-// 1. ëœë¤ ìƒì„±ê¸° ì¤€ë¹„
+// 1. ·£´ı »ı¼º±â ÁØºñ
 std::random_device rd;
 std::mt19937 gen(rd());
 
-// 2. ë²”ìœ„ ì„¤ì •: 1ë¶€í„° 10ê¹Œì§€
+// 2. ¹üÀ§ ¼³Á¤: 1ºÎÅÍ 10±îÁö
 std::uniform_int_distribution<int> dist(1, 10);
 
-// 3. ëœë¤ ìˆ«ì ë½‘ê¸°
+// 3. ·£´ı ¼ıÀÚ »Ì±â
 int number = dist(gen);
 
 std::cout << number << '\n';
@@ -27,9 +32,123 @@ std::cout << number << '\n';
 
 BattleResult BattleManager::StartBattle(
     Player& player,
-    Monster& monster)
+    Monster& monster,
+    InventoryManager& inventoryManager)
 {
-    // ì„ì‹œ
+    int choice;
+    while (player.GetHp() > 0 && monster.GetHp() > 0)
+    {
+        std::cout << "1. °ø°İ\n"
+            << "2. ¾ÆÀÌÅÛ\n"
+            << "3. µµ¸Á\n"
+            << "¼±ÅÃ : \n";
+
+        if (!(std::cin >> choice))
+        {
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+
+            std::cout << "¼ıÀÚ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.\n";
+            continue;
+        }
+
+        switch (choice)
+        {
+        case 1:
+            PlayerAttack(player, monster);
+            break;
+
+        case 2:
+            if (!UseItem(player, inventoryManager))
+            {
+                continue;
+            }
+            break;
+
+        case 3:
+            if (TryEscape())
+            {
+                std::cout << "µµ¸Á¼º°ø!!\n";
+                return BattleResult::Escaped;
+            }
+            else
+            {
+                std::cout << "µµ¸Á½ÇÆĞ!!\n";
+            }
+            break;
+
+        default:
+            std::cout << "1~3 Áß¿¡¼­ ¼±ÅÃÇØÁÖ¼¼¿ä.\n";
+            continue;
+        }
+
+        if (monster.GetHp() <= 0)
+            break;
+        MonsterAttack(monster, player);
+        if (player.GetHp() <= 0)
+            break;
+
+    }
+    if (player.GetHp() <= 0)
+    {
+        return BattleResult::Defeat;
+    }
+
     return BattleResult::Victory;
 }
 
+void BattleManager::PlayerAttack(Player& player, Monster& monster)
+{
+    player.Attack();
+    int damage = player.GetTotalPower() - monster.GetDefence();
+    if (damage < 1)
+    {
+        damage = 1;
+    }
+    monster.SetHp(monster.GetHp() - damage);
+
+    std::cout << player.GetName() << "ÀÇ °ø°İ! " << monster.GetName() 
+        << "¿¡°Ô " << damage << "ÀÇ ÇÇÇØ¸¦ ÀÔÇû½À´Ï´Ù\n";
+    std::cout << monster.GetName() << "ÀÇ ³²Àº HP: "
+        << monster.GetHp() << " / " 
+        << monster.GetMaxHp() << std::endl;
+}
+void BattleManager::MonsterAttack(Monster& monster, Player& player)
+{
+    monster.Attack();
+    int damage = monster.GetPower() - player.GetDefence();
+    if (damage < 1)
+    {
+        damage = 1;
+    }
+    player.SetHp(player.GetHp() - damage);
+
+    std::cout << monster.GetName() << "ÀÇ °ø°İ! " << player.GetName()
+        << "¿¡°Ô " << damage << "ÀÇ ÇÇÇØ¸¦ ÀÔÇû½À´Ï´Ù\n";
+    std::cout << player.GetName() << "ÀÇ ³²Àº HP: "
+        << player.GetHp() << " / "
+        << player.GetMaxHp() << std::endl;
+}
+bool BattleManager::TryEscape()
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dist(0, 99);
+    int number = dist(gen);
+    bool isEscape=false;
+    if (number < 50)
+    {
+        isEscape = true;
+    }
+    else
+    {
+        isEscape = false;
+    }
+    return isEscape;
+}
+bool BattleManager::UseItem(
+    Player& player,
+    InventoryManager& inventoryManager)
+{
+    return SelectAndUseConsumableItem(&player, inventoryManager);
+}

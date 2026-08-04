@@ -1,14 +1,15 @@
-ï»¿#pragma once
+#pragma once
 #include <iostream>
 #include <string>
 
 #include "BattleManager.h"
 #include "core/UIManager.h"
 
-//ì„ì‹œ
+//ÀÓ½Ã
 class Player;
 class Monster;
 class UI;
+class InventoryManager;
 
 enum class RoomType
 {   //
@@ -24,39 +25,50 @@ private:
 
     int currentFloor;
     int currentRoom;
-    static const int MapSize = 5; //ë°© ì‚¬ì´ì¦ˆ 5*5 6ì´ë©´ 6*6ì„
-    int dungeonMap[MapSize][MapSize];
+    //static const int MapSize = 5; //¹æ »çÀÌÁî 5*5 6ÀÌ¸é 6*6ÀÓ
+    static const int MapHeight = 5;
+    static const int MapWidth = 8;
+    int dungeonMap[MapWidth][MapHeight];
     int playerLoc[2];
     int bossLoc[2];
     bool hasCheckpoint;
     int checkpointLoc[2];
-    bool visitedMap[MapSize][MapSize];
-    bool hasNpcAppeared;//NPC ë˜ì „ì— ë‚˜ì˜´?
+    bool visitedMap[MapWidth][MapHeight];
+    bool hasNpcAppeared;//NPC ´øÀü¿¡ ³ª¿È?
+    bool clearedMap[MapWidth][MapHeight];//¸ÊÅ¬¸®¾îÇÔ?
+    bool shouldExitDungeon;
 
 public:
     DungeonManager();
 
-    void StartDungeon(Player& player, UI& ui);
-    int GetMapSize() const;
+    void StartDungeon(Player& player, UI& ui, InventoryManager& inventoryManager);
+    int GetMapWidth() const;
+    int GetMapHeight() const;
     bool HasRoom(int x, int y) const;
     bool IsRoomVisited(int x, int y) const;
     bool IsPlayerAt(int x, int y) const;
     bool IsBossAt(int x, int y) const;
     bool IsRoomVisible(int x, int y) const;
 
+
 private:
-    //ë˜ì „ ìƒì„±ê¸°
+    //´øÀü »ı¼º±â
     void GenerateDungeonMap();
-    // ëª©ì ì§€ë¡œ ì´ë™ ê°€ëŠ¥?
+    // ¸ñÀûÁö·Î ÀÌµ¿ °¡´É?
     bool CanMoveTo(int destination) const;
-    // í˜„ì¬ ìœ„ì¹˜ ë³€ê²½
+    // ÇöÀç À§Ä¡ º¯°æ
     void MoveRoom(int destination);
-    // ë°©ì˜ ì¢…ë¥˜
+    // ¹æÀÇ Á¾·ù
     RoomType DecideRoomType();
-    // ë°©ì— ë“¤ì–´ê°”ì„ ë•Œ
-    void HandleRoom(Player& player, RoomType roomType);
-    // ì „íˆ¬ ê²°ê³¼
-    void HandleBattleResult(BattleResult result);
+    // ¹æ¿¡ µé¾î°¬À» ¶§
+    void HandleRoom(Player& player, RoomType roomType, InventoryManager& inventoryManager);
+    // ÀüÅõ °á°ú
+    void HandleBattleResult(Player& player, 
+        Monster& monster,
+        BattleResult result, 
+        InventoryManager& inventoryManager);
+
+    void DropRandomItem(InventoryManager& inventoryManager);
 
     //void DisplayDungeonMap() const;
 
