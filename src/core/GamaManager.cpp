@@ -29,7 +29,7 @@ void CreateCharacter(GameManager* gm, UI& um, Player*& p)
 
 	std::string name = "";
 	name = um.InputString("당신은 누구십니까? ");
-	um.PrintSelection({"열정 가득 수강생", "슬랙 이모지 잘 누르는 수강생", "TIL 우수 작성 수강생", "게임종료"});
+	um.PrintSelection({"열정 가득 수강생", "TIL 우수 작성 수강생", "슬랙 이모지 잘 누르는 수강생", "게임종료"});
 	int selection = um.InputSelection("직업을 선택하세요: ");
 	switch (selection)	//todo: P_Job 수정 중. 수정 하면 반영 예정
 	{
@@ -39,11 +39,11 @@ void CreateCharacter(GameManager* gm, UI& um, Player*& p)
 		break;
 	case 2:
 		p = new Magician(name);
-		p->SetJob("슬랙 이모지 잘 누르는 수강생");
+		p->SetJob("TIL 우수 작성 수강생");
 		break;
 	case 3:
 		p = new Thief(name);
-		p->SetJob("TIL 우수 작성 수강생");
+		p->SetJob("슬랙 이모지 잘 누르는 수강생");
 		break;
 	case 0:
 		gm->SetCurrentState(GameManager::GameState::Exit);
@@ -126,7 +126,7 @@ void GameManager::HandleStore()
 				break;
 			}
 			//Inventory::ReduceItem(int idx, int quantity) -- vector<Item>의 idx-1 번째 원소의 itemcount를 quantity 만큼 감소
-			int gold = items[numberSelection].Price * quantitySelection;
+			int gold = items[numberSelection - 1].Price * quantitySelection;
 			//std::cout << "판매 완료 !" << gold << "zem을 획득했습니다" << std::endl;
 			std::string s = "판매 완료 !" + std::to_string(gold) + "zem을 획득했습니다!";
 			um.PrintLog(s);
@@ -169,6 +169,10 @@ void GameManager::Run()
 	um.PrintIntro();
 
 	CreateCharacter(this, um, player);
+	if (player == nullptr)
+	{
+		return;
+	}
 
 	//player->SetGold(10000);
 
@@ -181,14 +185,18 @@ void GameManager::Run()
 		{
 		case 1:
 			std::cout << "던전 루틴 실행" << std::endl;
-			dm.StartDungeon(*player, um, im);
+			currentState = GameState::Dungeon;
+			HandleDungeon();
+			if (dm.HasDefeatedFinalBoss())
+			{
+				currentState = GameState::Exit;
+				break;
+			}
 			if (player->GetHp() <= 0)
 			{
 				std::cout << "게임을 종료합니다.\n";
 				return;
 			}
-			currentState = GameState::Dungeon;
-			HandleDungeon();
 			break;
 
 		case 2:
