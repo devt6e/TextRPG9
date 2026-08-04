@@ -1,10 +1,13 @@
 #include <iostream>
 #include <string>
 #include <random>
+#include <limits>
 
 #include "core/BattleManager.h"
 #include "character/Player.h"
 #include "character/Monster.h"
+#include "item/Item.h"
+#include "item/Inventory.h"
 //#include "../../include/core/UI/UI2.h"
 
 // 임시
@@ -29,7 +32,8 @@ std::cout << number << '\n';
 
 BattleResult BattleManager::StartBattle(
     Player& player,
-    Monster& monster)
+    Monster& monster,
+    InventoryManager& inventoryManager)
 {
     int choice;
     while (player.GetHp() > 0 && monster.GetHp() > 0)
@@ -39,7 +43,15 @@ BattleResult BattleManager::StartBattle(
             << "3. 도망\n"
             << "선택 : \n";
 
-        std::cin >> choice;
+        if (!(std::cin >> choice))
+        {
+            std::cin.clear();
+            std::cin.ignore(10000, '\n');
+
+            std::cout << "숫자를 입력해주세요.\n";
+            continue;
+        }
+
         switch (choice)
         {
         case 1:
@@ -47,7 +59,10 @@ BattleResult BattleManager::StartBattle(
             break;
 
         case 2:
-            std::cout << "아이템 기능 준비 중입니다.\n";
+            if (!UseItem(player, inventoryManager))
+            {
+                continue;
+            }
             break;
 
         case 3:
@@ -63,7 +78,7 @@ BattleResult BattleManager::StartBattle(
             break;
 
         default:
-            std::cout << "잘못된 입력입니다.\n";
+            std::cout << "1~3 중에서 선택해주세요.\n";
             continue;
         }
 
@@ -131,5 +146,9 @@ bool BattleManager::TryEscape()
     }
     return isEscape;
 }
-
-    
+bool BattleManager::UseItem(
+    Player& player,
+    InventoryManager& inventoryManager)
+{
+    return SelectAndUseConsumableItem(&player, inventoryManager);
+}
