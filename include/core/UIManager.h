@@ -4,9 +4,11 @@
 #include <cstdlib>
 #include <windows.h>
 #include <vector>
-#include"character/Player.h"
+#include "item/Item.h"
+//#include"character/Player.h"
 
 class DungeonManager;//던전
+class Player;
 
 class UI
 {
@@ -29,7 +31,7 @@ public:
     void PrintIntro();//초반 스토리
     void PrintStatus(Player* p);//스탯창 출력
     void PrintInventory(std::vector<std::string> Inv);//인벤토리 출력
-    void PrintInventory(std::vector<Item> Inv, std::string str); //오버로딩. 가방 종류 출력
+    void PrintInventory(std::vector<Item> Inv, std::string str, int offset); //오버로딩. 가방 종류 출력
     void PrintSelection(std::vector<std::string> menu);//선택지 출력
     void UI::PrintSelection(std::vector<Item> menu);//
     std::string InputString(std::string text);// 입력 스트링

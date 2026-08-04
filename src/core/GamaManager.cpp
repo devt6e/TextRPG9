@@ -156,8 +156,9 @@ void GameManager::HandleStore()
 
 void GameManager::HandleInventory()	//todo: 인벤토리 형태에 대한 고민
 {
-	um.PrintStatus(player);
+	//um.PrintStatus(player);
 	//std::cout << std::endl;
+	um.EraseStat();
 	im.PrintAllSummary();
 }
 
@@ -180,7 +181,8 @@ void GameManager::Run()
 
 	while (currentState != GameState::Exit)
 	{
-		currentState = GameState::MainMenu;
+		currentState = GameState::MainMenu; 
+		um.PrintStatus(player);
 		um.PrintSelection({"ZEP타워 입장","상점이용","인벤토리","종료하기"});
 		int selection = um.InputSelection("번호를 입력하세요: ");
 		switch (selection)
@@ -211,6 +213,7 @@ void GameManager::Run()
 			//std::cout << "(Debug)인벤토리 루틴" << std::endl;		//디버그 로그
 			currentState = GameState::Inventory;
 			HandleInventory();
+			um.EraseStat();
 			break;
 
 		case 0:

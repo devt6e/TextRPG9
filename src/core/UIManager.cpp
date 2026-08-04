@@ -5,7 +5,7 @@
 #include <vector>
 #include "core/UIManager.h"
 #include "core/DungeonManager.h"
-#include"character/Player.h"
+#include "character/Player.h"
 #define ART_POS {2,2}
 #define LOG_POS {2,22}
 #define STAT_POS {81,22}
@@ -207,9 +207,10 @@ void UI::PrintInventory(std::vector<std::string> Inv)
         }
     }
 }
-void UI::PrintInventory(std::vector<Item> Inv, std::string str)
+void UI::PrintInventory(std::vector<Item> Inv, std::string str, int offset)
 {
     Offsets = STAT_POS;
+    Offsets[1] += offset;
     UI::Gotoxy(Offsets[0], Offsets[1]++);
     std::cout << str;
     UI::Gotoxy(Offsets[0], Offsets[1]++);
