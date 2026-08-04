@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <string>
 #include <cstdlib>
 #include <windows.h>
@@ -6,27 +6,28 @@
 #include "core/UIManager.h"
 #include "core/DungeonManager.h"
 #include"character/Player.h"
-//╔ ╗ ╚ ╝ ╠ ╣ ╦ ╩ ╬ ═ ║
+//? ? ? ? ? ? ? ? ? ? ?
 
 void UI::DisplayDungeonMap(const DungeonManager& dungeon)
 {
     system("cls");
     UI::PrintMain();
-    int mapSize = dungeon.GetMapSize();
-    int mapWidth = mapSize * 6 - 3;
-    int startX = 2;  // X축 시작 위치 (필요에 따라 조절)
-    int startY = 2;  // Y축 시작 위치 (필요에 따라 조절)
+    int mapWidth = dungeon.GetMapWidth();
+    int mapHeight = dungeon.GetMapHeight();
+    int displayWidth = mapWidth * 6 - 3;
+    int startX = 2;  // X�� ���� ��ġ (�ʿ信 ���� ����)
+    int startY = 2;  // Y�� ���� ��ġ (�ʿ信 ���� ����)
     int currentY = startY;
     Gotoxy(startX, currentY++);
-    std::cout << std::string(mapWidth, '=');
+    std::cout << std::string(displayWidth, '=');
     Gotoxy(startX, currentY++);
     std::cout << "ZEP TOWER - 1F";
     Gotoxy(startX, currentY++);
-    std::cout << std::string(mapWidth, '=');
-    for (int y = 0; y < mapSize; y++)
+    std::cout << std::string(displayWidth, '=');
+    for (int y = 0; y < mapHeight; y++)
     {
         Gotoxy(startX, currentY++);
-        for (int x = 0; x < mapSize; x++)
+        for (int x = 0; x < mapWidth; x++)
         {
             std::string symbol = "   ";
 
@@ -46,9 +47,9 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
             {
                 symbol = "[?]";
             }
-            
+
             std::cout << symbol;
-            if (x < mapSize - 1)
+            if (x < mapWidth - 1)
             {
                 bool connected =
                     dungeon.HasRoom(x, y) &&
@@ -66,12 +67,12 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
                 }
             }
         }
-        
+
         std::cout << '\n';
-        if (y < mapSize - 1)
+        if (y < mapHeight - 1)
         {
             Gotoxy(startX, currentY++);
-            for (int x = 0; x < mapSize; x++)
+            for (int x = 0; x < mapWidth; x++)
             {
                 bool connected =
                     dungeon.HasRoom(x, y) &&
@@ -88,7 +89,7 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
                     std::cout << "   ";
                 }
 
-                if (x < mapSize - 1)
+                if (x < mapWidth - 1)
                 {
                     std::cout << "   ";
                 }
@@ -97,13 +98,13 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
         }
     }
     Gotoxy(startX, currentY++);
-    std::cout << std::string(mapWidth, '=');
+    std::cout << std::string(displayWidth, '=');
     Gotoxy(startX, currentY++);
-    std::cout << "[P] 현재 위치  [B] 보스";
+    std::cout << "[P] ���� ��ġ  [B] ����";
     Gotoxy(startX, currentY++);
-    std::cout << "[.] 탐색 완료  [?] 미확인 방";
+    std::cout << "[.] Ž�� �Ϸ�  [?] ��Ȯ�� ��";
     Gotoxy(startX, currentY++);
-    std::cout << std::string(mapWidth, '=') << '\n';
+    std::cout << std::string(displayWidth, '=') << '\n';
     Gotoxy(startX, currentY++);
 }
 void UI::Gotoxy(int x, int y)
@@ -114,10 +115,10 @@ void UI::Gotoxy(int x, int y)
 void UI::PrintStatus(Player* p)
 {
     Gotoxy(81, 22);
-    std::cout << u8"이름: " << p->GetName() << u8"  직업: " << p->GetJob() << "  Lv: " << p->GetLevel();
+    std::cout << u8"�̸�: " << p->GetName() << u8"  ����: " << p->GetJob() << "  Lv: " << p->GetLevel();
 
     Gotoxy(81, 23);
-    std::cout << "HP: " << p->GetHp() << "/" << p->GetMaxHp() << "  MP: " << p->GetMp() << "/" << p->GetMaxMp() << u8"  공격력: " << p->GetPower() << u8"  방어력: " << p->GetDefence() << std::endl;
+    std::cout << "HP: " << p->GetHp() << "/" << p->GetMaxHp() << "  MP: " << p->GetMp() << "/" << p->GetMaxMp() << u8"  ���ݷ�: " << p->GetPower() << u8"  ����: " << p->GetDefence() << std::endl;
     Gotoxy(1, 24);
 }
 void UI::PrintMenu(std::vector<std::string> menu)
@@ -179,39 +180,39 @@ void UI::PrintMain()
     system("mode con:cols=150 lines=40 | title LOSTZEP");
     Gotoxy(0, 0);
     std::cout << u8R"(
-╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-║                                                                                                                                                   ║
-╠═══════════════════════════════════════════════════════════════════════════════╦═══════════════════════════════════════════════════════════════════╣
-║                                                                               ║                                                                   ║
-║                                                                               ║                                                                   ║
-║                                                                               ║                                                                   ║
-║                                                                               ║                                                                   ║
-║                                                                               ╠═══════════════════════════════════════════════════════════════════╣
-║                                                                               ║                                                                   ║
-║                                                                               ║                                                                   ║
-║                                                                               ║                                                                   ║
-║                                                                               ║                                                                   ║
-║                                                                               ║                                                                   ║
-║                                                                               ║                                                                   ║
-╚═══════════════════════════════════════════════════════════════════════════════╩═══════════════════════════════════════════════════════════════════╝                                                                                                                                                                               
+?????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?                                                                                                                                                   ?
+?????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
+?                                                                               ?                                                                   ?
+?                                                                               ?                                                                   ?
+?                                                                               ?                                                                   ?
+?                                                                               ?                                                                   ?
+?                                                                               ?????????????????????????????????????????????????????????????????????
+?                                                                               ?                                                                   ?
+?                                                                               ?                                                                   ?
+?                                                                               ?                                                                   ?
+?                                                                               ?                                                                   ?
+?                                                                               ?                                                                   ?
+?                                                                               ?                                                                   ?
+?????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????                                                                                                                                                                               
  )";
 }
 void UI::PrintTitle()
@@ -240,18 +241,18 @@ void UI::PrintIntro()
     UI::PrintMain();
     UI::PrintTown();
     UI::Gotoxy(2, 22);
-    std::cout << u8"평화로운 내일배움캠프 마을..." << std::endl;
+    std::cout << u8"��ȭ�ο� ���Ϲ��ķ�� ����..." << std::endl;
     UI::Gotoxy(2, 23);
-    std::cout << u8"어느 날 ZEP 본사에서 포인트 제도를 폐지하고..." << std::endl;
+    std::cout << u8"��� �� ZEP ���翡�� ����Ʈ ������ �����ϰ�..." << std::endl;
     UI::Gotoxy(2, 24);
-    std:cout << u8"그에 반발하던 매니저님들, 튜터님들을 납치했다!!" << std::endl;
+    std:cout << u8"�׿� �ݹ��ϴ� �Ŵ����Ե�, Ʃ�ʹԵ��� ��ġ�ߴ�!!" << std::endl;
     UI::Gotoxy(2, 25);
     system("pause");
     system("cls");
     UI::PrintMain();
     UI::PrintBuilding();
     UI::Gotoxy(2, 22);
-    std::cout << u8"당신은 납치당한 사람들과 포인트를 되찾기 위해 ZEP 빌딩을 오르기로 한다..." << std::endl;
+    std::cout << u8"����� ��ġ���� ������ ����Ʈ�� ��ã�� ���� ZEP ������ ������� �Ѵ�..." << std::endl;
     UI::Gotoxy(2, 23);
 }
 
