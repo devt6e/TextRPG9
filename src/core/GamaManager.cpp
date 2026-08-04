@@ -190,7 +190,7 @@ void GameManager::Run()
 
 	//um.MainTitle();	//todo: 새로운 출력 함수로 변경예정
 	um.PrintMain();
-	um.PrintTitle();
+	//um.PrintTitle();
 	//um.PrintIntro();
 
 	system("pause");//임시
