@@ -4,7 +4,7 @@
 
 Thief::Thief(std::string Name) : Player(Name) {
     Job = "슬랙 이모지 잘 누르는 수강생";
-    SetPower(GetPower() + 30); // 특화 스탯: 공격력 +30
+    SetPower(GetPower() + 5); // 특화 스탯: 공격력 +5
 }
 
 void Thief::Attack() {
