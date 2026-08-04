@@ -76,8 +76,10 @@ BattleResult BattleManager::StartBattle(
 			continue;
 		}
 
-		if (monster.GetHp() <= 0)
+		if (monster.GetHp() <= 0) {
+			monster.SpeakDefeat(); //패배 대사
 			break;
+		}
 		MonsterAttack(monster, player, ui);
 		if (player.GetHp() <= 0)
 			break;
@@ -86,6 +88,15 @@ BattleResult BattleManager::StartBattle(
 	if (player.GetHp() <= 0)
 	{
 		return BattleResult::Defeat;
+	}
+
+	//드랍아이템 인벤토리에
+	Item* droppedItem = monster.DropItem();
+
+	if (droppedItem != nullptr)
+	{
+		inventoryManager.AddMaterial(*droppedItem); // 재료 가방에 추가
+		delete droppedItem;
 	}
 
 	return BattleResult::Victory;
