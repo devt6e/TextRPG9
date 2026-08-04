@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "Monster.h"
+#include "item/Item.h"
+#include "core/UIManager.h"
 
 
 class Slime : public Monster {
@@ -12,4 +14,7 @@ public:
 	void SpeakDefeat() const override;
 
 	void Attack() override;
+	Item* DropItem() override;
+protected:
+	mutable UI um;
 };
