@@ -121,13 +121,19 @@ void UI::PrintStatus(Player* p)
     std::cout << "HP: " << p->GetHp() << "/" << p->GetMaxHp() << "  MP: " << p->GetMp() << "/" << p->GetMaxMp() << u8"  공격력: " << p->GetPower() << u8"  방어력: " << p->GetDefence() << std::endl;
     Gotoxy(1, 24);
 }
-void UI::PrintDungeonFrame()
+void UI::PrintInventory(std::vector<string> Inv)
 {
-    Gotoxy(2, 2);
-   std::cout<< R"(
-                  ╔════════════════
-
-    )";
+    int x = 81;
+    int y = 22;
+    Gotoxy(x, y);
+    for (int i = 0; i < Inv.size(); ++i)
+    {
+        std::cout << Inv[i] << "  ";
+        if ((i + 1) % 3 == 0)
+        {
+            Gotoxy(x, ++y);
+        }
+    }
 }
 void UI::PrintMenu(std::vector<std::string> menu)
 {
@@ -275,44 +281,40 @@ std::string UI::InputSelection(std::string text)
 }
 void UI::NPC_M()
 {
-   
-    std::cout << "                  ---          " << std::endl;
-    std::cout << "                /     \\        " << std::endl;
-    std::cout << "                ((o_o))        " << std::endl;
-    std::cout << "                \\     /         " << std::endl;
-    std::cout << "              -(|    |)-       " << std::endl;
-    std::cout << "             ( |      | )      " << std::endl;
-    std::cout << "             | |      | |      " << std::endl;
-    std::cout << "             (_|______|_)      " << std::endl;
-    std::cout << "                | ___ |        " << std::endl;
-    std::cout << "  /\\ =^._.^=    | | | |        " << std::endl;
-    std::cout << "    \\ |   |     | | | |        " << std::endl;
-    std::cout << "     \\|___|    (__| |__)       " << std::endl;
+    UI::Gotoxy(10, 2);  std::cout << "                  ---          " << std::endl;
+    UI::Gotoxy(10, 3);  std::cout << "                /     \\        " << std::endl;
+    UI::Gotoxy(10, 4);  std::cout << "                ((o_o))        " << std::endl;
+    UI::Gotoxy(10, 5);  std::cout << "                \\     /        " << std::endl;
+    UI::Gotoxy(10, 6);  std::cout << "              -(|    |)-       " << std::endl;
+    UI::Gotoxy(10, 7);  std::cout << "             ( |      | )      " << std::endl;
+    UI::Gotoxy(10, 8);  std::cout << "             | |      | |      " << std::endl;
+    UI::Gotoxy(10, 9);  std::cout << "             (_|______|_)      " << std::endl;
+    UI::Gotoxy(10, 10); std::cout << "                | ___ |        " << std::endl;
+    UI::Gotoxy(10, 11); std::cout << "  /\\ =^._.^=    | | | |        " << std::endl;
+    UI::Gotoxy(10, 12); std::cout << "    \\ |   |     | | | |        " << std::endl;
+    UI::Gotoxy(10, 13); std::cout << "     \\|___|    (__| |__)       " << std::endl;
 
 }
 void UI::NPC_K()
 {
-    
-    std::cout << R"(
-                    /\
-                   /  \          
-                  /    \        
-                 /      \      
-         ____   /________\    ____
-        (    \   (  o.o  )   /    )
-         \    \   \  =  /   /    /
-          \    \  /`---'\  /    /
-           \    \/   |   \/    /
-            /   /|   |   |\   \
-           (   ( |   |   | )   )
-           /    \|   |   |/    \
-          /     /|___|___|\     \
-         (____ /  /     \  \_____)
-                 /       \
-                |    |    |
-                |    |    |
-               (_____|_____)
-)" << std::endl;
+    UI::Gotoxy(10, 2);  std::cout << "                    /\\" << std::endl;
+    UI::Gotoxy(10, 3);  std::cout << "                   /  \\" << std::endl;
+    UI::Gotoxy(10, 4);  std::cout << "                  /    \\" << std::endl;
+    UI::Gotoxy(10, 5);  std::cout << "                 /      \\" << std::endl;
+    UI::Gotoxy(10, 6);  std::cout << "         ____   /________\\    ____" << std::endl;
+    UI::Gotoxy(10, 7);  std::cout << "        (    \\   (  o.o  )   /    )" << std::endl;
+    UI::Gotoxy(10, 8);  std::cout << "         \\    \\   \\  =  /   /    /" << std::endl;
+    UI::Gotoxy(10, 9);  std::cout << "          \\    \\  /`---'\\  /    /" << std::endl;
+    UI::Gotoxy(10, 10); std::cout << "           \\    \\/   |   \\/    /" << std::endl;
+    UI::Gotoxy(10, 11); std::cout << "            /   /|   |   |\\   \\" << std::endl;
+    UI::Gotoxy(10, 12); std::cout << "           (   ( |   |   | )   )" << std::endl;
+    UI::Gotoxy(10, 13); std::cout << "           /    \\|   |   |/    \\" << std::endl;
+    UI::Gotoxy(10, 14); std::cout << "          /     /|___|___|\\     \\" << std::endl;
+    UI::Gotoxy(10, 15); std::cout << "         (____ /  /     \\  \\_____)" << std::endl;
+    UI::Gotoxy(10, 16); std::cout << "                 /       \\" << std::endl;
+    UI::Gotoxy(10, 17); std::cout << "                |    |    |" << std::endl;
+    UI::Gotoxy(10, 18); std::cout << "                |    |    |" << std::endl;
+    UI::Gotoxy(10, 19); std::cout << "               (_____|_____)" << std::endl;
 }
 
 

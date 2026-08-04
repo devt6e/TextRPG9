@@ -20,6 +20,7 @@
 
 int main()
 {
+	std::vector<string> inventory = { "hp포션","mp포션","쿠키","젬" };
 	DungeonManager dungeonManager;
 	InventoryManager inventoryManager;
 	Player* p = new Warrior("test");
@@ -30,8 +31,9 @@ int main()
 	system("mode con:cols=150 lines=40 | title LOSTZEP");
 	UI ui;
 	ui.PrintIntro();
-	ui.PrintStatus(p);
-	
+	//ui.PrintStatus(p);
+	ui.PrintInventory(inventory);
+
 	system("pause");
 	dungeonManager.StartDungeon(player, ui, inventoryManager);
 	system("pause");
