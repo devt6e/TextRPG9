@@ -1,15 +1,15 @@
-//¼º±¹´Ô °³¹ß Å×½ºÆ®¿ë ¸ÞÀÎ
-//=======Å×½ºÆ®ÀýÂ÷=======
-// 1. src/core/main.cpp ÀüÃ¼ÁÖ¼®Ã³¸®(ctrl+a ÇÏ°í ctrl+/ ÇÏ±â)
-// 2. º»ÀÎÀÌ¸§.cpp ¿¡¼­ Å×½ºÆ® ÇÏ±â
-// 3. ¿À·ù¾øÀ¸¸é
-// 4. º»ÀÎÀÌ¸§.cpp ÀüÃ¼ÁÖ¼®Ã³¸®
-// 5. src/core/main.cpp ÀüÃ¼ÁÖ¼®Ã³¸® ÇØÁ¦(ctrl+a ÇÏ°í ctrl+/ ÇÏ±â)
-// 6. Ä¿¹ÔÇÏ°í prÇÏ±â
-// *Å×½ºÆ® ³»¿ëÀº ³²°ÜÁÖ¼¼¿ä!
+ï»¿//ì„±êµ­ë‹˜ ê°œë°œ í…ŒìŠ¤íŠ¸ìš© ë©”ì¸
+//=======í…ŒìŠ¤íŠ¸ì ˆì°¨=======
+// 1. src/core/main.cpp ì „ì²´ì£¼ì„ì²˜ë¦¬(ctrl+a í•˜ê³  ctrl+/ í•˜ê¸°)
+// 2. ë³¸ì¸ì´ë¦„.cpp ì—ì„œ í…ŒìŠ¤íŠ¸ í•˜ê¸°
+// 3. ì˜¤ë¥˜ì—†ìœ¼ë©´
+// 4. ë³¸ì¸ì´ë¦„.cpp ì „ì²´ì£¼ì„ì²˜ë¦¬
+// 5. src/core/main.cpp ì „ì²´ì£¼ì„ì²˜ë¦¬ í•´ì œ(ctrl+a í•˜ê³  ctrl+/ í•˜ê¸°)
+// 6. ì»¤ë°‹í•˜ê³  prí•˜ê¸°
+// *í…ŒìŠ¤íŠ¸ ë‚´ìš©ì€ ë‚¨ê²¨ì£¼ì„¸ìš”!
 
-//--------------------------ÀÌ°Å ¸ó½ºÅÍ cpp ¹Ø¿¡ Àû´çÇÑ À§Ä¡¿¡ ³Ö¾î¾ßÇÔ--------------------------------
-/*// ÀüÅõ Å×½ºÆ®¿ë ÀÓ½Ã ±¸Çö 
+//--------------------------ì´ê±° ëª¬ìŠ¤í„° cpp ë°‘ì— ì ë‹¹í•œ ìœ„ì¹˜ì— ë„£ì–´ì•¼í•¨--------------------------------
+/*// ì „íˆ¬ í…ŒìŠ¤íŠ¸ìš© ìž„ì‹œ êµ¬í˜„ 
 void Monster::SetHp(int Value)
 {
     if (Value < 0)
@@ -25,55 +25,55 @@ void Monster::SetHp(int Value)
         Hp = Value;
     }
 }*/
-//--------------------------ÀÌ°Å ¸ó½ºÅÍ cpp  ¹Ø¿¡ Àû´çÇÑ À§Ä¡¿¡ ³Ö¾î¾ßÇÔ--------------------------------
+//--------------------------ì´ê±° ëª¬ìŠ¤í„° cpp  ë°‘ì— ì ë‹¹í•œ ìœ„ì¹˜ì— ë„£ì–´ì•¼í•¨-------------------------------
 /*
-    ------------------------ÀÌ°Ç °ÔÀÓ¸Å´ÏÀú¿¡ Á×À¸¸é °­Á¦Á¾·á----------
+    ------------------------ì´ê±´ ê²Œìž„ë§¤ë‹ˆì €ì— ì£½ìœ¼ë©´ ê°•ì œì¢…ë£Œ----------
     case 1:
-    std::cout << "´øÀü ·çÆ¾ ½ÇÇà" << std::endl;
+    std::cout << "ë˜ì „ ë£¨í‹´ ì‹¤í–‰" << std::endl;
     dm.StartDungeon(*player, um);
 
     if (player->GetHp() <= 0)
     {
-        std::cout << "°ÔÀÓÀ» Á¾·áÇÕ´Ï´Ù.\n";
+        std::cout << "ê²Œìž„ì„ ì¢…ë£Œí•©ë‹ˆë‹¤.\n";
         return;
     }
 
     currentState = GameState::Dungeon;
     system("pause");
     break;
-    ------------------------ÀÌ°Ç °ÔÀÓ¸Å´ÏÀú¿¡ Á×À¸¸é °­Á¦Á¾·á----------
+    ------------------------ì´ê±´ ê²Œìž„ë§¤ë‹ˆì €ì— ì£½ìœ¼ë©´ ê°•ì œì¢…ë£Œ----------
 
 
 */
 
 
-/*
-#include "core/UIManager.h"
-#include "core/DungeonManager.h"
-#include "core/BattleManager.h"
-#include "character/P_Warrior.h"
-#include "character/M_Slime.h"
-#include "character/M_Goblin.h"
-#include "character/M_Orc.h"
-#include "core/GamaManager.h"
-#include "item/Inventory.h"
-#include "item/Item.h"
 
-int main()
-{
-    SetConsoleOutputCP(CP_UTF8);
-
-	Warrior player("Å×½ºÆ® Àü»ç");
-    //player.SetHp(1);
-	//Slime slime(player.GetLevel());
-	//BattleManager battleManager;
-	//battleManager.StartBattle(player, slime);
-
-	DungeonManager dungeonManager;
-	UI ui;
-    InventoryManager inventoryManager;
-    inventoryManager.AddConsumable(HpPotion());
-	dungeonManager.StartDungeon(player, ui, inventoryManager);
-    //GameManager().Run();
-
-}*/
+//#include "core/UIManager.h"
+//#include "core/DungeonManager.h"
+//#include "core/BattleManager.h"
+//#include "character/P_Warrior.h"
+//#include "character/M_Slime.h"
+//#include "character/M_Goblin.h"
+//#include "character/M_Orc.h"
+//#include "core/GamaManager.h"
+//#include "item/Inventory.h"
+//#include "item/Item.h"
+//
+//int main()
+//{
+//    SetConsoleOutputCP(CP_UTF8);
+//
+//	Warrior player("Test Warrior");
+//    //player.SetHp(1);
+//	//Slime slime(player.GetLevel());
+//	//BattleManager battleManager;
+//	//battleManager.StartBattle(player, slime);
+//
+//	DungeonManager dungeonManager;
+//	UI ui;
+//    InventoryManager inventoryManager;
+//    inventoryManager.AddConsumable(HpPotion());
+//	dungeonManager.StartDungeon(player, ui, inventoryManager);
+//    //GameManager().Run();
+//
+//}

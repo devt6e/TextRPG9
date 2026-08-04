@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <string>
 #include <cstdlib>
 #include <windows.h>
@@ -15,8 +15,8 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
     int mapWidth = dungeon.GetMapWidth();
     int mapHeight = dungeon.GetMapHeight();
     int displayWidth = mapWidth * 6 - 3;
-    int startX = 2;  // XÃà ½ÃÀÛ À§Ä¡ (ÇÊ¿ä¿¡ µû¶ó Á¶Àı)
-    int startY = 2;  // YÃà ½ÃÀÛ À§Ä¡ (ÇÊ¿ä¿¡ µû¶ó Á¶Àı)
+    int startX = 2;  // Xì¶• ì‹œì‘ ìœ„ì¹˜ (í•„ìš”ì— ë”°ë¼ ì¡°ì ˆ)
+    int startY = 2;  // Yì¶• ì‹œì‘ ìœ„ì¹˜ (í•„ìš”ì— ë”°ë¼ ì¡°ì ˆ)
     int currentY = startY;
     Gotoxy(startX, currentY++);
     std::cout << std::string(displayWidth, '=');
@@ -100,9 +100,9 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
     Gotoxy(startX, currentY++);
     std::cout << std::string(displayWidth, '=');
     Gotoxy(startX, currentY++);
-    std::cout << "[P] ÇöÀç À§Ä¡  [B] º¸½º";
+    std::cout << "[P] í˜„ì¬ ìœ„ì¹˜  [B] ë³´ìŠ¤";
     Gotoxy(startX, currentY++);
-    std::cout << "[.] Å½»ö ¿Ï·á  [?] ¹ÌÈ®ÀÎ ¹æ";
+    std::cout << "[.] íƒìƒ‰ ì™„ë£Œ  [?] ë¯¸í™•ì¸ ë°©";
     Gotoxy(startX, currentY++);
     std::cout << std::string(displayWidth, '=') << '\n';
     Gotoxy(startX, currentY++);
@@ -114,30 +114,30 @@ void UI::PrintDungeonMoveOptions(
     bool canMoveLeft,
     bool canMoveRight)
 {
-    std::cout << "\nÀÌµ¿ °¡´ÉÇÑ ¹æÇâ: ";
+    std::cout << "\nì´ë™ ê°€ëŠ¥í•œ ë°©í–¥: ";
 
     if (canMoveUp)
     {
-        std::cout << "W(À§) ";
+        std::cout << "W(ìœ„) ";
     }
 
     if (canMoveDown)
     {
-        std::cout << "S(¾Æ·¡) ";
+        std::cout << "S(ì•„ë˜) ";
     }
 
     if (canMoveLeft)
     {
-        std::cout << "A(¿ŞÂÊ) ";
+        std::cout << "A(ì™¼ìª½) ";
     }
 
     if (canMoveRight)
     {
-        std::cout << "D(¿À¸¥ÂÊ) ";
+        std::cout << "D(ì˜¤ë¥¸ìª½) ";
     }
 
-    std::cout << "\nQ(¸¶À»·Î º¹±Í)\n";
-    std::cout << "ÀÔ·Â: ";
+    std::cout << "\nQ(ë§ˆì„ë¡œ ë³µê·€)\n";
+    std::cout << "ì…ë ¥: ";
 }
 
 
@@ -149,10 +149,10 @@ void UI::Gotoxy(int x, int y)
 void UI::PrintStatus(Player* p)
 {
     Gotoxy(81, 22);
-    std::cout << u8"ÀÌ¸§: " << p->GetName() << u8"  Á÷¾÷: " << p->GetJob() << "  Lv: " << p->GetLevel();
+    std::cout << u8"ì´ë¦„: " << p->GetName() << u8"  ì§ì—…: " << p->GetJob() << "  Lv: " << p->GetLevel();
 
     Gotoxy(81, 23);
-    std::cout << "HP: " << p->GetHp() << "/" << p->GetMaxHp() << "  MP: " << p->GetMp() << "/" << p->GetMaxMp() << u8"  °ø°İ·Â: " << p->GetPower() << u8"  ¹æ¾î·Â: " << p->GetDefence() << std::endl;
+    std::cout << "HP: " << p->GetHp() << "/" << p->GetMaxHp() << "  MP: " << p->GetMp() << "/" << p->GetMaxMp() << u8"  ê³µê²©ë ¥: " << p->GetPower() << u8"  ë°©ì–´ë ¥: " << p->GetDefence() << std::endl;
     Gotoxy(1, 24);
 }
 void UI::PrintMenu(std::vector<std::string> menu)
@@ -275,18 +275,18 @@ void UI::PrintIntro()
     UI::PrintMain();
     UI::PrintTown();
     UI::Gotoxy(2, 22);
-    std::cout << u8"ÆòÈ­·Î¿î ³»ÀÏ¹è¿òÄ·ÇÁ ¸¶À»..." << std::endl;
+    std::cout << u8"í‰í™”ë¡œìš´ ë‚´ì¼ë°°ì›€ìº í”„ ë§ˆì„..." << std::endl;
     UI::Gotoxy(2, 23);
-    std::cout << u8"¾î´À ³¯ ZEP º»»ç¿¡¼­ Æ÷ÀÎÆ® Á¦µµ¸¦ ÆóÁöÇÏ°í..." << std::endl;
+    std::cout << u8"ì–´ëŠ ë‚  ZEP ë³¸ì‚¬ì—ì„œ í¬ì¸íŠ¸ ì œë„ë¥¼ íì§€í•˜ê³ ..." << std::endl;
     UI::Gotoxy(2, 24);
-    std:cout << u8"±×¿¡ ¹İ¹ßÇÏ´ø ¸Å´ÏÀú´Ôµé, Æ©ÅÍ´ÔµéÀ» ³³Ä¡Çß´Ù!!" << std::endl;
+    std:cout << u8"ê·¸ì— ë°˜ë°œí•˜ë˜ ë§¤ë‹ˆì €ë‹˜ë“¤, íŠœí„°ë‹˜ë“¤ì„ ë‚©ì¹˜í–ˆë‹¤!!" << std::endl;
     UI::Gotoxy(2, 25);
     system("pause");
     system("cls");
     UI::PrintMain();
     UI::PrintBuilding();
     UI::Gotoxy(2, 22);
-    std::cout << u8"´ç½ÅÀº ³³Ä¡´çÇÑ »ç¶÷µé°ú Æ÷ÀÎÆ®¸¦ µÇÃ£±â À§ÇØ ZEP ºôµùÀ» ¿À¸£±â·Î ÇÑ´Ù..." << std::endl;
+    std::cout << u8"ë‹¹ì‹ ì€ ë‚©ì¹˜ë‹¹í•œ ì‚¬ëŒë“¤ê³¼ í¬ì¸íŠ¸ë¥¼ ë˜ì°¾ê¸° ìœ„í•´ ZEP ë¹Œë”©ì„ ì˜¤ë¥´ê¸°ë¡œ í•œë‹¤..." << std::endl;
     UI::Gotoxy(2, 23);
 }
 
