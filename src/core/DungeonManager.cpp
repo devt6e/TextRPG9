@@ -510,10 +510,12 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 			if (IsBossDirection(direction) && rescuedNpcCount < 3)
 			{
 				ui.PrintLog("NPC 3명을 모두 구출해야 보스방에 들어갈 수 있습니다.");
+				ui.WaitForAnyKey("계속하려면 아무 키나 입력하세요: "); // ysg: 다음 맵 갱신 전에 잠금 안내를 확인할 수 있도록 대기
 			}
 			else if (IsBossDirection(direction) && !midBossDefeated)
 			{
 				ui.PrintLog("중간보스를 처치해야 보스방에 들어갈 수 있습니다.");
+				ui.WaitForAnyKey("계속하려면 아무 키나 입력하세요: "); // ysg: 안내 문구가 즉시 지워지는 문제 방지
 			}
 			else
 			{
@@ -522,8 +524,14 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 		}
 	}
 
+	if (finalBossDefeated)
+	{
+		return; // ysg: 보스 처치 후 뒤늦게 '보스방에 도착했습니다'가 출력되는 것 방지
+	}
+
 	ui.DisplayDungeonMap(*this);
-	ui.PrintLog("보스방에 도착했습니다."); }
+	ui.PrintLog("보스방에 도착했습니다.");
+}
 
 RoomType DungeonManager::DecideRoomType()
 {
