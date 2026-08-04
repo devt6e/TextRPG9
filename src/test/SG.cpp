@@ -1,15 +1,79 @@
-О╩©//Л└╠Й╣╜К▀≤ Й╟°К╟° М┘▄Л┼╓М┼╦Л ╘ К╘■Л²╦
-//=======М┘▄Л┼╓М┼╦Л═┬Л╟╗=======
-// 1. src/core/main.cpp Л═└Л╡╢Лё╪Л└²Л╡≤К╕╛(ctrl+a М∙≤ЙЁ═ ctrl+/ М∙≤Й╦╟)
-// 2. КЁ╦Л²╦Л²╢К╕└.cpp Л≈░Л└° М┘▄Л┼╓М┼╦ М∙≤Й╦╟
-// 3. Л≤╓К╔≤Л≈├Л°╪К╘╢
-// 4. КЁ╦Л²╦Л²╢К╕└.cpp Л═└Л╡╢Лё╪Л└²Л╡≤К╕╛
-// 5. src/core/main.cpp Л═└Л╡╢Лё╪Л└²Л╡≤К╕╛ М∙╢Л═°(ctrl+a М∙≤ЙЁ═ ctrl+/ М∙≤Й╦╟)
-// 6. Л╩╓К╟▀М∙≤ЙЁ═ prМ∙≤Й╦╟
-// *М┘▄Л┼╓М┼╦ К┌╢Л ╘Л²─ К┌╗Й╡╗Лё╪Л└╦Л ■!
+//╪╨╠╧╢т ╟Ё╧ъ ев╫╨ф╝©К ╦чюн
+//=======ев╫╨ф╝юЩбВ=======
+// 1. src/core/main.cpp юЭц╪аж╪╝цЁ╦╝(ctrl+a го╟М ctrl+/ го╠Б)
+// 2. ╨╩юнюл╦╖.cpp ©║╪╜ ев╫╨ф╝ го╠Б
+// 3. ©ю╥Ы╬Ью╦╦И
+// 4. ╨╩юнюл╦╖.cpp юЭц╪аж╪╝цЁ╦╝
+// 5. src/core/main.cpp юЭц╪аж╪╝цЁ╦╝ гьа╕(ctrl+a го╟М ctrl+/ го╠Б)
+// 6. д©╧тго╟М prго╠Б
+// *ев╫╨ф╝ Ё╩©Кю╨ Ё╡╟эаж╪╪©Д!
+
+//--------------------------юл╟е ╦С╫╨ем cpp ╧ь©║ юШ╢Ггя ю╖д║©║ Ёж╬Н╬ъгт--------------------------------
+/*// юЭеУ ев╫╨ф╝©К юс╫ц ╠╦гЖ 
+void Monster::SetHp(int Value)
+{
+    if (Value < 0)
+    {
+        Hp = 0;
+    }
+    else if (Value > MaxHp)
+    {
+        Hp = MaxHp;
+    }
+    else
+    {
+        Hp = Value;
+    }
+}*/
+//--------------------------юл╟е ╦С╫╨ем cpp  ╧ь©║ юШ╢Ггя ю╖д║©║ Ёж╬Н╬ъгт--------------------------------
+/*
+    ------------------------юл╟г ╟тюс╦е╢оюЗ©║ авю╦╦И ╟╜а╕а╬╥А----------
+    case 1:
+    std::cout << "╢ЬюЭ ╥Гф╬ ╫ггЮ" << std::endl;
+    dm.StartDungeon(*player, um);
+
+    if (player->GetHp() <= 0)
+    {
+        std::cout << "╟тюсю╩ а╬╥Агу╢о╢ы.\n";
+        return;
+    }
+
+    currentState = GameState::Dungeon;
+    system("pause");
+    break;
+    ------------------------юл╟г ╟тюс╦е╢оюЗ©║ авю╦╦И ╟╜а╕а╬╥А----------
 
 
-//int main()
-//{
-//
-//}
+*/
+
+
+/*
+#include "core/UIManager.h"
+#include "core/DungeonManager.h"
+#include "core/BattleManager.h"
+#include "character/P_Warrior.h"
+#include "character/M_Slime.h"
+#include "character/M_Goblin.h"
+#include "character/M_Orc.h"
+#include "core/GamaManager.h"
+#include "item/Inventory.h"
+#include "item/Item.h"
+
+int main()
+{
+    SetConsoleOutputCP(CP_UTF8);
+
+	Warrior player("ев╫╨ф╝ юЭ╩Г");
+    //player.SetHp(1);
+	//Slime slime(player.GetLevel());
+	//BattleManager battleManager;
+	//battleManager.StartBattle(player, slime);
+
+	DungeonManager dungeonManager;
+	UI ui;
+    InventoryManager inventoryManager;
+    inventoryManager.AddConsumable(HpPotion());
+	dungeonManager.StartDungeon(player, ui, inventoryManager);
+    //GameManager().Run();
+
+}*/
