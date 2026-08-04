@@ -7,6 +7,7 @@
 #include "core/UIManager.h"
 #include "item/Inventory.h"
 #include "item/Item.h"
+#include "item/Shop.h"
 #include "character/Player.h"
 #include "character/P_Warrior.h"
 #include "character/P_Archer.h"
@@ -21,10 +22,8 @@ public:
 	enum class GameState {
 		MainMenu,
 		Dungeon,
-		Battle,
 		Inventory,
-		Crafting,
-		Status,
+		Store,
 		Exit
 	};
 
@@ -35,21 +34,21 @@ public:
 private:
 	BattleManager bm;
 	DungeonManager dm;
-	UI um;
-	Player* player = nullptr;
 	InventoryManager im;
-	//Crafting cm;
-	//���� ���¸� ����. �߰� ����(status?,crafting?,quiz?)
+	ShopManager sm;
+	UI um;
+	Inventory<Item> iven = im.GetConsumableBag();	//임시
+	Player* player = nullptr;
+	
 	//Player* player = nullptr;//�ӽ�
 	//DungeonManager dm;
 
 	GameState currentState;
 
-	//void HandleMainMenu();	//���� �޴� ���
-	void HandleDungeon();	//���� ���� ����
-	void HandleCrafting();	//���ۼ�
-	void HandleStatus();	//���� ���� �޴�
-	void HandleInventory();
+	//void HandleMainMenu();	//
+	void HandleDungeon();	//던전입장루틴
+	void HandleStore();		//상점이용루틴
+	void HandleInventory();	//인벤토리루틴
 
 	//void CreateCharacter(); //legacy: 멤버에서 분리했음
 
