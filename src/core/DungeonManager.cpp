@@ -511,6 +511,10 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 			{
 				ui.PrintLog("NPC 3명을 모두 구출해야 보스방에 들어갈 수 있습니다.");
 			}
+			else if (IsBossDirection(direction) && !midBossDefeated)
+			{
+				ui.PrintLog("중간보스를 처치해야 보스방에 들어갈 수 있습니다.");
+			}
 			else
 			{
 				ui.PrintLog("이동할 수 없는 방향입니다.");
@@ -577,7 +581,8 @@ bool DungeonManager::CanMoveTo(int destination) const    // 목적지로 이동 
 		return false;
 	}
 
-	if (IsBossAt(nextX, nextY) && rescuedNpcCount < 3)
+	if (IsBossAt(nextX, nextY) &&
+		(rescuedNpcCount < 3 || !midBossDefeated))
 	{
 		return false;
 	}
@@ -810,7 +815,7 @@ void DungeonManager::HandleRoom(Player& player,
 			finalBossDefeated = true;
 			ui.PrintLog("최종 보스를 처치했습니다!");
 
-			if (correctNpcQuizCount == 3)
+			if (correctNpcQuizCount == 4)
 			{
 				ui.PrintLog("[ENDING] 모든 문제 정답");
 				ui.PrintLog("모든 NPC의 문제를 맞히고 함께 ZEP 타워를 탈출했습니다.");
@@ -909,6 +914,7 @@ void DungeonManager::HandleRoom(Player& player,
 
 			if (isCorrect)
 			{
+				++correctNpcQuizCount;
 				DropRandomItem(ui, inventoryManager);
 			}
 			else
@@ -1023,7 +1029,6 @@ void DungeonManager::HandleBattleResult(Player& player,
 		clearedMap[playerLoc[0]][playerLoc[1]] = true;
 		player.AddExp(monster.GetDropExp());
 		player.SetGold(player.GetGold() + monster.GetDropGold());
-		DropRandomItem(ui, inventoryManager);
 
 		ui.PrintLog(std::to_string(monster.GetDropGold()) +" 골드를 획득했습니다.");
 		system("pause");
