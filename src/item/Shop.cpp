@@ -20,6 +20,7 @@ void ShopManager::PrintShopItems() {
     //    cout << i + 1 << ". " << shopItems_[i].Name << " - " << shopItems_[i].Price << "G\n";
     //}
     /*um.PrintMenu();*/
+    um.PrintSelection(this->GetItems);
 
 }
 
@@ -27,14 +28,15 @@ void ShopManager::PrintShopItems() {
 void ShopManager::BuyItem(Player* player, InventoryManager& inventoryManager) {
     PrintShopItems();
 
-    std::cout << "살 아이템 번호 (취소 0): ";
-    int buyChoice;
-    std::cin >> buyChoice;
+    //std::cout << "살 아이템 번호 (취소 0): ";
+    int buyChoice = um.InputSelection("구매할 아이템 번호: ");;
+    //std::cin >> buyChoice;
 
     if (buyChoice == 0) return;
 
     if (buyChoice < 1 || buyChoice > shopItems_.size()) {
-        std::cout << "[오류] 잘못된 번호입니다.\n";
+        //std::cout << "[오류] 잘못된 번호입니다.\n";
+        um.PrintLog("[error] 잘못된 번호입니다.");
         return;
     }
 
@@ -43,10 +45,12 @@ void ShopManager::BuyItem(Player* player, InventoryManager& inventoryManager) {
         player->SetGold(player->GetGold() - buyItem.Price);
 
         inventoryManager.AddConsumable(buyItem);
-        std::cout << "[System] " << buyItem.Name << "을(를) 구매했습니다!\n";
+        //std::cout << "[System] " << buyItem.Name << "을(를) 구매했습니다!\n";
+        um.PrintLog("[system] 아이템을 구매했습니다!");   //todo: 수정 예정
     }
     else {
-        std::cout << "[System] 잼이 부족합니다!\n";
+        um.PrintLog("[system] 잼이 부족합니다!");
+        //std::cout << "[System] 잼이 부족합니다!\n";
     }
 }
 
