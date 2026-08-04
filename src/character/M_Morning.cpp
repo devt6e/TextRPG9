@@ -1,39 +1,39 @@
-#include "character/M_Morning.h"
+ï»¿#include "character/M_Morning.h"
 
-Morning::Morning(int PlayerLevel) : Monster("¾ÆÄ§¸¶´Ù ¸ğ´×Äİ·Î ³ë·¡ ºÎ¸£´Â ¼ö°­»ı", PlayerLevel) {}
+Morning::Morning(int PlayerLevel) : Monster("ì•„ì¹¨ë§ˆë‹¤ ëª¨ë‹ì½œë¡œ ë…¸ë˜ ë¶€ë¥´ëŠ” ìˆ˜ê°•ìƒ", PlayerLevel) {}
 
 void Morning::SpeakEncounter() const {
-    std::string s = "\n ¾ÆÄ§¸¸ µÇ¸é ZEP ¸¶ÀÌÅ©¸¦ ÄÑ°í ³ë·¡¸¦ ºÎ¸£±â ½ÃÀÛÇÏ´Â ¼ö°­»ıÀÌ ³ªÅ¸³µ½À´Ï´Ù!";
+    std::string s = "\n ì•„ì¹¨ë§Œ ë˜ë©´ ZEP ë§ˆì´í¬ë¥¼ ì¼œê³  ë…¸ë˜ë¥¼ ë¶€ë¥´ê¸° ì‹œì‘í•˜ëŠ” ìˆ˜ê°•ìƒì´ ë‚˜íƒ€ë‚¬ìŠµë‹ˆë‹¤!";
     um.PrintLog(s);
 }
 
 void Morning::SpeakBattleStart() const {
     std::string s = Name;
-    s.append(": \"´Ùµé Àá ¾È ²£Áö? ¸ñ Ç®±â¿ë 4´Ü °íÀ½ µé¾î°£´Ù~ ¼Ò¸®Áú·¯!!\"");
+    s.append(": \"ë‹¤ë“¤ ì  ì•ˆ ê¹¼ì§€? ëª© í’€ê¸°ìš© 4ë‹¨ ê³ ìŒ ë“¤ì–´ê°„ë‹¤~ ì†Œë¦¬ì§ˆëŸ¬!!\"");
     um.PrintLog(s);
 }
 
 void Morning::SpeakVictory() const {
     std::string s = Name;
-    s.append(": \"ÇÏÇÏÇÏ! ³» ¸ğ´×ÄÜ¼­Æ® ¾î¶®³Ä? ±Í°¡ ¾ÆÁÖ ±×³É »½ ¶Õ·ÈÁö!\"");
+    s.append(": \"í•˜í•˜í•˜! ë‚´ ëª¨ë‹ì½˜ì„œíŠ¸ ì–´ë• ëƒ? ê·€ê°€ ì•„ì£¼ ê·¸ëƒ¥ ë»¥ ëš«ë ¸ì§€!\"");
     um.PrintLog(s);
 }
 
 void Morning::SpeakDefeat() const {
     std::string s = Name;
-    s.append(": \"Å©À¹... °íÀ½ÀÌ »à»ç¸®³ª´Ù´Ï... ³» ¸ñ»óÅÂ°¡ ÀÌ·² ¸®°¡ ¾ø¾î...!\"");
+    s.append(": \"í¬ìœ½... ê³ ìŒì´ ì‚‘ì‚¬ë¦¬ë‚˜ë‹¤ë‹ˆ... ë‚´ ëª©ìƒíƒœê°€ ì´ëŸ´ ë¦¬ê°€ ì—†ì–´...!\"");
     um.PrintLog(s);
 }
 
 void Morning::Attack() {
     std::string s = Name;
-    s.append("ÀÌ ZEP ¸Ê ÀüÃ¼°¡ ¿ï¸®´Â °íÀ½ ÆøÅºÀ» ³¯¸³´Ï´Ù!");
+    s.append("ì´ ZEP ë§µ ì „ì²´ê°€ ìš¸ë¦¬ëŠ” ê³ ìŒ í­íƒ„ì„ ë‚ ë¦½ë‹ˆë‹¤!");
     um.PrintLog(s);
 }
 
 Item* Morning::DropItem() {
     std::string s = Name;
-    s.append("ÀÌ µµ¸Á°£ ÈÄ, [¸¶ÀÌÅ©]°¡ µ¢±×·¯´Ï ³²¾Ò½À´Ï´Ù.");
+    s.append("ì´ ë„ë§ê°„ í›„, [ë§ˆì´í¬]ê°€ ë©ê·¸ëŸ¬ë‹ˆ ë‚¨ì•˜ìŠµë‹ˆë‹¤.");
     um.PrintLog(s);
 
     return new Microphone();

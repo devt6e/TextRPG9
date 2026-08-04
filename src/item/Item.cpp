@@ -196,3 +196,50 @@ bool SelectAndUseConsumableItem(Player* player, InventoryManager& invManager) {
 
 	return UseConsumableItem(player, invManager, selectedIndex);
 }
+CookieCat::CookieCat()
+	: Item("쿠키", 0, 1)
+{
+	ItemDescription = "쿠키 납치범에게서 되찾은 쿠키입니다.";
+	ItemDropLocation = "쿠키 납치범";
+}
+
+bool CookieCat::UseItem(Player*)
+{
+	return false;
+}
+
+ZemPouch::ZemPouch()
+	: Item("ZEM 주머니", 0, 1)
+{
+	ItemDescription = "ZEM 탈취범에게서 되찾은 주머니입니다.";
+	ItemDropLocation = "ZEM 탈취범";
+}
+
+bool ZemPouch::UseItem(Player*)
+{
+	return false;
+}
+
+AlarmClock::AlarmClock()
+	: Item("지각생의 알람시계", 0, 1)
+{
+	ItemDescription = "만년 지각생이 떨구고 간 알람시계입니다.";
+	ItemDropLocation = "만년 지각생";
+}
+
+bool AlarmClock::UseItem(Player*)
+{
+	return false;
+}
+
+Microphone::Microphone()
+	: Item("마이크", 0, 1)
+{
+	ItemDescription = "모닝콜 수강생이 남기고 간 마이크입니다.";
+	ItemDropLocation = "모닝콜 수강생";
+}
+
+bool Microphone::UseItem(Player*)
+{
+	return false;
+}
