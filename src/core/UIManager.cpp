@@ -118,29 +118,40 @@ void UI::PrintDungeonMoveOptions(
     bool canMoveLeft,
     bool canMoveRight)
 {
-    std::cout << "\n이동 가능한 방향: ";
+    Offsets = SELECT_POS;
+    Gotoxy(Offsets[0], Offsets[1]);
+    std::cout << "이동 가능한 방향: ";
 
     if (canMoveUp)
     {
+        Gotoxy(Offsets[0], ++Offsets[1]);
+
         std::cout << "W(위) ";
     }
 
     if (canMoveDown)
     {
+        Gotoxy(Offsets[0], ++Offsets[1]);
+
         std::cout << "S(아래) ";
     }
 
     if (canMoveLeft)
     {
+        Gotoxy(Offsets[0], ++Offsets[1]);
+
         std::cout << "A(왼쪽) ";
     }
 
     if (canMoveRight)
     {
+        Gotoxy(Offsets[0], ++Offsets[1]);
+
         std::cout << "D(오른쪽) ";
     }
-
-    std::cout << "\nQ(마을로 복귀)\n";
+    Gotoxy(Offsets[0], ++Offsets[1]);
+    std::cout << "Q(마을로 복귀)";
+    Gotoxy(Offsets[0], ++Offsets[1]);
     std::cout << "입력: ";
 }
 
@@ -155,6 +166,19 @@ void UI::Gotoxy(std::vector<int> coor)
     COORD pos = { (SHORT)(coor[0]), (SHORT)(coor[1]) };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
+void UI::Erase(std::vector<int> coord, int rangeX, int rangeY)
+{
+    for (int h = 0; h < rangeY; h++)
+    {
+        Gotoxy(coord[0], coord[1] + h);
+        for (int w = 0; w < rangeX; w++)
+            std::cout << " ";
+    }
+}
+//art x: 1~146, y: 2~19 u.Erase({ 1, 2 }, 147, 19);
+//log x: 1~79, y: 22~32 u.Erase({ 1, 22 }, 79, 11);
+//stat x: 81~146, y: 22~25 u.Erase({ 81, 22 }, 67, 4);
+//selection x: 81~146, y: 27~32 u.Erase({ 81, 27 }, 67, 6);
 void UI::PrintStatus(Player* p)
 {
     Offsets = STAT_POS;
@@ -176,7 +200,7 @@ void UI::PrintInventory(std::vector<string> Inv)
         }
     }
 }
-void UI::PrintMenu(std::vector<std::string> menu)
+void UI::PrintSelection(std::vector<std::string> menu)
 {
     for (int i = 0; i < menu.size(); ++i)
     {
@@ -189,9 +213,12 @@ void UI::PrintMenu(std::vector<std::string> menu)
         std::cout << i + 1 << ")." << menu[i] << std::endl;
     }
 }
-void UI::PrintMessage(const std::string& str) 
-{ 
-    UI::Gotoxy(LOG_POS);
+void UI::PrintLog(const std::string& str)
+{
+    Offsets = LOG_POS;
+    static int n = 0;
+    UI::Gotoxy(Offsets[0], Offsets[1] + n);
+    n++;
     std::cout << str << "  ";
 }
 void UI::PrintBuilding()
@@ -311,6 +338,13 @@ void UI::PrintIntro()
     std::cout << "당신은 납치당한 사람들과 포인트를 되찾기 위해 ZEP 빌딩을 오르기로 한다..." << std::endl;
     UI::Gotoxy(2, 23);
 }
+void UI::PrintArt(std::string s)
+{
+    Offsets = ART_POS;
+    Gotoxy(Offsets[0], Offsets[1]);
+    cout << s;
+}
+
 
 std::string UI::InputSelection(std::string text)
 {
