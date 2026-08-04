@@ -503,6 +503,8 @@ int UI::InputSelection(std::string text)
     {
         Offsets = SELECT_POS;   //LOG_POS -> SELECT_POS 변경
         UI::Gotoxy(Offsets[0], Offsets[1] + 5);
+        std::cout << std::string(67, ' '); // ysg: 이전의 긴 입력 안내 문구가 새 문구 뒤에 잔상으로 남는 문제 방지
+        UI::Gotoxy(Offsets[0], Offsets[1] + 5);
         std::cout << text << std::flush;
         UI::Gotoxy(
             Offsets[0] + GetUtf8DisplayWidth(text),
