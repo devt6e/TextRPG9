@@ -97,43 +97,7 @@ void GameManager::HandleStore()
 		}
 		case 2:
 		{
-			//std::cout << "(Debug)아이템 판매 루틴" << std::endl; //디버그용
-			 um.PrintLog("(Debug)아이템 판매 루틴 실행");
-			//인벤토리 목록 출력
-			//void UIManager::PrintItem(vector<Item> itmes) 함수 추가 요청
-			std::vector<Item> items = iven.GetAllItems();
-			if (items.size() < 1)
-			{
-				//std::cout << "판매할 아이템이 없습니다" << std::endl;
-				um.PrintLog("판매할 아이템이 없습니다");
-				break;
-			}
-
-			//PrintItems(items);
-			//std::cout << "===============" << std::endl;
-			um.PrintSelection(items);
-			int numberSelection = um.InputSelection("몇번? ");
-
-			if (numberSelection > items.size())
-			{
-				//std::cout << "입력이 잘못 되었습니다" << std::endl;
-				um.PrintLog("입력이 잘못 되었습니다");
-				break;
-			}
-
-			int quantitySelection = um.InputSelection("몇개? ");
-			if (quantitySelection > items[numberSelection - 1].ItemCount)
-			{
-				//std::cout << "수량이 부족합니다" << std::endl;
-				um.PrintLog("수량이 부족합니다");
-				break;
-			}
-			//Inventory::ReduceItem(int idx, int quantity) -- vector<Item>의 idx-1 번째 원소의 itemcount를 quantity 만큼 감소
-			int gold = items[numberSelection - 1].Price * quantitySelection;
-			//std::cout << "판매 완료 !" << gold << "zem을 획득했습니다" << std::endl;
-			std::string s = "판매 완료 !" + std::to_string(gold) + "zem을 획득했습니다!";
-			um.PrintLog(s);
-			player->SetGold(player->GetGold() + gold);
+			sm.SellItem(player, im); // ysg: 복사된 임시 가방 대신 실제 소비/재료 가방에서 안전하게 판매
 			break;
 		}
 		case 0:

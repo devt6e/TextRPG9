@@ -36,7 +36,6 @@ private:
 	InventoryManager im;
 	ShopManager sm;
 	UI um;
-	Inventory<Item> iven = im.GetConsumableBag();	//임시
 	Player* player = nullptr;
 	
 	//Player* player = nullptr;//�ӽ�

@@ -52,7 +52,7 @@ void ShopManager::BuyItem(Player* player, InventoryManager& inventoryManager) {
 // 4. 판매 기능
 void ShopManager::SellItem(Player* player, InventoryManager& inventoryManager) {
     
-    std::vector<std::string> options = { "1. 소비 아이템 팔기","2. 재료 아이템 팔기" };
+    std::vector<std::string> options = { "소비 아이템 팔기", "재료 아이템 팔기" }; // ysg: UI가 번호를 붙이므로 중복 번호 제거
     um.PrintSelection(options);
     int bagChoice = um.InputSelection("어떤 가방의 아이템을 파시겠습니까?");
     
@@ -94,6 +94,9 @@ void ShopManager::SellItem(Player* player, InventoryManager& inventoryManager) {
             player->SetGold(player->GetGold() + sellPrice);
             um.PrintLog("[System] " + std::to_string(sellPrice) + "ZEM을 획득했습니다!");
         }
+    }
+    else {
+        um.PrintLog("[오류] 존재하지 않는 아이템 번호입니다."); // ysg: 범위를 벗어난 판매 번호 안전 처리
     }
 }
 
