@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include "item/Item.h"
+#include "core/UIManager.h"
 
 //Windows의 인쇄 작업 관련 매크로 강제 해제
 #undef SetJob
@@ -9,6 +10,9 @@
 
 // 플레이어 기본 클래스 (직업 클래스들의 부모 클래스)
 class Player {
+protected:
+    mutable UI um;
+
 public: 
     // 이름, 체력, 마나, 공격력, 방어력을 받아 플레이어 생성
     Player(std::string Name) : Name(Name) {}

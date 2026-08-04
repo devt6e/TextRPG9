@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "character/Npc.h"
+#include "core/UIManager.h"
 
 class Manager1 : public NPC {
 private:
@@ -14,4 +15,6 @@ public:
     void OnCorrect() override;
     void OnWrong() const override;
     void GiveReward() const override;
+protected:
+    mutable UI um;
 };
