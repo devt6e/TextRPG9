@@ -23,8 +23,17 @@ Monster::Monster(std::string Name, int PlayerLevel) : Name(Name) {
 }
 
 
-//임시
 void Monster::SetHp(int Value)
 {
-    this->Hp = Value;
+    Hp = Value;
+
+    if (Hp > MaxHp)
+    {
+        Hp = MaxHp;
+    }
+
+    if (Hp < 0)
+    {
+        Hp = 0;
+    }
 }

@@ -1,4 +1,4 @@
-﻿#include "core/GamaManager.h"
+#include "core/GamaManager.h"
 
 
 //임시 메뉴 출력 함수. todo: UIManager::PrintMenu() 수정
@@ -24,44 +24,44 @@ void PrintItems(std::vector<Item> items)
 
 void CreateCharacter(GameManager* gm, UI& um, Player*& p)
 {
-	//보류 //UIManager::PrintMessage(const std::string& str) 
-	//보류 //um.PrintMessage("이름을 입력하세요: ");
+	//���� //UIManager::PrintMessage(const std::string& str) 
+	//���� //um.PrintMessage("�̸��� �Է��ϼ���: ");
 
-	//string UIManager::InputString(const std::string& str) 필요
+	//string UIManager::InputString(const std::string& str) �ʿ�
 	std::string name = "";
 	name = um.InputSelection("당신은 누구십니까? ");
 	//um.PrintMessage("직업을 선택하세요: ");
 	//um.PrintMenu({"힘이 센 훈련생", "머리가 좋은 훈련생", "팔이 긴 훈련생", "민첩한 훈련생", "게임종료"});
 	PrintMenu({ "전사", "마법사", "궁수", "도적", "게임종료" }); //임시
 	//p->SetJob(um.InputSelection());
-	std::string selection = um.InputSelection("직업을 선택하세요: ");
+	std::string selection = um.InputSelection("������ �����ϼ���: ");
 	switch (stoi(selection))
 	{
 	case 1:
 		p = new Warrior(name);
-		p->SetJob("전사"); //todo: 직업 명칭 변경 시 수정 예정
+		p->SetJob("����"); //todo: ���� ��Ī ���� �� ���� ����
 		break;
 	case 2:
 		p = new Magician(name);
-		p->SetJob("마법사");
+		p->SetJob("������");
 		break;
 	case 3:
 		p = new Archer(name);
-		p->SetJob("궁수");
+		p->SetJob("�ü�");
 		break;
 	case 4:
 		p = new Thief(name);
-		p->SetJob("도적");
+		p->SetJob("����");
 		break;
 	case 5:
 		gm->SetCurrentState(GameManager::GameState::Exit);
-		//um.PrintMessage("게임을 종료합니다!\n");
+		//um.PrintMessage("������ �����մϴ�!\n");
 		break;
 	default:
-		//um.PrintMessage("잘못된 입력입니다. 다시 입력하세요\n");
+		//um.PrintMessage("�߸��� �Է��Դϴ�. �ٽ� �Է��ϼ���\n");
 		break;
 	}
-	//디버깅 로그 
+	//����� �α� 
 	//std::cout << p->GetName() << std::endl;
 	//std::cout << p->GetJob() << std::endl; 
 	//system("pause");
@@ -69,7 +69,7 @@ void CreateCharacter(GameManager* gm, UI& um, Player*& p)
 
 void GameManager::HandleDungeon()
 {
-	//dm.StartDungeon();	//legacy
+	//dm.StartDungeon();
 	dm.StartDungeon(*player, um, im);
 }
 
@@ -188,7 +188,7 @@ void GameManager::Run()
 {
 	system("mode con:cols=150 lines=40 | title LOSTZEP");
 
-	//um.MainTitle();	//todo: 새로운 출력 함수로 변경예정
+	//um.MainTitle();	//todo: ���ο� ��� �Լ��� ���濹��
 	um.PrintMain();
 	//um.PrintTitle();
 	//um.PrintIntro();

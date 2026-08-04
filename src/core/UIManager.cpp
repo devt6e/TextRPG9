@@ -107,6 +107,40 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
     std::cout << std::string(displayWidth, '=') << '\n';
     Gotoxy(startX, currentY++);
 }
+
+void UI::PrintDungeonMoveOptions(
+    bool canMoveUp,
+    bool canMoveDown,
+    bool canMoveLeft,
+    bool canMoveRight)
+{
+    std::cout << "\n이동 가능한 방향: ";
+
+    if (canMoveUp)
+    {
+        std::cout << "W(위) ";
+    }
+
+    if (canMoveDown)
+    {
+        std::cout << "S(아래) ";
+    }
+
+    if (canMoveLeft)
+    {
+        std::cout << "A(왼쪽) ";
+    }
+
+    if (canMoveRight)
+    {
+        std::cout << "D(오른쪽) ";
+    }
+
+    std::cout << "\nQ(마을로 복귀)\n";
+    std::cout << "입력: ";
+}
+
+
 void UI::Gotoxy(int x, int y)
 {
     COORD pos = { (SHORT)x, (SHORT)y };
