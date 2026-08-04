@@ -19,6 +19,8 @@
 
 namespace
 {
+    int logLine = 0; // ysg: 로그 영역을 지울 때 함께 초기화할 현재 출력 줄 번호
+
     int GetUtf8DisplayWidth(const std::string& text)
     {
         int width = 0;
@@ -56,6 +58,7 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
 {
     system("cls");
     UI::PrintMain();
+    UI::EraseLog(); // ysg: 던전 화면을 다시 그릴 때 로그 시작 위치도 첫 줄로 초기화
     int mapWidth = dungeon.GetMapWidth();
     int mapHeight = dungeon.GetMapHeight();
     int displayWidth = mapWidth * 6 - 3;
@@ -212,7 +215,11 @@ void UI::Erase(std::vector<int> coord, int rangeX, int rangeY)
 }
 
 void UI::EraseArt() {Erase({ 1, 2 }, 147, 19);}
-void UI::EraseLog() { Erase({ 1, 22 }, 79, 11); }
+void UI::EraseLog()
+{
+    Erase({ 1, 22 }, 79, 11);
+    logLine = 0; // ysg: 화면만 지우고 다음 출력 위치가 계속 내려가던 문제 방지
+}
 void UI::EraseSelection() { Erase({ 81, 27 }, 67, 6); }
 void UI::EraseStat() { Erase({ 81, 22 }, 67, 4); } 
 
@@ -286,7 +293,6 @@ void UI::PrintSelection(std::vector<Item> menu)
 }
 void UI::PrintLog(const std::string& str)
 {
-    static int n = 0;
     Offsets = LOG_POS;
 
     // ysg: 긴 NPC 대사가 로그 영역을 벗어나지 않도록 UTF-8 글자 단위로 자동 줄바꿈
@@ -345,23 +351,21 @@ void UI::PrintLog(const std::string& str)
 
     // ysg: 퀴즈처럼 여러 줄인 로그가 출력 도중 지워져 선택지 일부만 남는 현상 방지
     if (static_cast<int>(wrappedLines.size()) <= maxLogLineCount &&
-        n + static_cast<int>(wrappedLines.size()) > maxLogLineCount)
+        logLine + static_cast<int>(wrappedLines.size()) > maxLogLineCount)
     {
-        n = 0;
         EraseLog();
     }
 
     for (const std::string& line : wrappedLines)
     {
-        if (Offsets[1] + n >= LOG_MAX_Y)
+        if (Offsets[1] + logLine >= LOG_MAX_Y)
         {
-            n = 0;
             EraseLog();
         }
 
-        UI::Gotoxy(Offsets[0], Offsets[1] + n);
+        UI::Gotoxy(Offsets[0], Offsets[1] + logLine);
         std::cout << line;
-        ++n;
+        ++logLine;
     }
 }
 void UI::PrintBuilding()
