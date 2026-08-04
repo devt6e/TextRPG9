@@ -740,6 +740,7 @@ void DungeonManager::HandleRoom(Player& player,
 	case(RoomType::NPC):
 	{
 		std::cout << "NPC µîÀå!!\n";
+		DropRandomItem(inventoryManager);
 		system("pause");
 		clearedMap[playerLoc[0]][playerLoc[1]] = true;
 		break;
