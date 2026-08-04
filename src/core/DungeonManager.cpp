@@ -1,4 +1,4 @@
-癤#include "core/DungeonManager.h"
+#include "core/DungeonManager.h"
 #include "core/UIManager.h"
 #include "character/Player.h"
 #include "character/M_Slime.h"
@@ -441,7 +441,11 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 				HandleRoom(player, decideRoom, ui, inventoryManager);
 				if (shouldExitDungeon)
 				{
-					std::cout << "게임 오버입니다.\n";
+					if (player.GetHp() <= 0)
+					{
+						std::cout << "게임 오버입니다.\n";
+					}
+
 					return;
 				}
 			}
@@ -698,6 +702,20 @@ void DungeonManager::HandleRoom(Player& player,
 	case(RoomType::Boss):
 	{
 		std::cout << "보스방 입장!!\n";
+		Orc boss(player.GetLevel());
+
+		BattleResult battleResult =
+			battleManager.StartBattle(
+				player,
+				boss,
+				inventoryManager);
+
+		HandleBattleResult(
+			player,
+			boss,
+			battleResult,
+			inventoryManager);
+
 		break;
 	}
 	case(RoomType::Monster):
@@ -795,7 +813,7 @@ void DungeonManager::HandleBattleResult(Player& player,
 	case(BattleResult::Escaped):
 	{
 		std::cout << "전투에서 도망쳤습니다.\n";
-
+		shouldExitDungeon = true;
 	}
 	break;
 

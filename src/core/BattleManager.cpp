@@ -116,7 +116,7 @@ void BattleManager::PlayerAttack(Player& player, Monster& monster)
 void BattleManager::MonsterAttack(Monster& monster, Player& player)
 {
     monster.Attack();
-    int damage = monster.GetPower() - player.GetDefence();
+    int damage = monster.GetPower() - player.GetTotalDEF();
     if (damage < 1)
     {
         damage = 1;
