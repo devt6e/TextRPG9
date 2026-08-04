@@ -390,8 +390,15 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 			CanMoveTo(2),
 			CanMoveTo(3));
 
-		char input;
-		std::cin >> input;
+		std::string inputString =
+			ui.InputString("");
+
+		if (inputString.empty())
+		{
+			continue;
+		}
+
+		char input = inputString[0];
 
 		int direction = -1;
 
@@ -423,12 +430,12 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 			checkpointLoc[1] = playerLoc[1];
 			hasCheckpoint = true;
 
-			std::cout
-				<< "체크포인트를 저장하고 마을로 돌아갑니다.\n";
+			ui.PrintLog(
+				"체크포인트를 저장하고 마을로 돌아갑니다.");
 			return;
 
 		default:
-			std::cout << "잘못된 입력입니다.\n";
+			ui.PrintLog("잘못된 입력입니다.");
 			continue;
 		}
 
@@ -441,7 +448,11 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 				HandleRoom(player, decideRoom, ui, inventoryManager);
 				if (shouldExitDungeon)
 				{
-					std::cout << "게임 오버입니다.\n";
+					if (player.GetHp() <= 0)
+					{
+						ui.PrintLog("게임 오버입니다.");
+					}
+
 					return;
 				}
 			}
@@ -449,13 +460,12 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 		}
 		else
 		{
-			std::cout << "이동할 수 없는 방향입니다.\n";
+			ui.PrintLog("이동할 수 없는 방향입니다.");
 		}
 	}
 
 	ui.DisplayDungeonMap(*this);
-	std::cout << "보스방에 도착했습니다.\n";
-}
+	ui.PrintLog("보스방에 도착했습니다."); }
 
 RoomType DungeonManager::DecideRoomType()
 {
@@ -697,12 +707,28 @@ void DungeonManager::HandleRoom(Player& player,
 	{
 	case(RoomType::Boss):
 	{
-		std::cout << "보스방 입장!!\n";
+		ui.PrintLog("보스방 입장!!");
+		Orc boss(player.GetLevel());
+
+		BattleResult battleResult =
+			battleManager.StartBattle(
+				player,
+				boss,
+				ui,
+				inventoryManager);
+
+		HandleBattleResult(
+			player,
+			boss,
+			battleResult,
+			ui,
+			inventoryManager);
+
 		break;
 	}
 	case(RoomType::Monster):
 	{
-		std::cout << "몬스터 등장!!\n";
+		ui.PrintLog("몬스터 등장!!");
 		std::random_device rd;
 		std::mt19937 gen(rd());
 		std::uniform_int_distribution<int> monsterDist(0, 2);
@@ -713,16 +739,16 @@ void DungeonManager::HandleRoom(Player& player,
 		case 0:
 		{
 			Slime slime(player.GetLevel());
-			BattleResult battleResult = battleManager.StartBattle(player, slime, inventoryManager);
-			HandleBattleResult(player, slime, battleResult, inventoryManager);
+			BattleResult battleResult = battleManager.StartBattle(player, slime, ui, inventoryManager);
+			HandleBattleResult(player, slime, battleResult, ui, inventoryManager);
 			break;
 		}
 
 		case 1:
 		{
 			Goblin goblin(player.GetLevel());
-			BattleResult battleResult = battleManager.StartBattle(player, goblin, inventoryManager);
-			HandleBattleResult(player, goblin, battleResult, inventoryManager);
+			BattleResult battleResult = battleManager.StartBattle(player, goblin, ui, inventoryManager);
+			HandleBattleResult(player, goblin, battleResult, ui, inventoryManager);
 
 			break;
 		}
@@ -730,8 +756,8 @@ void DungeonManager::HandleRoom(Player& player,
 		case 2:
 		{
 			Orc orc(player.GetLevel());
-			BattleResult battleResult = battleManager.StartBattle(player, orc, inventoryManager);
-			HandleBattleResult(player, orc, battleResult, inventoryManager);
+			BattleResult battleResult = battleManager.StartBattle(player, orc, ui, inventoryManager);
+			HandleBattleResult(player, orc, battleResult, ui, inventoryManager);
 
 			break;
 		}
@@ -740,7 +766,7 @@ void DungeonManager::HandleRoom(Player& player,
 	}
 	case(RoomType::NPC):
 	{
-		std::cout << "NPC 등장!!\n";
+		ui.PrintLog("NPC 등장!!");
 		std::random_device rd;
 		std::mt19937 gen(rd());
 		std::uniform_int_distribution<int> npcDist(0, 1);
@@ -757,7 +783,7 @@ void DungeonManager::HandleRoom(Player& player,
 		}
 
 
-		DropRandomItem(inventoryManager);
+		DropRandomItem(ui, inventoryManager);
 		system("pause");
 		clearedMap[playerLoc[0]][playerLoc[1]] = true;
 		break;
@@ -767,6 +793,7 @@ void DungeonManager::HandleRoom(Player& player,
 void DungeonManager::HandleBattleResult(Player& player,
 	Monster& monster,
 	BattleResult result,
+	UI& ui,
 	InventoryManager& inventoryManager)
 {
 	switch (result)
@@ -775,27 +802,27 @@ void DungeonManager::HandleBattleResult(Player& player,
 	{
 		system("pause");
 
-		std::cout << "전투에서 승리했습니다.\n";
+		ui.PrintLog("전투에서 승리했습니다.");
 		clearedMap[playerLoc[0]][playerLoc[1]] = true;
 		player.AddExp(monster.GetDropExp());
 		player.SetGold(player.GetGold() + monster.GetDropGold());
-		DropRandomItem(inventoryManager);
+		DropRandomItem(ui, inventoryManager);
 
-		std::cout << monster.GetDropGold() << " 골드를 획득했습니다.\n";
+		ui.PrintLog(std::to_string(monster.GetDropGold()) +" 골드를 획득했습니다.");
 		system("pause");
 
 	}
 	break;
 	case(BattleResult::Defeat):
 	{
-		std::cout << "전투에서 패배했습니다.\n";
+		ui.PrintLog("전투에서 패배했습니다.");
 		shouldExitDungeon = true;
 	}
 	break;
 	case(BattleResult::Escaped):
 	{
-		std::cout << "전투에서 도망쳤습니다.\n";
-
+		ui.PrintLog("전투에서 도망쳤습니다.");
+		shouldExitDungeon = true;
 	}
 	break;
 
@@ -803,6 +830,7 @@ void DungeonManager::HandleBattleResult(Player& player,
 }
 
 void DungeonManager::DropRandomItem(
+	UI& ui,
 	InventoryManager& inventoryManager)
 {
 	std::random_device rd;
@@ -814,7 +842,7 @@ void DungeonManager::DropRandomItem(
 	std::uniform_int_distribution<int> dropChanceDist(1, 100);
 	int dropChance = dropChanceDist(gen);
 
-	if (dropChance > 30)// 이거 30 -> 60으로하면 60퍼 확률로 드랍임
+	if (dropChance > 100)// 이거 30 -> 60으로하면 60퍼 확률로 드랍임
 	{
 		return;
 	}
@@ -826,18 +854,26 @@ void DungeonManager::DropRandomItem(
 	{
 	case 0:
 		inventoryManager.AddConsumable(HpPotion());
+		ui.PrintLog("HP 회복 포션을 획득했습니다.");
+
 		break;
 
 	case 1:
 		inventoryManager.AddConsumable(MpPotion());
+		ui.PrintLog("MP 회복 포션을 획득했습니다.");
+
 		break;
 
 	case 2:
 		inventoryManager.AddConsumable(TempABPotion());
+		ui.PrintLog("공격력 임시 버프 포션을 획득했습니다.");
+
 		break;
 
 	case 3:
 		inventoryManager.AddConsumable(TempDEFPotion());
+		ui.PrintLog("방어력 임시 버프 포션을 획득했습니다.");
+
 		break;
 	}
 }

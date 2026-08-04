@@ -66,9 +66,12 @@ private:
     void HandleBattleResult(Player& player,
         Monster& monster,
         BattleResult result,
+        UI& ui,
         InventoryManager& inventoryManager);
 
-    void DropRandomItem(InventoryManager& inventoryManager);
+    void DropRandomItem(
+        UI& ui,
+        InventoryManager& inventoryManager);
 
     //void DisplayDungeonMap() const;
 
