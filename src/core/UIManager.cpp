@@ -189,9 +189,12 @@ void UI::PrintMenu(std::vector<std::string> menu)
         std::cout << i + 1 << ")." << menu[i] << std::endl;
     }
 }
-void UI::PrintMessage(const std::string& str) 
-{ 
-    UI::Gotoxy(LOG_POS);
+void UI::PrintMessage(const std::string& str)
+{
+    Offsets = LOG_POS;
+    static int n = 0;
+    UI::Gotoxy(Offsets[0], Offsets[1] + n);
+    n++;
     std::cout << str << "  ";
 }
 void UI::PrintBuilding()
