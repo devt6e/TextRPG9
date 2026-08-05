@@ -70,21 +70,30 @@ void Item::ResetBuff(Player* player) { //임시 버프 초기화 함수
 }
 
 HpPotion::HpPotion()
-	: Item("에너지 드링크", 5, 1, 50, 0, 0, 0) {}
+	: Item("에너지 드링크", 5, 1, 50, 0, 0, 0) {
+	ItemDescription = "개발자들의 손에 붙어있는 문신템이다. (HP 50 회복)";
+	ItemDropLocation = "상점";
+}
 
 bool HpPotion::UseItem(Player* player) {
 	return Item::UseItem(player);
 }
 
 MpPotion::MpPotion()
-	: Item("아이스 아메리카노", 5, 1, 0, 0, 20, 0) {}
+	: Item("아이스 아메리카노", 5, 1, 0, 0, 20, 0) {
+	ItemDescription = "개발자들의 영혼을 깨우는 차가운 생명수입니다. (MP 20 회복)";
+	ItemDropLocation = "상점";
+}
 
 bool MpPotion::UseItem(Player* player) {
 	return Item::UseItem(player);
 }
 
 TempABPotion::TempABPotion()
-	: Item("쿠키의 장난감", 5, 1, 0, 10, 0, 0) {}
+	: Item("쿠키의 장난감", 5, 1, 0, 10, 0, 0) {
+	ItemDescription = "흔들고 있으면 어디선가 쿠키가 나타날지도 모른다. (공격력 임시 버프)";
+	ItemDropLocation = "상점";
+}
 
 bool TempABPotion::UseItem(Player* player) {
 	return Item::UseItem(player);
@@ -95,7 +104,10 @@ void TempABPotion::ResetBuff(Player* player) {
 }
 
 TempDEFPotion::TempDEFPotion()
-	: Item("온열안대", 5, 1, 0, 0, 0, 10) {}
+	: Item("온열안대", 5, 1, 0, 0, 0, 10) {
+	ItemDescription = "밤샘코딩을 하다가 사용하면 극락을 맛볼 수 있다. (방어력 임시 버프)";
+	ItemDropLocation = "상점";
+}
 
 bool TempDEFPotion::UseItem(Player* player) {
 	return Item::UseItem(player);
@@ -200,6 +212,7 @@ bool SelectAndUseConsumableItem(Player* player, InventoryManager& invManager) {
 
 	return UseConsumableItem(player, invManager, selectedIndex);
 }
+
 CookieCat::CookieCat()
 	: Item("쿠키", -2147483648, 1)
 {
@@ -247,3 +260,5 @@ bool Microphone::UseItem(Player*)
 {
 	return false;
 }
+
+
