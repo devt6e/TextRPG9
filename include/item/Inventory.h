@@ -123,7 +123,7 @@ public:
         const T& item = items_[realIndex];
 
         um.PrintLog("--- < " + item.Name + " > 상세 정보 ---");
-        um.PrintLog("* 가격: " + std::to_string(item.Price) + "G");
+        um.PrintLog("* 가격: " + std::to_string(item.Price) + "ZEM");
         um.PrintLog("* 설명: " + item.ItemDescription);
         um.PrintLog("* 획득: " + item.ItemDropLocation);
         um.PrintLog("------------------------------");
