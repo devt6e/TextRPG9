@@ -43,7 +43,7 @@ void GameManager::HandleStore()
 	sm.EnterShop(player,im);
 }      
 
-void GameManager::HandleInventory()	//todo: 인벤토리 형태에 대한 고민
+void GameManager::HandleInventory()
 {
 	um.EraseStat();
 	im.PrintAllSummary();
@@ -86,7 +86,8 @@ void GameManager::HandleInventory()	//todo: 인벤토리 형태에 대한 고민
 		}
 
 		um.EraseLog();
-		um.PrintLog(selectedItem->ItemDescription);
+		//um.PrintLog(selectedItem->ItemDescription);
+		items.PrintItemDetail(n);
 		break;
 	}
 

@@ -104,7 +104,7 @@ BattleResult BattleManager::StartBattle(
 		MonsterAttack(monster, player, ui);
 		if (player.GetHp() <= 0)
 			break;
-
+		ui.PrintStatus(&player); //kth: 전투 중 STAT UI 업데이트
 	}
 	if (player.GetHp() <= 0)
 	{
