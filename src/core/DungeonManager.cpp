@@ -924,10 +924,7 @@ void DungeonManager::HandleRoom(Player& player,
 
 			int answer = ui.InputSelection("정답: ");
 			bool isCorrect = manager2.CheckAnswer(answer);
-			if (!isCorrect)
-			{
-				ui.WaitForAnyKey("구출 실패 결과를 확인하려면 아무 키나 입력하세요: "); // ysg: 오답 대사가 다음 로그에 밀리기 전에 확인
-			}
+			ui.WaitForAnyKey("퀴즈 결과를 확인하려면 아무 키나 입력하세요: "); // ysg: 정답·오답 대사를 후속 보상 로그 전에 확인
 			manager2.GiveReward();
 
 			if (isCorrect)
@@ -973,10 +970,7 @@ void DungeonManager::HandleRoom(Player& player,
 			npc.AskQuiz();
 			int answer = ui.InputSelection("정답: ");
 			bool rescued = npc.CheckAnswer(answer);
-			if (!rescued)
-			{
-				ui.WaitForAnyKey("구출 실패 결과를 확인하려면 아무 키나 입력하세요: "); // ysg: 긴 실패 대사를 읽기 전에 후속 로그로 넘어가는 문제 방지
-			}
+			ui.WaitForAnyKey("퀴즈 결과를 확인하려면 아무 키나 입력하세요: "); // ysg: 구출 성공·실패 대사를 충분히 확인한 뒤 진행
 			npc.GiveReward();
 			return rescued;
 		};
@@ -1049,7 +1043,7 @@ void DungeonManager::HandleBattleResult(Player& player,
 		player.AddExp(monster.GetDropExp());
 		player.SetGold(player.GetGold() + monster.GetDropGold());
 
-		ui.PrintLog(std::to_string(monster.GetDropGold()) +" 골드를 획득했습니다.");
+		ui.PrintLog(std::to_string(monster.GetDropGold()) +" ZEM을 획득했습니다.");
 		ui.WaitForAnyKey("계속하려면 아무 키나 입력하세요: "); // ysg: Enter를 포함한 키 하나로 진행하고 이전 선택지는 제거
 
 	}

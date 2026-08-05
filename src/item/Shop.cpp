@@ -130,9 +130,8 @@ void ShopManager::EnterShop(Player* player, InventoryManager& inventoryManager) 
             SellItem(player, inventoryManager);
         }
         else if (choice == 3) {
-            um.PrintLog("[ 내 가방 확인 ]");
             inventoryManager.PrintAllSummary();
-
+            um.WaitForAnyKey("가방 확인을 마치려면 아무 키나 입력하세요: "); // ysg: 상점 메뉴가 가방 목록을 즉시 덮어쓰지 않도록 대기
         }
         else if (choice == 0) {
             um.EraseStat();
