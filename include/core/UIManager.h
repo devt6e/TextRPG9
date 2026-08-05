@@ -33,6 +33,7 @@ public:
     void PrintInventory(std::vector<Item> Inv, std::string str, int offset); //오버로딩. 가방 종류 출력
     void PrintSelection(std::vector<std::string> menu);//선택지 출력
     void UI::PrintSelection(std::vector<Item> menu);//
+    void PrintQuiz(const std::string& quizText);//퀴즈 질문과 선택지를 각 UI 영역에 출력
     std::string InputString(std::string text);// 입력 스트링
     int InputSelection(std::string text);//입력 정수
     void WaitForAnyKey(const std::string& text);//키 하나 입력 대기

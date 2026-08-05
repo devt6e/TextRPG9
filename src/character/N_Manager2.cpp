@@ -54,7 +54,7 @@ void Manager2::AskQuiz() {
 
     // 단일 문자열이거나 퀴즈 데이터 자체를 띄울 때는 바로 출력합니다.
     um.PrintLog("\n[김동현 매니저님의 퀴즈가 출제됩니다!]");
-    um.PrintLog(manager2Quizzes[currentQuizIndex].question);
+    um.PrintQuiz(manager2Quizzes[currentQuizIndex].question);
 }
 
 // 플레이어가 입력한 정답을 받아 판별하는 함수

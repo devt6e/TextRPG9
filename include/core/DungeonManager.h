@@ -37,7 +37,7 @@ private:
     bool visitedMap[MapWidth][MapHeight];
     int npcRoomMap[MapWidth][MapHeight];
     bool npcEncountered[3];
-    int rescuedNpcCount;
+    int encounteredNpcCount; // 진행 중 만난 매니저님 수(정답 여부와 무관)
     int correctNpcQuizCount;
     bool midBossPending;
     bool midBossDefeated;

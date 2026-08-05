@@ -44,7 +44,7 @@ DungeonManager::DungeonManager()
 	visitedMap{},
 	npcRoomMap{},
 	npcEncountered{},
-	rescuedNpcCount(0),
+	encounteredNpcCount(0),
 	correctNpcQuizCount(0),
 	midBossPending(false),
 	midBossDefeated(false),
@@ -507,9 +507,9 @@ void DungeonManager::StartDungeon(Player& player, UI& ui, InventoryManager& inve
 		}
 		else
 		{
-			if (IsBossDirection(direction) && rescuedNpcCount < 3)
+			if (IsBossDirection(direction) && encounteredNpcCount < 3)
 			{
-				ui.PrintLog("NPC 3명을 모두 구출해야 보스방에 들어갈 수 있습니다.");
+				ui.PrintLog("매니저님 3명을 모두 만나야 보스방에 들어갈 수 있습니다.");
 				ui.WaitForAnyKey("계속하려면 아무 키나 입력하세요: "); // ysg: 다음 맵 갱신 전에 잠금 안내를 확인할 수 있도록 대기
 			}
 			else if (IsBossDirection(direction) && !midBossDefeated)
@@ -590,7 +590,7 @@ bool DungeonManager::CanMoveTo(int destination) const    // 목적지로 이동 
 	}
 
 	if (IsBossAt(nextX, nextY) &&
-		(rescuedNpcCount < 3 || !midBossDefeated))
+		(encounteredNpcCount < 3 || !midBossDefeated))
 	{
 		return false;
 	}
@@ -827,20 +827,20 @@ void DungeonManager::HandleRoom(Player& player,
 
 			if (correctNpcQuizCount == 4)
 			{
-				ui.PrintLog("[ENDING] 모든 문제 정답");
-				ui.PrintLog("모든 NPC의 문제를 맞히고 함께 ZEP 타워를 탈출했습니다.");
+				ui.PrintLog("[ENDING] 전원 구출");
+				ui.PrintLog("매니저님 4명의 문제를 모두 맞히고 전원을 구출해 함께 ZEP 타워를 탈출했습니다.");
 			}
 			else if (correctNpcQuizCount > 0)
 			{
-				ui.PrintLog("[ENDING] 일부 문제 정답");
+				ui.PrintLog("[ENDING] 일부 구출");
 				ui.PrintLog(
 					std::to_string(correctNpcQuizCount) +
-					"개의 문제를 맞히고 NPC들과 ZEP 타워를 탈출했습니다.");
+					"명의 매니저님을 구출하고 ZEP 타워를 탈출했습니다.");
 			}
 			else
 			{
-				ui.PrintLog("[ENDING] 모든 문제 오답");
-				ui.PrintLog("문제는 모두 틀렸지만 NPC들과 함께 ZEP 타워를 탈출했습니다.");
+				ui.PrintLog("[ENDING] 구출 실패");
+				ui.PrintLog("매니저님을 아무도 구출하지 못한 채 홀로 ZEP 타워를 탈출했습니다.");
 			}
 
 			ui.WaitForAnyKey("게임을 종료하려면 아무 키나 입력하세요: ");
@@ -916,7 +916,7 @@ void DungeonManager::HandleRoom(Player& player,
 			midBossDefeated = true;
 			ui.PrintLog("중간보스를 처치했습니다.");
 
-			ui.NPC_M();
+			ui.NPC_K(); // ysg: 문승호 매니저님 외 NPC는 NPC_K 아트 사용
 			Manager2 manager2;
 			ui.PrintLog(manager2.GetName() + "이(가) 뿱하고 등장했습니다!!");
 			manager2.SpeakEncounter();
@@ -924,10 +924,7 @@ void DungeonManager::HandleRoom(Player& player,
 
 			int answer = ui.InputSelection("정답: ");
 			bool isCorrect = manager2.CheckAnswer(answer);
-			if (!isCorrect)
-			{
-				ui.WaitForAnyKey("구출 실패 결과를 확인하려면 아무 키나 입력하세요: "); // ysg: 오답 대사가 다음 로그에 밀리기 전에 확인
-			}
+			ui.WaitForAnyKey("퀴즈 결과를 확인하려면 아무 키나 입력하세요: "); // ysg: 정답·오답 대사를 후속 보상 로그 전에 확인
 			manager2.GiveReward();
 
 			if (isCorrect)
@@ -957,10 +954,7 @@ void DungeonManager::HandleRoom(Player& player,
 		}
 
 		npcEncountered[npcIndex] = true;
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_int_distribution<int> artDist(0, 1);
-		if (artDist(gen) == 0)
+		if (npcIndex == 1) // ysg: Manager3 문승호 매니저님만 NPC_M 아트 사용
 		{
 			ui.NPC_M();
 		}
@@ -976,10 +970,7 @@ void DungeonManager::HandleRoom(Player& player,
 			npc.AskQuiz();
 			int answer = ui.InputSelection("정답: ");
 			bool rescued = npc.CheckAnswer(answer);
-			if (!rescued)
-			{
-				ui.WaitForAnyKey("구출 실패 결과를 확인하려면 아무 키나 입력하세요: "); // ysg: 긴 실패 대사를 읽기 전에 후속 로그로 넘어가는 문제 방지
-			}
+			ui.WaitForAnyKey("퀴즈 결과를 확인하려면 아무 키나 입력하세요: "); // ysg: 구출 성공·실패 대사를 충분히 확인한 뒤 진행
 			npc.GiveReward();
 			return rescued;
 		};
@@ -1007,10 +998,10 @@ void DungeonManager::HandleRoom(Player& player,
 		}
 		}
 
-		++rescuedNpcCount;
+		++encounteredNpcCount;
 		ui.PrintLog(
-			"NPC 구출 완료: " +
-			std::to_string(rescuedNpcCount) + " / 3");
+			"만난 매니저님: " +
+			std::to_string(encounteredNpcCount) + " / 3");
 
 		if (rescued)
 		{
@@ -1025,7 +1016,7 @@ void DungeonManager::HandleRoom(Player& player,
 		ui.WaitForAnyKey("계속하려면 아무 키나 입력하세요: "); // ysg: Enter를 포함한 키 하나로 진행하고 이전 선택지는 제거
 		clearedMap[playerLoc[0]][playerLoc[1]] = true;
 
-		if (rescuedNpcCount == 3 && !midBossDefeated)
+		if (encounteredNpcCount == 3 && !midBossDefeated)
 		{
 			midBossPending = true;
 			clearedMap[playerLoc[0]][playerLoc[1]] = false;
@@ -1052,7 +1043,7 @@ void DungeonManager::HandleBattleResult(Player& player,
 		player.AddExp(monster.GetDropExp());
 		player.SetGold(player.GetGold() + monster.GetDropGold());
 
-		ui.PrintLog(std::to_string(monster.GetDropGold()) +" 골드를 획득했습니다.");
+		ui.PrintLog(std::to_string(monster.GetDropGold()) +" ZEM을 획득했습니다.");
 		ui.WaitForAnyKey("계속하려면 아무 키나 입력하세요: "); // ysg: Enter를 포함한 키 하나로 진행하고 이전 선택지는 제거
 
 	}

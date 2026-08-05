@@ -69,13 +69,30 @@ void GameManager::HandleInventory()	//todo: 인벤토리 형태에 대한 고민
 		return;
 	}
 	um.PrintSelection(items.GetAllItems());
-	int n = um.InputSelection("확인할 아이템을 선택하세요: ");
-	um.EraseLog();
-	um.PrintLog(items.GetItem(n)->ItemDescription);
+	while (true)
+	{
+		int n = um.InputSelection("확인할 아이템 번호 (0: 돌아가기): ");
+		if (n == 0)
+		{
+			um.EraseStat();
+			return;
+		}
+
+		Item* selectedItem = items.GetItem(n);
+		if (selectedItem == nullptr)
+		{
+			um.PrintLog("존재하지 않는 아이템 번호입니다."); // ysg: 없는 슬롯 선택 시 nullptr 역참조 방지
+			continue;
+		}
+
+		um.EraseLog();
+		um.PrintLog(selectedItem->ItemDescription);
+		break;
+	}
 
 	//um.PrintSelection({"아이템 사용", "아이템 확인", "뒤로가기"});
 
-	um.Pause();
+	um.WaitForAnyKey("확인을 마치려면 아무 키나 입력하세요: ");
 	um.EraseStat();
 }
 

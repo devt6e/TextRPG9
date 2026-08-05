@@ -296,6 +296,43 @@ void UI::PrintSelection(std::vector<Item> menu)
         std::cout << i + 1 << "." << menu[i].Name << "(" << menu[i].Price << "zem)" << std::endl;
     }
 }
+void UI::PrintQuiz(const std::string& quizText)
+{
+    std::istringstream quizStream(quizText);
+    std::string line;
+    std::vector<std::string> choices;
+    bool questionPrinted = false;
+
+    while (std::getline(quizStream, line))
+    {
+        if (!line.empty() && line.back() == '\r')
+        {
+            line.pop_back();
+        }
+
+        if (!questionPrinted)
+        {
+            PrintLog(line); // ysg: 퀴즈 질문은 왼쪽 로그 영역에 출력
+            questionPrinted = true;
+            continue;
+        }
+
+        size_t choiceStart = 0;
+        if (line.size() >= 2 && line[0] >= '0' && line[0] <= '9' &&
+            (line[1] == '.' || line[1] == ')'))
+        {
+            choiceStart = 2;
+            while (choiceStart < line.size() && line[choiceStart] == ' ')
+            {
+                ++choiceStart;
+            }
+        }
+
+        choices.push_back(line.substr(choiceStart));
+    }
+
+    PrintSelection(choices); // ysg: 퀴즈 선택지는 오른쪽 선택 영역에 출력
+}
 void UI::PrintLog(const std::string& str)
 {
     Offsets = LOG_POS;

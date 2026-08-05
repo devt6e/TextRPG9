@@ -54,7 +54,7 @@ void Manager4::AskQuiz() {
 
     // 단일 문자열 및 퀴즈 데이터 출력
     um.PrintLog("\n[권예림 매니저님의 퀴즈가 출제됩니다!]");
-    um.PrintLog(manager4Quizzes[currentQuizIndex].question);
+    um.PrintQuiz(manager4Quizzes[currentQuizIndex].question);
 }
 
 // 플레이어가 입력한 정답을 받아 판별하는 함수
