@@ -38,6 +38,8 @@ public:
     void WaitForAnyKey(const std::string& text);//키 하나 입력 대기
     void PrintLog(const std::string&);
     void UI::PrintArt(std::string_view s);
+    void PrintMonsterArt(const std::string& monsterName);
+    void PrintItemArt(const std::string& itemName);
     void Pause();
 
     void PrintDungeonMoveOptions(
