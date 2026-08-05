@@ -803,13 +803,15 @@ void DungeonManager::HandleRoom(Player& player,
 	{
 		ui.PrintLog("보스방 입장!!");
 		JYJ boss(player.GetLevel());
+		ui.PrintMonsterArt(boss.GetName()); // ysg: 최종 보스 등장 시 해당 아스키 아트 출력
 
 		BattleResult battleResult =
 			battleManager.StartBattle(
 				player,
 				boss,
 				ui,
-				inventoryManager);
+				inventoryManager,
+				false); // ysg: 최종 보스방 재진입 상태가 꼬이지 않도록 도망 금지
 
 		HandleBattleResult(
 			player,
@@ -858,6 +860,7 @@ void DungeonManager::HandleRoom(Player& player,
 		case 0:
 		{
 			Slime slime(player.GetLevel());
+			ui.PrintMonsterArt(slime.GetName()); // ysg: 몬스터 종류 결정 직후 아스키 아트 출력
 			ui.PrintLog(slime.GetName() + " 등장!!");
 			BattleResult battleResult = battleManager.StartBattle(player, slime, ui, inventoryManager);
 			HandleBattleResult(player, slime, battleResult, ui, inventoryManager);
@@ -867,6 +870,7 @@ void DungeonManager::HandleRoom(Player& player,
 		case 1:
 		{
 			Goblin goblin(player.GetLevel());
+			ui.PrintMonsterArt(goblin.GetName());
 			ui.PrintLog(goblin.GetName() + " 등장!!");
 			BattleResult battleResult = battleManager.StartBattle(player, goblin, ui, inventoryManager);
 			HandleBattleResult(player, goblin, battleResult, ui, inventoryManager);
@@ -877,6 +881,7 @@ void DungeonManager::HandleRoom(Player& player,
 		case 2:
 		{
 			Orc orc(player.GetLevel());
+			ui.PrintMonsterArt(orc.GetName());
 			ui.PrintLog(orc.GetName() + " 등장!!");
 			BattleResult battleResult = battleManager.StartBattle(player, orc, ui, inventoryManager);
 			HandleBattleResult(player, orc, battleResult, ui, inventoryManager);
@@ -890,6 +895,7 @@ void DungeonManager::HandleRoom(Player& player,
 	{
 		ui.PrintLog("중간보스 매니저님 남편 꿈나무가 등장했습니다!!");
 		husband midBoss(player.GetLevel());
+		ui.PrintMonsterArt(midBoss.GetName()); // ysg: 중간보스 등장 아트 출력
 
 		BattleResult battleResult = battleManager.StartBattle(
 			player,
@@ -1093,24 +1099,28 @@ void DungeonManager::DropRandomItem(
 	switch (itemType)
 	{
 	case 0:
+		ui.PrintItemArt("에너지 드링크");
 		inventoryManager.AddConsumable(HpPotion());
 		ui.PrintLog("HP 회복 포션을 획득했습니다.");
 
 		break;
 
 	case 1:
+		ui.PrintItemArt("아이스 아메리카노");
 		inventoryManager.AddConsumable(MpPotion());
 		ui.PrintLog("MP 회복 포션을 획득했습니다.");
 
 		break;
 
 	case 2:
+		ui.PrintItemArt("쿠키의 장난감");
 		inventoryManager.AddConsumable(TempABPotion());
 		ui.PrintLog("공격력 임시 버프 포션을 획득했습니다.");
 
 		break;
 
 	case 3:
+		ui.PrintItemArt("온열안대");
 		inventoryManager.AddConsumable(TempDEFPotion());
 		ui.PrintLog("방어력 임시 버프 포션을 획득했습니다.");
 

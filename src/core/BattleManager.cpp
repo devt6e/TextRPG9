@@ -33,18 +33,21 @@ BattleResult BattleManager::StartBattle(
 	Player& player,
 	Monster& monster,
 	UI& ui,
-	InventoryManager& inventoryManager)
+	InventoryManager& inventoryManager,
+	bool canEscape)
 {
 	int choice;
 	ui.PrintStatus(&player); // ysg: 전투 시작 시 현재 플레이어 스탯 표시
 	while (player.GetHp() > 0 && monster.GetHp() > 0)
 	{
-		ui.PrintSelection({
-			"공격",
-			"스킬",
-			"아이템",
-			"도망"
-			});
+		if (canEscape)
+		{
+			ui.PrintSelection({ "공격", "스킬", "아이템", "도망" });
+		}
+		else
+		{
+			ui.PrintSelection({ "공격", "스킬", "아이템" }); // ysg: 최종 보스전에서는 도망 선택지 숨김
+		}
 
 		int choice = ui.InputSelection("선택: ");
 
@@ -71,6 +74,11 @@ BattleResult BattleManager::StartBattle(
 			break;
 
 		case 4:
+			if (!canEscape)
+			{
+				ui.PrintLog("최종 보스전에서는 도망칠 수 없습니다.");
+				continue;
+			}
 			if (TryEscape())
 			{
 				ui.PrintLog("도망 성공!!");
@@ -83,7 +91,9 @@ BattleResult BattleManager::StartBattle(
 			break;
 
 		default:
-			ui.PrintLog("1~4 중에서 선택해주세요.");
+			ui.PrintLog(canEscape
+				? "1~4 중에서 선택해주세요."
+				: "1~3 중에서 선택해주세요.");
 			continue;
 		}
 
@@ -106,6 +116,7 @@ BattleResult BattleManager::StartBattle(
 
 	if (droppedItem != nullptr)
 	{
+		ui.PrintItemArt(droppedItem->Name); // ysg: 몬스터 드롭 아이템을 획득하는 순간 아스키 아트 출력
 		inventoryManager.AddMaterial(*droppedItem); // 재료 가방에 추가
 		delete droppedItem;
 	}

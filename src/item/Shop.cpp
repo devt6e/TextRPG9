@@ -118,6 +118,7 @@ void ShopManager::SellItem(Player* player, InventoryManager& inventoryManager) {
 // 5. 상점 메인
 void ShopManager::EnterShop(Player* player, InventoryManager& inventoryManager) {
     while (true) {
+        um.PrintStatus(player); // ysg: 구매·판매 후 오른쪽 스탯창의 보유 ZEM을 즉시 갱신
         std::vector<std::string> shopMenu = { "아이템 구매","아이템 판매","인벤토리 확인","뒤로가기" };
         um.PrintSelection(shopMenu);
         int choice=um.InputSelection("입력(보유 잼: " + std::to_string(player->GetGold()) + "ZEM): ");

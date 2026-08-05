@@ -22,7 +22,8 @@ public:
     BattleResult StartBattle(Player& player, 
         Monster& monster, 
         UI& ui,
-        InventoryManager& inventoryManager);
+        InventoryManager& inventoryManager,
+        bool canEscape = true);
 
 private://임시
     void PlayerAttack(Player& player, Monster& monster, UI& ui);//공격
