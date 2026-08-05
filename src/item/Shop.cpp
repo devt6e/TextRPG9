@@ -28,34 +28,39 @@ void ShopManager::PrintShopItems() {
 void ShopManager::BuyItem(Player* player, InventoryManager& inventoryManager) {
     PrintShopItems();
 
-    int buyChoice = um.InputSelection("구매할 아이템 번호 (취소 0): ");
+    int buyChoice = um.InputSelection("구매할 아이템의 번호를 입력하세요: ");
 
-    if (buyChoice == 0) return; //todo 수정하기
+    //if (buyChoice == 0) return; //todo 수정하기
+    if (buyChoice != 0)
+    {
+        if (buyChoice < 1 || buyChoice > shopItems_.size()) {
+            um.PrintLog("[오류] 잘못된 번호입니다.");
+            return;
+        }
 
-    if (buyChoice < 1 || buyChoice > shopItems_.size()) {
-        um.PrintLog("[오류] 잘못된 번호입니다.");
-        return;
-    }
+        Item buyItem = shopItems_[buyChoice - 1];
+        if (player->GetGold() >= buyItem.Price) {
+            player->SetGold(player->GetGold() - buyItem.Price);
 
-    Item buyItem = shopItems_[buyChoice - 1];
-    if (player->GetGold() >= buyItem.Price) {
-        player->SetGold(player->GetGold() - buyItem.Price);
-
-        inventoryManager.AddConsumable(buyItem);
-        um.PrintLog("[System] " + buyItem.Name + "을(를) 구매했습니다!");
-    }
-    else {
-        um.PrintLog("[System] 잼이 부족합니다!");
+            inventoryManager.AddConsumable(buyItem);
+            um.PrintLog("[System] " + buyItem.Name + "을(를) 구매했습니다!");
+        }
+        else {
+            um.PrintLog("[System] 잼이 부족합니다!");
+        }
     }
 }
 
 // 4. 판매 기능
 void ShopManager::SellItem(Player* player, InventoryManager& inventoryManager) {
     
-    std::vector<std::string> options = { "1. 소비 아이템 팔기","2. 재료 아이템 팔기" };
+    std::vector<std::string> options = { "소비 아이템 팔기","재료 아이템 팔기", "뒤로가기" };
     um.PrintSelection(options);
     int bagChoice = um.InputSelection("어떤 가방의 아이템을 파시겠습니까?");
     
+    //inventoryManager.GetConsumableBag().PrintSummary();
+    //inventoryManager.GetMaterialBag().PrintSummary();
+
     Inventory<Item>* selectedBag = nullptr;
     if (bagChoice == 1) {
         selectedBag = &inventoryManager.GetConsumableBag();
@@ -64,18 +69,30 @@ void ShopManager::SellItem(Player* player, InventoryManager& inventoryManager) {
         selectedBag = &inventoryManager.GetMaterialBag();
     }
     else {
-        um.PrintLog("[오류] 잘못된 선택입니다.");
+        um.PrintLog("[system] 잘못된 선택입니다.");
         return;
     }
 
     selectedBag->PrintSummary();
 
-    int sellChoice= um.InputSelection("팔 아이템 번호 (취소 0): ");
+    int sellChoice= um.InputSelection("판매할 아이템 번호: ");
     if (sellChoice == 0) return;
 
     Item* targetItem = selectedBag->GetItem(sellChoice);
 
     if (targetItem != nullptr) {
+        if (targetItem->Name == "쿠키")
+        {
+            std::string str = "상인: \"" + targetItem->Name + "? 쿠키를 팔려고하다니...자네 혹시 zep 사람인가?\"";
+            um.PrintLog(str);
+            return;
+        }
+
+        if (targetItem->Price <= 0) {
+            std::string str = "상인: \"" + targetItem->Name + "? 그런 잡동사니는 사지 않소!\"";
+            um.PrintLog(str);
+            return; // 함수 종료 (판매 취소)
+        }
         int amount= um.InputSelection("몇 개를 파시겠습니까? (최대 " + std::to_string(targetItem->ItemCount) + "개): ");
 
         if (amount <= 0) {
@@ -94,15 +111,16 @@ void ShopManager::SellItem(Player* player, InventoryManager& inventoryManager) {
             player->SetGold(player->GetGold() + sellPrice);
             um.PrintLog("[System] " + std::to_string(sellPrice) + "ZEM을 획득했습니다!");
         }
+        //selectedBag->PrintSummary();
     }
 }
 
 // 5. 상점 메인
 void ShopManager::EnterShop(Player* player, InventoryManager& inventoryManager) {
     while (true) {
-        std::vector<std::string> shopMenu = { "1. 아이템 구매","2. 아이템 판매","3. 인벤토리 확인","4. 상점 나가기" };
+        std::vector<std::string> shopMenu = { "아이템 구매","아이템 판매","인벤토리 확인","뒤로가기" };
         um.PrintSelection(shopMenu);
-        int choice=um.InputSelection("=== [ 마을 상점 ] (보유 잼: " + std::to_string(player->GetGold()) + "ZEM) ===");
+        int choice=um.InputSelection("입력(보유 잼: " + std::to_string(player->GetGold()) + "ZEM): ");
 
         if (choice == 1) {
             BuyItem(player, inventoryManager);
@@ -113,8 +131,11 @@ void ShopManager::EnterShop(Player* player, InventoryManager& inventoryManager) 
         else if (choice == 3) {
             um.PrintLog("[ 내 가방 확인 ]");
             inventoryManager.PrintAllSummary();
+
         }
-        else if (choice == 4) {
+        else if (choice == 0) {
+            um.EraseStat();
+            um.PrintStatus(player);
             break;
         }
         else {

@@ -21,6 +21,7 @@ void InventoryManager::AddMaterial(Item item) {
 void InventoryManager::PrintAllSummary() {
 	//std::cout << "\n======== [ 전체 인벤토리 ] ========";
 	//std::cout << "▶ [ 소비 아이템 ]";
+	um.EraseStat();
 	um.PrintInventory(consumableBag_.GetAllItems(),"[ 소비 아이템 ]", 0);
 	//consumableBag_.PrintSummary();
 

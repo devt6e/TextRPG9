@@ -91,23 +91,25 @@ public:
     }
 
     void PrintSummary() {
-        //std::string title = "========== [ 인벤토리 (" + std::to_string(items_.size()) + "/" + std::to_string(capacity_) + ") ] ==========";
-        //um.PrintLog(title);
+        std::string title = "[인벤토리 (" + std::to_string(items_.size()) + "/" + std::to_string(capacity_) + ")]";
+        //um.PrintInventory(title);
 
         if (items_.empty()) {
             um.PrintLog("가방이 텅 비어있습니다.");
         }
         else {
-            for (int i = 0; i < items_.size(); i++) {
-                std::string itemInfo = std::to_string(i + 1) + ". "
-                    + items_[i].Name
-                    + " (x" + std::to_string(items_[i].ItemCount) + ") - "
-                    + std::to_string(items_[i].Price) + "G";
+            //for (int i = 0; i < items_.size(); i++) {
+            //    std::string itemInfo = std::to_string(i + 1) + ". "
+            //        + items_[i].Name
+            //        + " (x" + std::to_string(items_[i].ItemCount) + ") - "
+            //        + std::to_string(items_[i].Price) + "G";
 
-                um.PrintLog(itemInfo);
-            }
+                //um.PrintInventory(items_, title, 0);
+            //}
+            um.EraseStat();
+            um.PrintInventory(items_, title, 0);
         }
-        um.PrintLog("==============================================");
+        //um.PrintLog("==============================================");
     }
 
     void PrintItemDetail(int index) {
