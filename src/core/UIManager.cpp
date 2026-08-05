@@ -269,12 +269,12 @@ void UI::PrintSelection(std::vector<std::string> menu)
     for (int i = 0; i < menu.size(); ++i)
     {
         Gotoxy(81, 27 + i);
-        if (menu[i] == "종료하기" || menu[i] == "뒤로가기")
+        if (menu[i] == "종료하기" || menu[i] == "뒤로가기" || menu[i] == "게임종료")
         {
-            std::cout << "0)." << menu[i] << std::endl;
+            std::cout << "0." << menu[i] << std::endl;
             break;
         }
-        std::cout << i + 1 << ")." << menu[i] << std::endl;
+        std::cout << i + 1 << "." << menu[i] << std::endl;
     }
 }
 void UI::PrintSelection(std::vector<Item> menu)
@@ -283,12 +283,12 @@ void UI::PrintSelection(std::vector<Item> menu)
     for (int i = 0; i < menu.size(); ++i)
     {
         Gotoxy(81, 27 + i);
-        if (menu[i].Name == "종료하기" || menu[i].Name == "뒤로가기")
+        if (menu[i].Name == "종료하기" || menu[i].Name == "뒤로가기" || menu[i].Name == "게임종료")
         {
-            std::cout << "0)." << menu[i].Name << "(" << menu[i].Price << ")" << std::endl;
+            std::cout << "0." << menu[i].Name << "(" << menu[i].Price << "zem)" << std::endl;
             break;
         }
-        std::cout << i + 1 << ")." << menu[i].Name << "(" << menu[i].Price << ")" << std::endl;
+        std::cout << i + 1 << "." << menu[i].Name << "(" << menu[i].Price << "zem)" << std::endl;
     }
 }
 void UI::PrintLog(const std::string& str)

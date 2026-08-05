@@ -201,7 +201,7 @@ bool SelectAndUseConsumableItem(Player* player, InventoryManager& invManager) {
 	return UseConsumableItem(player, invManager, selectedIndex);
 }
 CookieCat::CookieCat()
-	: Item("쿠키", 0, 1)
+	: Item("쿠키", -2147483648, 1)
 {
 	ItemDescription = "쿠키 납치범에게서 되찾은 쿠키입니다.";
 	ItemDropLocation = "쿠키 납치범";
@@ -227,7 +227,7 @@ bool ZemPouch::UseItem(Player*)
 AlarmClock::AlarmClock()
 	: Item("지각생의 알람시계", 10, 1)
 {
-	ItemDescription = "만년 지각생이 떨구고 간 알람시계입니다.";
+	ItemDescription = "만년 지각생이 흘리고 간 알람시계입니다.";
 	ItemDropLocation = "만년 지각생";
 }
 

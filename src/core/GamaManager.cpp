@@ -9,11 +9,11 @@ void CreateCharacter(GameManager* gm, UI& um, Player*& p)
 	name = um.InputString("당신은 누구십니까? ");
 	um.PrintSelection({"열정 가득 수강생", "TIL 우수 작성 수강생", "슬랙 이모지 잘 누르는 수강생", "게임종료"});
 	int selection = um.InputSelection("직업을 선택하세요: ");
-	switch (selection)	//todo: P_Job 수정 중. 수정 하면 반영 예정
+	switch (selection)	
 	{
 	case 1:
 		p = new Warrior(name);
-		p->SetJob("열정 가득 수강생"); //todo: 직업 명칭 변경 시 수정 예정
+		p->SetJob("열정 가득 수강생");
 		break;
 	case 2:
 		p = new Magician(name);
@@ -25,7 +25,6 @@ void CreateCharacter(GameManager* gm, UI& um, Player*& p)
 		break;
 	case 0:
 		gm->SetCurrentState(GameManager::GameState::Exit);
-		//um.PrintMessage("게임을 종료합니다!\n");
 		break;
 	default:
 		um.PrintLog("잘못된 입력입니다. 다시 입력하세요\n");
@@ -40,99 +39,7 @@ void GameManager::HandleDungeon()
 
 void GameManager::HandleStore()
 {
-	while (currentState == GameManager::GameState::Store)
-	{
-		um.PrintSelection({ "상품구매", "상품판매", "뒤로가기" });
-		int selection = um.InputSelection("입력: ");
-		switch (selection)
-		{
-		case 1:
-		{
-			//std::cout << "(Debug)아이템 구매 루틴" << std::endl; //디버그용
-			um.PrintLog("(Debug)아이템 구매 루틴 실행");
-
-			sm.PrintShopItems();	//임시
-			sm.BuyItem(player, im);
-
-			um.Pause();
-			break;
-		}
-		case 2:
-		{
-			um.PrintLog("(Debug)아이템 판매 루틴 실행");
-			um.EraseStat();
-			im.PrintAllSummary();
-			std::vector<Item> items;
-
-			um.PrintSelection({"소비아이템", "재료아이템", "뒤로가기"});
-			int typeInven = um.InputSelection("판매할 아이템 종류를 선택하세요: ");
-			if (typeInven == 1)
-			{
-				items = im.GetConsumableBag().GetAllItems();
-				if (items.size() < 1)
-				{
-					um.PrintLog("판매할 아이템이 없습니다");
-					break;
-				}
-			}
-			else if (typeInven == 2)
-			{
-				items = im.GetMaterialBag().GetAllItems();
-				if (items.size() < 1)
-				{
-					um.PrintLog("판매할 아이템이 없습니다");
-					break;
-				}
-			}
-			else
-			{
-				um.PrintLog("돌아갑니다");
-				break;
-				um.Pause();
-			}
-
-			um.PrintSelection(items);
-			int numberSelection = um.InputSelection("판매할 아이템의 번호를 입력하세요: ");
-
-			while(numberSelection > items.size())
-			{
-				um.PrintLog("입력이 잘못 되었습니다");
-				numberSelection = um.InputSelection("판매할 아이템의 번호를 입력하세요: ");
-			}
-
-			int quantitySelection = um.InputSelection("판매할 아이템의 개수를 입력하세요: ");
-			while(quantitySelection > items[numberSelection - 1].ItemCount)
-			{
-				um.PrintLog("수량이 부족합니다");
-				quantitySelection = um.InputSelection("판매할 아이템의 개수를 입력하세요: ");
-			}
-			int gold = items[numberSelection - 1].Price * quantitySelection;
-			std::string s = "판매 완료 !" + std::to_string(gold) + "zem을 획득했습니다!";
-			//items[numberSelection].ItemCount -= quantitySelection;
-			if (typeInven == 1)
-				im.GetConsumableBag().RemoveItem(numberSelection, quantitySelection);
-			else
-				im.GetMaterialBag().RemoveItem(numberSelection, quantitySelection);
-			
-			um.PrintLog(s);
-			player->SetGold(player->GetGold() + gold);
-			break;
-		}
-		case 0:
-			um.PrintLog("메인 메뉴로 돌아갑니다");
-			//system("pause");//임시
-			//system("cls"); //임시
-			return;
-
-		default:
-			//std::cout << "입력이 잘못되었습니다" << std::endl;
-			um.PrintLog("입력이 잘못되었습니다");
-			break;
-		}
-		//system("cls");
-	}
-	//system("pause");//임시
-	//system("cls"); //임시
+	sm.EnterShop(player,im);
 }      
 
 void GameManager::HandleInventory()	//todo: 인벤토리 형태에 대한 고민
@@ -141,8 +48,36 @@ void GameManager::HandleInventory()	//todo: 인벤토리 형태에 대한 고민
 	//std::cout << std::endl;
 	um.EraseStat();
 	im.PrintAllSummary();
-	um.Gotoxy(0, 35);
+
+	um.PrintSelection({ "소비아이템", "재료 아이템", "뒤로가기" });
+	int sel = um.InputSelection("확인할 가방을 선택하세요: ");
+	while (sel < 0 || sel > 2)
+	{
+		sel = um.InputSelection("입력이 잘못되었습니다 다시 입력하세요: ");
+	}
+	if (sel == 0)
+	{
+		um.PrintLog("돌아갑니다");
+		return;
+	}
+
+	Inventory<Item>& items = sel == 1
+		? im.GetConsumableBag()
+		: im.GetMaterialBag();
+	if (items.GetAllItems().empty())
+	{
+		um.PrintLog("가방이 텅 비었습니다");
+		return;
+	}
+	um.PrintSelection(items.GetAllItems());
+	int n = um.InputSelection("확인할 아이템을 선택하세요: ");
+	um.EraseLog();
+	um.PrintLog(items.GetItem(n)->ItemDescription);
+
+	//um.PrintSelection({"아이템 사용", "아이템 확인", "뒤로가기"});
+
 	um.Pause();
+	um.EraseStat();
 }
 
 void GameManager::Run()
@@ -166,7 +101,7 @@ void GameManager::Run()
 	{
 		currentState = GameState::MainMenu; 
 		um.PrintStatus(player);
-		um.PrintSelection({"ZEP타워 입장","상점이용","인벤토리","종료하기"});
+		um.PrintSelection({"ZEP타워 입장","상점이용","인벤토리","게임종료"});
 		int selection = um.InputSelection("번호를 입력하세요: ");
 		switch (selection)
 		{
