@@ -4,6 +4,8 @@
 #include "character/M_Slime.h"
 #include "character/M_Goblin.h"
 #include "character/M_Orc.h"
+#include "character/M_Zep.h"
+#include "character/M_Morning.h"
 #include "character/M_JYJ.h"
 #include "character/M_husband.h"
 #include "character/N_Manager1.h"
@@ -852,7 +854,7 @@ void DungeonManager::HandleRoom(Player& player,
 	{
 		std::random_device rd;
 		std::mt19937 gen(rd());
-		std::uniform_int_distribution<int> monsterDist(0, 2);
+		std::uniform_int_distribution<int> monsterDist(0, 4);
 		int monsterType = monsterDist(gen);
 
 		switch (monsterType)
@@ -886,6 +888,26 @@ void DungeonManager::HandleRoom(Player& player,
 			BattleResult battleResult = battleManager.StartBattle(player, orc, ui, inventoryManager);
 			HandleBattleResult(player, orc, battleResult, ui, inventoryManager);
 
+			break;
+		}
+
+		case 3:
+		{
+			Zep zep(player.GetLevel());
+			ui.PrintMonsterArt(zep.GetName());
+			ui.PrintLog(zep.GetName() + " 등장!!");
+			BattleResult battleResult = battleManager.StartBattle(player, zep, ui, inventoryManager);
+			HandleBattleResult(player, zep, battleResult, ui, inventoryManager);
+			break;
+		}
+
+		case 4:
+		{
+			Morning morning(player.GetLevel());
+			ui.PrintMonsterArt(morning.GetName());
+			ui.PrintLog(morning.GetName() + " 등장!!");
+			BattleResult battleResult = battleManager.StartBattle(player, morning, ui, inventoryManager);
+			HandleBattleResult(player, morning, battleResult, ui, inventoryManager);
 			break;
 		}
 		}
