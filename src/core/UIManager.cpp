@@ -65,14 +65,16 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
     int mapWidth = dungeon.GetMapWidth();
     int mapHeight = dungeon.GetMapHeight();
     int displayWidth = mapWidth * 6 - 3;
-    int startX = 2;  // X축 시작 위치 (필요에 따라 조절) //kth: 시작 위치 수정
+    int startX = 45;  // X축 시작 위치 (필요에 따라 조절) //kth: 시작 위치 수정
     int startY = 2;  // Y축 시작 위치 (필요에 따라 조절)
     int currentY = startY;
     UI::Gotoxy(startX, currentY++);
     //std::cout << std::string(displayWidth, '═');
+    std::cout << "═══════════════════════════════════════════════";
     UI::Gotoxy(startX, currentY++);
     std::cout << "ZEP TOWER - 1F";
     UI::Gotoxy(startX, currentY++);
+    std::cout << "═══════════════════════════════════════════════";
     //std::cout << std::string(displayWidth, '═');
     for (int y = 0; y < mapHeight; y++)
     {
@@ -149,11 +151,13 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
     }
     UI::Gotoxy(startX, currentY++);
     //std::cout << std::string(displayWidth, '═');
+    std::cout << "═══════════════════════════════════════════════";
     UI::Gotoxy(startX, currentY++);
     std::cout << "[P] 현재 위치  [B] 보스";
     UI::Gotoxy(startX, currentY++);
     std::cout << "[.] 탐색 완료  [?] 미확인 방";
     UI::Gotoxy(startX, currentY++);
+    std::cout << "═══════════════════════════════════════════════";
     //std::cout << std::string(displayWidth, '═') << '\n';
     UI::Gotoxy(startX, currentY++);
 }
@@ -669,6 +673,36 @@ void UI::NPC_K()
     UI::Gotoxy(10, 18); std::cout << "                |    |    |" << std::endl;
     UI::Gotoxy(10, 19); std::cout << "               (_____|_____)" << std::endl;
 }
+
+void UI::PrintPlayer()
+{
+    int startX = 105, startY = 6;
+    static const std::vector<std::string> art = {
+        R"(                 @######%#######@)",
+        R"(              @#########%##########@)",
+        R"(             @###**#####%######**###@)",
+        R"(            @##*#***####%#####***####@)",
+        R"(           @########%%%%%%%%%%##*#####@)",
+        R"(          @%######%% #      # %%######%@)",
+        R"(          @%######%  #      #  %######%@)",
+        R"(         @%%%###%%***=#    #=***%%###%%%@)",
+        R"(         @%%%%%%%%%%=        =%%%%%%%%%%@)",
+        R"(         @%@-%%#%-%.%%=    =%%.%-%#%%-@%@)",
+        R"(         @#@ -+#..%%%#      #%%%..#+- @#@)",
+        R"(         @%##@@ -----        ----- @@##%@)",
+        R"(          @##%%%@---   ====   ---@%%%##@)",
+        R"(           @#%%%%%@@-        -@@%%%%%#@)",
+        R"(           @%%%%%%@#-=------=-#@%%%%%%@)"
+    };
+
+    for (size_t i = 0; i < art.size(); i++)
+    {
+        UI::Gotoxy(startX, startY + static_cast<int>(i));
+        std::cout << art[i];
+    }
+}
+
+
 #if 0 // ysg: 팀에서 전달받은 아스키 아트 원본 보관용. 아래 UI 출력 함수에서 정리된 버전을 사용
 void art()
 {

@@ -38,6 +38,7 @@ BattleResult BattleManager::StartBattle(
 {
 	int choice;
 	ui.PrintStatus(&player); // ysg: 전투 시작 시 현재 플레이어 스탯 표시
+	ui.PrintPlayer();	//kth: 전투 시작 시 플레이어 아스키아트 표시
 	while (player.GetHp() > 0 && monster.GetHp() > 0)
 	{
 		if (canEscape)
