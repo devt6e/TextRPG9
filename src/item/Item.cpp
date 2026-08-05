@@ -14,7 +14,7 @@ Item::Item(std::string Name, int Price, int ItemCount, int HealAmount, int BuffA
 	: Name(Name), Price(Price), ItemCount(ItemCount), HealAmount(HealAmount), BuffAmount(BuffAmount), MpAmount(MpAmount), DEFBuffAmount(DEFBuffAmount) {}
 
 void Item::PrintInfo() const {
-	std::cout << Name << "(" << Price << "G)" << std::endl;
+	std::cout << Name << "(" << Price << "ZEM)" << std::endl;
 }
 
 bool Item::UseItem(Player* player) {
