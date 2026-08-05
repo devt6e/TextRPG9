@@ -5,6 +5,7 @@
 #include <conio.h>
 #include <vector>
 #include <sstream> // ysg: 숫자 입력 문자열이 올바른 정수인지 검사하기 위해 추가
+#include <cstdio>
 #include "core/UIManager.h"
 #include "core/DungeonManager.h"
 #include "character/Player.h"
@@ -16,6 +17,8 @@
 #define LOG_MAX_Y 32
 #define STAT_MAX_Y 25
 #define SELECTION_MAX_Y 32
+
+bool ReadLineUtf8(std::string& out);
 
 namespace
 {
@@ -563,12 +566,15 @@ std::string UI::InputString(std::string text)
                 Offsets[1]); // ysg: 이름 입력이 왼쪽 영역에 표시되지 않도록 커서 위치를 명시
         }
 
-        if (!std::getline(std::cin, input))
+        //if (!std::getline(std::cin, input))
+        //{
+        //    std::cin.clear();
+        //    continue;
+        //}
+        if (!ReadLineUtf8(input))
         {
-            std::cin.clear();
-            continue;
+            continue; // 원래 코드처럼 조용히 재시도
         }
-
         // WASD 입력은 빈 Enter를 DungeonManager에서 다시 처리하도록 그대로 반환
         if (text.empty())
         {
@@ -1259,4 +1265,31 @@ void UI::Pause()
     Gotoxy(0, 35);
     system("pause");
     std::cout << "                                   ";
+}
+
+// std::cin 대신 사용할, UTF-8로 안전하게 한 줄을 읽는 함수
+bool ReadLineUtf8(std::string& out)
+{
+    HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
+
+    wchar_t buffer[256] = {};
+    DWORD charsRead = 0;
+
+    if (!ReadConsoleW(hIn, buffer, 255, &charsRead, nullptr))
+    {
+        return false; // 실패를 명확히 알림
+    }
+
+    std::wstring wideInput(buffer, charsRead);
+
+    while (!wideInput.empty() && (wideInput.back() == L'\n' || wideInput.back() == L'\r'))
+    {
+        wideInput.pop_back();
+    }
+
+    int sizeNeeded = WideCharToMultiByte(CP_UTF8, 0, wideInput.c_str(), (int)wideInput.size(), nullptr, 0, nullptr, nullptr);
+    out.assign(sizeNeeded, 0);
+    WideCharToMultiByte(CP_UTF8, 0, wideInput.c_str(), (int)wideInput.size(), &out[0], sizeNeeded, nullptr, nullptr);
+
+    return true;
 }
