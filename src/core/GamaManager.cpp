@@ -7,9 +7,10 @@ void CreateCharacter(GameManager* gm, UI& um, Player*& p)
 
 	std::string name = "";
 	name = um.InputString("당신은 누구십니까? ");
+
 	um.PrintSelection({"열정 가득 수강생", "TIL 우수 작성 수강생", "슬랙 이모지 잘 누르는 수강생", "게임종료"});
 	int selection = um.InputSelection("직업을 선택하세요: ");
-	switch (selection)	
+	switch (selection)	   
 	{
 	case 1:
 		p = new Warrior(name);
