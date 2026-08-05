@@ -43,10 +43,8 @@ void GameManager::HandleStore()
 	sm.EnterShop(player,im);
 }      
 
-void GameManager::HandleInventory()	//todo: 인벤토리 형태에 대한 고민
+void GameManager::HandleInventory()
 {
-	//um.PrintStatus(player);
-	//std::cout << std::endl;
 	um.EraseStat();
 	im.PrintAllSummary();
 
@@ -88,7 +86,8 @@ void GameManager::HandleInventory()	//todo: 인벤토리 형태에 대한 고민
 		}
 
 		um.EraseLog();
-		um.PrintLog(selectedItem->ItemDescription);
+		//um.PrintLog(selectedItem->ItemDescription);
+		items.PrintItemDetail(n);
 		break;
 	}
 
@@ -140,13 +139,11 @@ void GameManager::Run()
 			break;
 
 		case 2:
-			//std::cout << "(Debug)상점 이용 루틴" << std::endl;		//디버그 로그
 			currentState = GameState::Store;
 			HandleStore();
 			break;
 
 		case 3:
-			//std::cout << "(Debug)인벤토리 루틴" << std::endl;		//디버그 로그
 			currentState = GameState::Inventory;
 			HandleInventory();
 			um.EraseStat();

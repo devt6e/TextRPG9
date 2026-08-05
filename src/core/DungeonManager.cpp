@@ -1032,7 +1032,8 @@ void DungeonManager::HandleRoom(Player& player,
 		}
 		else
 		{
-			ui.PrintLog("오답이어서 아이템 보상을 받지 못했습니다.");
+			//ui.PrintLog("오답이어서 아이템 보상을 받지 못했습니다.");
+			ui.PrintLog("");
 		}
 
 		ui.WaitForAnyKey("계속하려면 아무 키나 입력하세요: "); // ysg: Enter를 포함한 키 하나로 진행하고 이전 선택지는 제거

@@ -65,7 +65,7 @@ void UI::DisplayDungeonMap(const DungeonManager& dungeon)
     int mapWidth = dungeon.GetMapWidth();
     int mapHeight = dungeon.GetMapHeight();
     int displayWidth = mapWidth * 6 - 3;
-    int startX = 2;  // X축 시작 위치 (필요에 따라 조절)
+    int startX = 2;  // X축 시작 위치 (필요에 따라 조절) //kth: 시작 위치 수정
     int startY = 2;  // Y축 시작 위치 (필요에 따라 조절)
     int currentY = startY;
     UI::Gotoxy(startX, currentY++);
@@ -1034,6 +1034,7 @@ namespace
             }
 
             ui.Gotoxy(2, y++);
+            //ui.Gotoxy(35, y++); // kth: UI 중간으로 이동
             for (char character : line)
             {
                 if (character == '\\')
