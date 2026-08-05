@@ -41,6 +41,7 @@ public:
     void UI::PrintArt(std::string_view s);
     void PrintMonsterArt(const std::string& monsterName);
     void PrintItemArt(const std::string& itemName);
+    void PrintPlayer();
     void Pause();
 
     void PrintDungeonMoveOptions(
